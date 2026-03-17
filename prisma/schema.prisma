@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum DisplayType {
+  ONE_X_TWO
+  OVER_UNDER
+  ONE_FROM_TWO
+  PLAYER_PROPS
+  PLAYER_PROPS_SINGLE
+}
+
+model Market {
+  id          Int         @id @default(autoincrement())
+  name        String
+  marketId    Int         @unique
+  displayType DisplayType
+  enabled     Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+
+  @@map("markets")
+}
+
+model ExternalEvent {
+  id              Int      @id @default(autoincrement())
+  name            String
+  externalEventId String   @unique
+  matchDate       DateTime?
+  createdAt       DateTime @default(now())
+
+  games Game[]
+
+  @@map("external_events")
+}
+
+enum GameStatus {
+  DRAFT
+  PENDING
+  OPEN
+  CLOSED
+  COMPLETED
+}
+
+enum PrizeType {
+  CASH
+  FREE_BET
+}
+
+model Game {
+  id            Int           @id @default(autoincrement())
+  name          String
+  eventId       Int
+  event         ExternalEvent @relation(fields: [eventId], references: [id])
+  status        GameStatus    @default(DRAFT)
+  openTime      DateTime
+  closeTime     DateTime
+  prizeType     PrizeType
+  bonusId       String?
+  multiplier    Float         @default(1.0)
+  s3Status      String?
+  paymentStatus String?
+  createdAt     DateTime      @default(now())
+
+  @@map("games")
+}
