@@ -1153,6 +1153,7 @@ export namespace Prisma {
     marketId: number | null
     displayType: $Enums.DisplayType | null
     enabled: boolean | null
+    superSubEligible: boolean | null
     createdAt: Date | null
   }
 
@@ -1162,6 +1163,7 @@ export namespace Prisma {
     marketId: number | null
     displayType: $Enums.DisplayType | null
     enabled: boolean | null
+    superSubEligible: boolean | null
     createdAt: Date | null
   }
 
@@ -1171,6 +1173,7 @@ export namespace Prisma {
     marketId: number
     displayType: number
     enabled: number
+    superSubEligible: number
     createdAt: number
     _all: number
   }
@@ -1192,6 +1195,7 @@ export namespace Prisma {
     marketId?: true
     displayType?: true
     enabled?: true
+    superSubEligible?: true
     createdAt?: true
   }
 
@@ -1201,6 +1205,7 @@ export namespace Prisma {
     marketId?: true
     displayType?: true
     enabled?: true
+    superSubEligible?: true
     createdAt?: true
   }
 
@@ -1210,6 +1215,7 @@ export namespace Prisma {
     marketId?: true
     displayType?: true
     enabled?: true
+    superSubEligible?: true
     createdAt?: true
     _all?: true
   }
@@ -1306,6 +1312,7 @@ export namespace Prisma {
     marketId: number
     displayType: $Enums.DisplayType
     enabled: boolean
+    superSubEligible: boolean
     createdAt: Date
     _count: MarketCountAggregateOutputType | null
     _avg: MarketAvgAggregateOutputType | null
@@ -1334,6 +1341,7 @@ export namespace Prisma {
     marketId?: boolean
     displayType?: boolean
     enabled?: boolean
+    superSubEligible?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["market"]>
 
@@ -1343,6 +1351,7 @@ export namespace Prisma {
     marketId?: boolean
     displayType?: boolean
     enabled?: boolean
+    superSubEligible?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["market"]>
 
@@ -1352,6 +1361,7 @@ export namespace Prisma {
     marketId?: boolean
     displayType?: boolean
     enabled?: boolean
+    superSubEligible?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["market"]>
 
@@ -1361,10 +1371,11 @@ export namespace Prisma {
     marketId?: boolean
     displayType?: boolean
     enabled?: boolean
+    superSubEligible?: boolean
     createdAt?: boolean
   }
 
-  export type MarketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "marketId" | "displayType" | "enabled" | "createdAt", ExtArgs["result"]["market"]>
+  export type MarketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "marketId" | "displayType" | "enabled" | "superSubEligible" | "createdAt", ExtArgs["result"]["market"]>
 
   export type $MarketPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Market"
@@ -1375,6 +1386,7 @@ export namespace Prisma {
       marketId: number
       displayType: $Enums.DisplayType
       enabled: boolean
+      superSubEligible: boolean
       createdAt: Date
     }, ExtArgs["result"]["market"]>
     composites: {}
@@ -1804,6 +1816,7 @@ export namespace Prisma {
     readonly marketId: FieldRef<"Market", 'Int'>
     readonly displayType: FieldRef<"Market", 'DisplayType'>
     readonly enabled: FieldRef<"Market", 'Boolean'>
+    readonly superSubEligible: FieldRef<"Market", 'Boolean'>
     readonly createdAt: FieldRef<"Market", 'DateTime'>
   }
     
@@ -2345,7 +2358,7 @@ export namespace Prisma {
     id: number
     name: string
     externalEventId: string
-    matchDate: Date
+    matchDate: Date | null
     createdAt: Date
     _count: ExternalEventCountAggregateOutputType | null
     _avg: ExternalEventAvgAggregateOutputType | null
@@ -2419,7 +2432,7 @@ export namespace Prisma {
       id: number
       name: string
       externalEventId: string
-      matchDate: Date
+      matchDate: Date | null
       createdAt: Date
     }, ExtArgs["result"]["externalEvent"]>
     composites: {}
@@ -4501,6 +4514,7 @@ export namespace Prisma {
     marketId: 'marketId',
     displayType: 'displayType',
     enabled: 'enabled',
+    superSubEligible: 'superSubEligible',
     createdAt: 'createdAt'
   };
 
@@ -4682,6 +4696,7 @@ export namespace Prisma {
     marketId?: IntFilter<"Market"> | number
     displayType?: EnumDisplayTypeFilter<"Market"> | $Enums.DisplayType
     enabled?: BoolFilter<"Market"> | boolean
+    superSubEligible?: BoolFilter<"Market"> | boolean
     createdAt?: DateTimeFilter<"Market"> | Date | string
   }
 
@@ -4691,6 +4706,7 @@ export namespace Prisma {
     marketId?: SortOrder
     displayType?: SortOrder
     enabled?: SortOrder
+    superSubEligible?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -4703,6 +4719,7 @@ export namespace Prisma {
     name?: StringFilter<"Market"> | string
     displayType?: EnumDisplayTypeFilter<"Market"> | $Enums.DisplayType
     enabled?: BoolFilter<"Market"> | boolean
+    superSubEligible?: BoolFilter<"Market"> | boolean
     createdAt?: DateTimeFilter<"Market"> | Date | string
   }, "id" | "marketId">
 
@@ -4712,6 +4729,7 @@ export namespace Prisma {
     marketId?: SortOrder
     displayType?: SortOrder
     enabled?: SortOrder
+    superSubEligible?: SortOrder
     createdAt?: SortOrder
     _count?: MarketCountOrderByAggregateInput
     _avg?: MarketAvgOrderByAggregateInput
@@ -4729,6 +4747,7 @@ export namespace Prisma {
     marketId?: IntWithAggregatesFilter<"Market"> | number
     displayType?: EnumDisplayTypeWithAggregatesFilter<"Market"> | $Enums.DisplayType
     enabled?: BoolWithAggregatesFilter<"Market"> | boolean
+    superSubEligible?: BoolWithAggregatesFilter<"Market"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Market"> | Date | string
   }
 
@@ -4739,7 +4758,7 @@ export namespace Prisma {
     id?: IntFilter<"ExternalEvent"> | number
     name?: StringFilter<"ExternalEvent"> | string
     externalEventId?: StringFilter<"ExternalEvent"> | string
-    matchDate?: DateTimeFilter<"ExternalEvent"> | Date | string
+    matchDate?: DateTimeNullableFilter<"ExternalEvent"> | Date | string | null
     createdAt?: DateTimeFilter<"ExternalEvent"> | Date | string
     games?: GameListRelationFilter
   }
@@ -4748,7 +4767,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     externalEventId?: SortOrder
-    matchDate?: SortOrder
+    matchDate?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     games?: GameOrderByRelationAggregateInput
   }
@@ -4760,7 +4779,7 @@ export namespace Prisma {
     OR?: ExternalEventWhereInput[]
     NOT?: ExternalEventWhereInput | ExternalEventWhereInput[]
     name?: StringFilter<"ExternalEvent"> | string
-    matchDate?: DateTimeFilter<"ExternalEvent"> | Date | string
+    matchDate?: DateTimeNullableFilter<"ExternalEvent"> | Date | string | null
     createdAt?: DateTimeFilter<"ExternalEvent"> | Date | string
     games?: GameListRelationFilter
   }, "id" | "externalEventId">
@@ -4769,7 +4788,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     externalEventId?: SortOrder
-    matchDate?: SortOrder
+    matchDate?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: ExternalEventCountOrderByAggregateInput
     _avg?: ExternalEventAvgOrderByAggregateInput
@@ -4785,7 +4804,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"ExternalEvent"> | number
     name?: StringWithAggregatesFilter<"ExternalEvent"> | string
     externalEventId?: StringWithAggregatesFilter<"ExternalEvent"> | string
-    matchDate?: DateTimeWithAggregatesFilter<"ExternalEvent"> | Date | string
+    matchDate?: DateTimeNullableWithAggregatesFilter<"ExternalEvent"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"ExternalEvent"> | Date | string
   }
 
@@ -4886,6 +4905,7 @@ export namespace Prisma {
     marketId: number
     displayType: $Enums.DisplayType
     enabled?: boolean
+    superSubEligible?: boolean
     createdAt?: Date | string
   }
 
@@ -4895,6 +4915,7 @@ export namespace Prisma {
     marketId: number
     displayType: $Enums.DisplayType
     enabled?: boolean
+    superSubEligible?: boolean
     createdAt?: Date | string
   }
 
@@ -4903,6 +4924,7 @@ export namespace Prisma {
     marketId?: IntFieldUpdateOperationsInput | number
     displayType?: EnumDisplayTypeFieldUpdateOperationsInput | $Enums.DisplayType
     enabled?: BoolFieldUpdateOperationsInput | boolean
+    superSubEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -4912,6 +4934,7 @@ export namespace Prisma {
     marketId?: IntFieldUpdateOperationsInput | number
     displayType?: EnumDisplayTypeFieldUpdateOperationsInput | $Enums.DisplayType
     enabled?: BoolFieldUpdateOperationsInput | boolean
+    superSubEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -4921,6 +4944,7 @@ export namespace Prisma {
     marketId: number
     displayType: $Enums.DisplayType
     enabled?: boolean
+    superSubEligible?: boolean
     createdAt?: Date | string
   }
 
@@ -4929,6 +4953,7 @@ export namespace Prisma {
     marketId?: IntFieldUpdateOperationsInput | number
     displayType?: EnumDisplayTypeFieldUpdateOperationsInput | $Enums.DisplayType
     enabled?: BoolFieldUpdateOperationsInput | boolean
+    superSubEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -4938,13 +4963,14 @@ export namespace Prisma {
     marketId?: IntFieldUpdateOperationsInput | number
     displayType?: EnumDisplayTypeFieldUpdateOperationsInput | $Enums.DisplayType
     enabled?: BoolFieldUpdateOperationsInput | boolean
+    superSubEligible?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ExternalEventCreateInput = {
     name: string
     externalEventId: string
-    matchDate: Date | string
+    matchDate?: Date | string | null
     createdAt?: Date | string
     games?: GameCreateNestedManyWithoutEventInput
   }
@@ -4953,7 +4979,7 @@ export namespace Prisma {
     id?: number
     name: string
     externalEventId: string
-    matchDate: Date | string
+    matchDate?: Date | string | null
     createdAt?: Date | string
     games?: GameUncheckedCreateNestedManyWithoutEventInput
   }
@@ -4961,7 +4987,7 @@ export namespace Prisma {
   export type ExternalEventUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     externalEventId?: StringFieldUpdateOperationsInput | string
-    matchDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    matchDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     games?: GameUpdateManyWithoutEventNestedInput
   }
@@ -4970,7 +4996,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     externalEventId?: StringFieldUpdateOperationsInput | string
-    matchDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    matchDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     games?: GameUncheckedUpdateManyWithoutEventNestedInput
   }
@@ -4979,14 +5005,14 @@ export namespace Prisma {
     id?: number
     name: string
     externalEventId: string
-    matchDate: Date | string
+    matchDate?: Date | string | null
     createdAt?: Date | string
   }
 
   export type ExternalEventUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
     externalEventId?: StringFieldUpdateOperationsInput | string
-    matchDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    matchDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -4994,7 +5020,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     externalEventId?: StringFieldUpdateOperationsInput | string
-    matchDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    matchDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -5154,6 +5180,7 @@ export namespace Prisma {
     marketId?: SortOrder
     displayType?: SortOrder
     enabled?: SortOrder
+    superSubEligible?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -5168,6 +5195,7 @@ export namespace Prisma {
     marketId?: SortOrder
     displayType?: SortOrder
     enabled?: SortOrder
+    superSubEligible?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -5177,6 +5205,7 @@ export namespace Prisma {
     marketId?: SortOrder
     displayType?: SortOrder
     enabled?: SortOrder
+    superSubEligible?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -5251,10 +5280,26 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type GameListRelationFilter = {
     every?: GameWhereInput
     some?: GameWhereInput
     none?: GameWhereInput
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
   }
 
   export type GameOrderByRelationAggregateInput = {
@@ -5291,6 +5336,20 @@ export namespace Prisma {
 
   export type ExternalEventSumOrderByAggregateInput = {
     id?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type EnumGameStatusFilter<$PrismaModel = never> = {
@@ -5336,11 +5395,6 @@ export namespace Prisma {
   export type ExternalEventScalarRelationFilter = {
     is?: ExternalEventWhereInput
     isNot?: ExternalEventWhereInput
-  }
-
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
   }
 
   export type GameCountOrderByAggregateInput = {
@@ -5490,6 +5544,10 @@ export namespace Prisma {
     connectOrCreate?: GameCreateOrConnectWithoutEventInput | GameCreateOrConnectWithoutEventInput[]
     createMany?: GameCreateManyEventInputEnvelope
     connect?: GameWhereUniqueInput | GameWhereUniqueInput[]
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type GameUpdateManyWithoutEventNestedInput = {
@@ -5678,6 +5736,42 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedEnumGameStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.GameStatus | EnumGameStatusFieldRefInput<$PrismaModel>
     in?: $Enums.GameStatus[] | ListEnumGameStatusFieldRefInput<$PrismaModel>
@@ -5741,17 +5835,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
@@ -5844,7 +5927,7 @@ export namespace Prisma {
   export type ExternalEventCreateWithoutGamesInput = {
     name: string
     externalEventId: string
-    matchDate: Date | string
+    matchDate?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -5852,7 +5935,7 @@ export namespace Prisma {
     id?: number
     name: string
     externalEventId: string
-    matchDate: Date | string
+    matchDate?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -5875,7 +5958,7 @@ export namespace Prisma {
   export type ExternalEventUpdateWithoutGamesInput = {
     name?: StringFieldUpdateOperationsInput | string
     externalEventId?: StringFieldUpdateOperationsInput | string
-    matchDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    matchDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -5883,7 +5966,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     externalEventId?: StringFieldUpdateOperationsInput | string
-    matchDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    matchDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

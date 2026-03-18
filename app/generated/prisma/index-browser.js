@@ -126,6 +126,7 @@ exports.Prisma.MarketScalarFieldEnum = {
   marketId: 'marketId',
   displayType: 'displayType',
   enabled: 'enabled',
+  superSubEligible: 'superSubEligible',
   createdAt: 'createdAt'
 };
 

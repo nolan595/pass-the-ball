@@ -24,19 +24,19 @@ export function Sidebar() {
           </div>
           <span className="font-bold text-slate-900 tracking-tight">PassTheBall</span>
         </div>
-        <nav className="ml-auto flex gap-1">
+        <nav className="ml-auto flex gap-0.5">
           {nav.map(({ href, label, icon: Icon }) => (
             <Link
               key={href}
               href={href}
               className={cn(
-                "flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors",
+                "flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs font-semibold transition-colors whitespace-nowrap",
                 pathname.startsWith(href)
                   ? "bg-indigo-50 text-indigo-700"
                   : "text-slate-600 hover:bg-slate-100"
               )}
             >
-              <Icon className="w-3.5 h-3.5" />
+              <Icon className="w-3.5 h-3.5 shrink-0" />
               {label}
             </Link>
           ))}

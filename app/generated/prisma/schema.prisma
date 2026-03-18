@@ -16,22 +16,23 @@ enum DisplayType {
 }
 
 model Market {
-  id          Int         @id @default(autoincrement())
-  name        String
-  marketId    Int         @unique
-  displayType DisplayType
-  enabled     Boolean     @default(true)
-  createdAt   DateTime    @default(now())
+  id               Int         @id @default(autoincrement())
+  name             String
+  marketId         Int         @unique
+  displayType      DisplayType
+  enabled          Boolean     @default(true)
+  superSubEligible Boolean     @default(false)
+  createdAt        DateTime    @default(now())
 
   @@map("markets")
 }
 
 model ExternalEvent {
-  id              Int      @id @default(autoincrement())
+  id              Int       @id @default(autoincrement())
   name            String
-  externalEventId String   @unique
-  matchDate       DateTime
-  createdAt       DateTime @default(now())
+  externalEventId String    @unique
+  matchDate       DateTime?
+  createdAt       DateTime  @default(now())
 
   games Game[]
 

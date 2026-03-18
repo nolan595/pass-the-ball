@@ -14,6 +14,7 @@ export type OfferOutcome = {
   info?: string;
   specifiers?: Record<string, string>;
   offerStateId: number;
+  superSubEligible?: boolean;
 };
 
 export type OfferEvent = {

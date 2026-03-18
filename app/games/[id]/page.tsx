@@ -2,12 +2,12 @@ import { prisma } from "@/lib/prisma";
 import { fetchEvent } from "@/lib/offer-api";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { Card, CardHeader, CardBody } from "@/components/ui/Card";
+import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { GameControls } from "./GameControls";
 import { MarketView } from "./MarketView";
-import { formatDateTime, formatDisplayType } from "@/lib/utils";
+import { formatDateTime } from "@/lib/utils";
 import { ArrowLeft, Calendar, Trophy, Zap } from "lucide-react";
 import type { GameStatus } from "@/app/generated/prisma";
 
@@ -61,24 +61,26 @@ export default async function GameDetailPage({
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <Button asChild variant="ghost" size="sm">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+        <div className="flex items-start gap-3">
+          <Button asChild variant="ghost" size="sm" className="shrink-0 mt-0.5">
             <Link href="/games">
               <ArrowLeft className="w-4 h-4" />
-              Games
+              <span className="hidden sm:inline">Games</span>
             </Link>
           </Button>
-          <div>
-            <div className="flex items-center gap-2.5">
-              <h1 className="text-2xl font-bold text-slate-900">{game.name}</h1>
+          <div className="min-w-0">
+            <div className="flex flex-wrap items-center gap-2">
+              <h1 className="text-xl sm:text-2xl font-bold text-slate-900 leading-snug">{game.name}</h1>
               <Badge variant={statusVariant[game.status]}>{game.status}</Badge>
             </div>
             <p className="text-sm text-slate-500 mt-0.5">{game.event.name}</p>
           </div>
         </div>
         {statusNext[game.status] && (
-          <GameControls gameId={game.id} status={game.status} label={statusNext[game.status]!} />
+          <div className="shrink-0 self-start sm:self-auto">
+            <GameControls gameId={game.id} status={game.status} label={statusNext[game.status]!} />
+          </div>
         )}
       </div>
 
@@ -137,33 +139,29 @@ export default async function GameDetailPage({
         </div>
       )}
 
-      {/* Markets */}
-      <Card>
-        <CardHeader>
-          <span className="text-sm font-semibold text-slate-700">
-            Active Markets ({markets.length})
+      {/* Markets — player-view preview */}
+      <div>
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-[11px] font-bold uppercase tracking-widest text-slate-400">
+            Player View · {markets.length} market{markets.length !== 1 ? "s" : ""}
           </span>
           {!event && game.status === "DRAFT" && (
-            <span className="text-xs text-slate-400">
-              Live odds will appear when game is opened
-            </span>
+            <span className="text-xs text-slate-400">Live odds load when game opens</span>
           )}
-        </CardHeader>
+        </div>
 
         {markets.length === 0 ? (
-          <CardBody>
-            <div className="text-center py-10">
-              <p className="text-sm text-slate-500">
-                No markets enabled.{" "}
-                <Link href="/markets" className="text-indigo-600 font-medium hover:underline">
-                  Configure markets
-                </Link>{" "}
-                first.
-              </p>
-            </div>
-          </CardBody>
+          <div className="rounded-2xl bg-white border border-slate-200 shadow-sm py-10 text-center">
+            <p className="text-sm text-slate-500">
+              No markets enabled.{" "}
+              <Link href="/markets" className="text-indigo-600 font-medium hover:underline">
+                Configure markets
+              </Link>{" "}
+              first.
+            </p>
+          </div>
         ) : (
-          <div className="divide-y divide-slate-50">
+          <div className="space-y-3">
             {markets.map((market) => {
               const marketOdds = odds.filter((o) => o.marketId === market.marketId);
               return (
@@ -177,7 +175,7 @@ export default async function GameDetailPage({
             })}
           </div>
         )}
-      </Card>
+      </div>
     </div>
   );
 }

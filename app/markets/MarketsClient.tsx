@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import type { Market } from "@/app/generated/prisma";
-import { createMarket, updateMarket, toggleMarket, deleteMarket } from "./actions";
+import { createMarket, updateMarket, toggleMarket, toggleSuperSub, deleteMarket } from "./actions";
 import { Card, CardHeader, CardBody } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
@@ -88,6 +88,16 @@ function MarketForm({
           ))}
         </select>
       </div>
+      <div className="flex items-center gap-3 py-1">
+        <Switch.Root
+          name="superSubEligible"
+          defaultChecked={market?.superSubEligible ?? false}
+          className="w-9 h-5 rounded-full transition-colors data-[state=checked]:bg-amber-500 data-[state=unchecked]:bg-slate-200"
+        >
+          <Switch.Thumb className="block w-4 h-4 rounded-full bg-white shadow-sm translate-x-0.5 transition-transform data-[state=checked]:translate-x-4" />
+        </Switch.Root>
+        <label className="text-sm text-slate-700 font-medium">Super Sub eligible</label>
+      </div>
       <div className="flex gap-3 pt-2">
         <Button type="submit" loading={pending} className="flex-1">
           {isEdit ? "Save Changes" : "Create Market"}
@@ -117,6 +127,10 @@ export function MarketsClient({ markets }: { markets: Market[] }) {
 
   function handleToggle(id: number, enabled: boolean) {
     startTransition(() => toggleMarket(id, enabled));
+  }
+
+  function handleToggleSuperSub(id: number, value: boolean) {
+    startTransition(() => toggleSuperSub(id, value));
   }
 
   function handleDelete(id: number) {
@@ -161,7 +175,7 @@ export function MarketsClient({ markets }: { markets: Market[] }) {
           </CardBody>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full min-w-[600px] text-sm">
               <thead>
                 <tr className="border-b border-slate-100">
                   <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-400">
@@ -176,13 +190,16 @@ export function MarketsClient({ markets }: { markets: Market[] }) {
                   <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-400">
                     Status
                   </th>
+                  <th className="px-6 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-slate-400">
+                    Super Sub
+                  </th>
                   <th className="px-4 py-3 w-12" />
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
                 {markets.map((market) => (
                   <tr key={market.id} className="hover:bg-slate-50/50 transition-colors">
-                    <td className="px-6 py-3.5 font-medium text-slate-900">{market.name}</td>
+                    <td className="px-6 py-3.5 font-medium text-slate-900 whitespace-nowrap">{market.name}</td>
                     <td className="px-6 py-3.5">
                       <span className="font-mono text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded-lg">
                         {market.marketId}
@@ -204,6 +221,15 @@ export function MarketsClient({ markets }: { markets: Market[] }) {
                           {market.enabled ? "Enabled" : "Disabled"}
                         </span>
                       </div>
+                    </td>
+                    <td className="px-6 py-3.5">
+                      <Switch.Root
+                        checked={market.superSubEligible}
+                        onCheckedChange={(v) => handleToggleSuperSub(market.id, v)}
+                        className="w-9 h-5 rounded-full transition-colors data-[state=checked]:bg-amber-500 data-[state=unchecked]:bg-slate-200"
+                      >
+                        <Switch.Thumb className="block w-4 h-4 rounded-full bg-white shadow-sm translate-x-0.5 transition-transform data-[state=checked]:translate-x-4" />
+                      </Switch.Root>
                     </td>
                     <td className="px-4 py-3.5">
                       <DropdownMenu.Root>
