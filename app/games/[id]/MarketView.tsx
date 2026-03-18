@@ -19,22 +19,11 @@ function SuperSubBadge() {
 }
 
 // ── Odd button ────────────────────────────────────────────────────────────────
-function OddButton({
-  label,
-  odd,
-  showResult,
-  compact = false,
-}: {
-  label?: string;
-  odd: OfferOutcome | null;
-  showResult: boolean;
-  compact?: boolean;
-}) {
+function OddButton({ odd, showResult }: { odd: OfferOutcome | null; showResult: boolean }) {
   if (!odd) {
     return (
-      <div className={`flex items-center ${compact ? "justify-center py-2.5 px-1" : "justify-between px-3 py-3"} rounded-lg bg-[#16171e] border border-dashed border-[#2c2d3d]/60`}>
-        {!compact && <span className="text-xs text-white/20">{label ?? "—"}</span>}
-        <span className="text-xs text-white/15">N/A</span>
+      <div className="flex items-center justify-center py-3 px-2 rounded-lg bg-[#16171e] border border-dashed border-[#2c2d3d]/60">
+        <span className="text-xs text-white/15">—</span>
       </div>
     );
   }
@@ -46,7 +35,7 @@ function OddButton({
   if (showResult) {
     return (
       <div
-        className={`flex items-center ${compact ? "justify-center py-2.5 px-1" : "justify-between px-3 py-3"} rounded-lg ${
+        className={`flex items-center justify-center py-3 px-2 rounded-lg ${
           isWon
             ? "bg-emerald-900/30 border border-emerald-500/30"
             : isLost
@@ -54,27 +43,15 @@ function OddButton({
             : "bg-[#252636] border border-[#2c2d3d]"
         }`}
       >
-        {!compact && <span className="text-xs text-white/50">{label ?? odd.name}</span>}
-        <span
-          className={`text-xs font-bold flex items-center gap-1 ${
-            isWon ? "text-emerald-400" : isLost ? "text-red-400" : "text-white/30"
-          }`}
-        >
-          {isWon ? (
-            <><CheckCircle className="w-3 h-3" /> {compact ? "✓" : "WON"}</>
-          ) : isLost ? (
-            <><XCircle className="w-3 h-3" /> {compact ? "✗" : "LOST"}</>
-          ) : (
-            "—"
-          )}
+        <span className={`text-xs font-bold flex items-center gap-1 ${isWon ? "text-emerald-400" : isLost ? "text-red-400" : "text-white/30"}`}>
+          {isWon ? <><CheckCircle className="w-3 h-3" /> WON</> : isLost ? <><XCircle className="w-3 h-3" /> LOST</> : "—"}
         </span>
       </div>
     );
   }
 
   return (
-    <div className={`flex items-center ${compact ? "justify-center py-2.5 px-1" : "justify-between px-3 py-3"} rounded-lg bg-[#252636] hover:bg-[#2c2e44] transition-colors cursor-default select-none`}>
-      {!compact && <span className="text-xs text-white/60">{label ?? odd.name}</span>}
+    <div className="flex items-center justify-center py-3 px-2 rounded-lg bg-[#252636] hover:bg-[#2c2e44] transition-colors cursor-default select-none">
       <span className="text-sm font-bold text-white tabular-nums">
         {odd.price > 0 ? odd.price.toFixed(2) : "—"}
       </span>
@@ -90,9 +67,9 @@ function OneXTwo({ odds, showResults }: { odds: OfferOutcome[]; showResults: boo
 
   return (
     <div className="grid grid-cols-3 gap-2">
-      <OddButton label="1" odd={home} showResult={showResults} />
-      <OddButton label="X" odd={draw} showResult={showResults} />
-      <OddButton label="2" odd={away} showResult={showResults} />
+      <OddButton odd={home} showResult={showResults} />
+      <OddButton odd={draw} showResult={showResults} />
+      <OddButton odd={away} showResult={showResults} />
     </div>
   );
 }
@@ -125,7 +102,7 @@ function OverUnder({ odds, showResults }: { odds: OfferOutcome[]; showResults: b
           <div key={total} className="grid grid-cols-3 gap-2 items-center">
             <span className="text-sm font-bold text-white/60 pl-0.5">{total}</span>
             <OddButton odd={under} showResult={showResults} />
-            <OddButton odd={over} showResult={showResults} />
+          <OddButton odd={over} showResult={showResults} />
           </div>
         ))}
       </div>
@@ -140,8 +117,8 @@ function OneFromTwo({ odds, showResults }: { odds: OfferOutcome[]; showResults: 
 
   return (
     <div className="grid grid-cols-2 gap-2 max-w-sm">
-      <OddButton label="Yes" odd={yes} showResult={showResults} />
-      <OddButton label="No" odd={no} showResult={showResults} />
+      <OddButton odd={yes} showResult={showResults} />
+      <OddButton odd={no} showResult={showResults} />
     </div>
   );
 }
@@ -187,7 +164,7 @@ function PlayerProps({ odds, showResults }: { odds: OfferOutcome[]; showResults:
           <div key={player} className="grid gap-2 items-center" style={{ gridTemplateColumns: colTemplate }}>
             <span className="text-sm text-white/75 pr-2 truncate">{player}</span>
             {allTotals.map((total) => (
-              <OddButton key={total} odd={playerMap.get(player)?.get(total) ?? null} showResult={showResults} compact />
+              <OddButton key={total} odd={playerMap.get(player)?.get(total) ?? null} showResult={showResults} />
             ))}
           </div>
         ))}
