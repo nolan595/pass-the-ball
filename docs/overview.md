@@ -1,121 +1,152 @@
-# PassTheBall — High Level Overview
+# PassTheBall — Data Flow Overview
 
-PassTheBall is an admin simulation platform for a Hunch prediction game. Admins configure markets, register upcoming football events, and create game rounds. The platform pulls live odds from the Superbet Offer Server API and displays them to players in a structured market view.
-
----
-
-## Data Sources
-
-All live odds and event data comes from the **Superbet Offer Server API v2**, served via Fastly CDN:
+All odds and event data comes from the **Superbet Offer Server API v2**:
 
 ```
 Base URL: https://production-superbet-offer-ng-be.freetls.fastly.net
 ```
 
-This is a public REST API — no auth token required. The current integration uses the Belgium feed (`en-BE`). Brazil uses a different base URL with `pt-BR` locale.
+No auth required. Current integration uses the Belgium feed (`en-BE`). Brazil uses a separate base URL with `pt-BR`.
 
 ---
 
-## Backend
+## Endpoints in Use
 
-The backend is **Next.js Server Actions and Server Components** — there is no separate API layer. All database reads and external API calls happen server-side at request time.
+### 1. Events by date
 
-### Database (PostgreSQL via Prisma)
-
-Three tables drive everything:
-
-| Table | Purpose |
-|---|---|
-| `markets` | Admin-configured market templates — maps a Superbet `marketId` to a display type |
-| `external_events` | Registered Superbet events (eventId, name, matchDate) |
-| `games` | A round linking one event to a time window, prize config, and status |
-
-### Offer Server API calls
-
-Two endpoints are used, both called from `lib/offer-api.ts`:
-
-**1. Events by date** — used on the Events admin page to search for upcoming matches:
 ```
 GET /v2/en-BE/events/by-date?startDate=YYYY-MM-DD%2000:00:00
 ```
-Returns all events on that date. Response is filtered to `sportId === 5` (football only) before being shown in the UI.
 
-**2. Single event** — used on the Game detail page to fetch live odds:
+Used on the Events admin page to search for upcoming matches. Returns a flat list of all events on that date across all sports. Filtered to `sportId === 5` (football) before display. Only the event metadata is returned here — no odds. The `eventId` from this response is what gets saved to the database and used for all subsequent odds calls.
+
+**Key response fields:**
+
+| Field | Used for |
+|---|---|
+| `eventId` | Stored in DB as the reference ID for all future odds fetches |
+| `matchName` | Display label (format: `"Bayern Munich·Atalanta"`) |
+| `matchDate` | Shown in the event list |
+| `sportId` | Filter — only `5` (football) is kept |
+
+---
+
+### 2. Single event — live odds
+
 ```
 GET /v2/en-BE/events/:eventId
+```
+
+Called on the game detail page when a game is `PENDING` or `OPEN`. Returns the full event with an `odds[]` array containing every active odd across all markets for that event — **all markets in a single flat array**.
+
+**Key response fields:**
+
+| Field | Used for |
+|---|---|
+| `odds[]` | The full flat odds array — filtered per market at render time |
+| `matchName` | Shown in the event status bar |
+| `metadata.status` | e.g. `"LIVE"`, `"NOT_STARTED"` — shown in the status bar |
+| `metadata.homeTeamScore` / `awayTeamScore` | Live score display |
+
+---
+
+### 3. Single event — results
+
+```
 GET /v2/en-BE/events/:eventId?oddsResults=true
 ```
-The plain endpoint returns `odds[]` — active prematch/live prices. The `?oddsResults=true` variant returns `oddsResults[]` with each odd marked as `won` or `lost`, used once a game is closed or completed.
 
-Which variant is called depends on game status:
-
-```
-DRAFT      → API not called (no odds needed)
-PENDING    → /events/:eventId          → odds[]
-OPEN       → /events/:eventId          → odds[]
-CLOSED     → /events/:eventId?oddsResults=true  → oddsResults[]
-COMPLETED  → /events/:eventId?oddsResults=true  → oddsResults[]
-```
-
-The response is a flat array of odds — every market for the event mixed together. The backend does not pre-group them; that happens on the frontend per market.
-
-### Game lifecycle
-
-Games move through five statuses, advanced manually by an admin:
-
-```
-DRAFT → PENDING → OPEN → CLOSED → COMPLETED
-```
-
-Status is updated via the `advanceGameStatus` Server Action. No automated transitions — all manual for simulation purposes.
+Called when a game is `CLOSED` or `COMPLETED`. Returns the same event shape but with `oddsResults[]` instead of `odds[]`. Each odd in `oddsResults[]` has a `status` of `"won"` or `"lost"`, used to render the results view. The `odds[]` field is null when this param is passed.
 
 ---
 
-## Frontend
+## How the Flat Odds Array Maps to Display Types
 
-The frontend is **Next.js App Router with React Server Components**. Pages fetch their own data server-side; client components handle interactivity (toggles, dialogs, collapsible markets).
+The `odds[]` / `oddsResults[]` array contains every odd for every market mixed together. Each odd carries a `marketId` field. The admin configures which `marketId` maps to which display template — at render time, the flat array is filtered per market:
 
-### Key pages
+```
+odds.filter(o => o.marketId === market.marketId)
+```
 
-| Route | What it does |
-|---|---|
-| `/markets` | CRUD for market configuration — add/edit/delete market templates |
-| `/events` | Search the Offer API by date, register events to the DB |
-| `/games` | List all game rounds with status |
-| `/games/new` | Create a new round — pick event, set time window and prize config |
-| `/games/[id]` | Game detail — live market odds view, status controls |
+That filtered slice is passed to the display template. The template then uses specific fields from each odd to build its layout:
 
-### Market rendering
+### ONE_X_TWO
 
-The game detail page (`/games/[id]`) is the core player-facing view. The flow is:
+**Filter:** all odds where `marketId` matches (e.g. `547` for Match Betting)
 
-1. Load all enabled `Market` records from the DB
-2. Fetch the event from the Offer API (live or results depending on status)
-3. For each market, filter the flat `odds[]` array by `odd.marketId === market.marketId`
-4. Pass the filtered slice to the appropriate display template component in `MarketView.tsx`
+**Field used:** `odd.code` — values `"1"` (home), `"X"` (draw), `"2"` (away)
 
-Display templates (`MarketView.tsx`):
+The three odds are picked by their `code` value and placed into fixed columns. `code` is the only reliable discriminator — `name` varies by locale and team.
 
-| Display Type | Layout | Key API fields |
-|---|---|---|
-| `ONE_X_TWO` | 3 columns: Home / Draw / Away | `odd.code` ("1", "X", "2") |
-| `OVER_UNDER` | Grid: threshold rows × Under/Over cols | `odd.specifiers.total` |
-| `ONE_FROM_TWO` | 2 columns: Yes / No | `odd.name` |
-| `PLAYER_PROPS` | Table: players × thresholds | `odd.specifiers.player_name`, `odd.specifiers.total` |
-
-See `docs/displayTypes.md` for full field-level detail on each template.
-
-### Results view
-
-When a game is `CLOSED` or `COMPLETED`, the same market cards render in results mode — each odd cell shows **WON** or **LOST** based on `odd.status` from the `oddsResults[]` response, colour-coded green/red.
+```
+odds.find(o => o.code === "1")  → Home column
+odds.find(o => o.code === "X")  → Draw column
+odds.find(o => o.code === "2")  → Away column
+```
 
 ---
 
-## Infrastructure
+### OVER_UNDER
 
-| Layer | Service |
-|---|---|
-| Hosting | Netlify (`pass-the-ball.netlify.app`) |
-| Database | PostgreSQL on Railway |
-| Build | `npm run build` → `.next` → `@netlify/plugin-nextjs` |
-| CI/CD | GitHub (`nolan595/pass-the-ball`) → webhook → Netlify auto-deploy on push to `main` |
+**Filter:** all odds where `marketId` matches (e.g. `200734` for Total Goals)
+
+**Fields used:** `odd.specifiers.total`, `odd.name` (prefix)
+
+The API returns Over and Under odds interleaved. They're grouped by the `specifiers.total` value (e.g. `"2.5"`) into rows, then split into Over/Under columns by checking if `odd.name` starts with `"over"`.
+
+```
+specifiers.total = "2.5", name = "Over 2.5"  → row 2.5, Over column
+specifiers.total = "2.5", name = "Under 2.5" → row 2.5, Under column
+```
+
+Fallback chain if `specifiers.total` is absent: `odd.info` → strip non-numeric chars from `odd.name`.
+
+---
+
+### ONE_FROM_TWO
+
+**Filter:** all odds where `marketId` matches (e.g. `539` for Both Teams to Score)
+
+**Field used:** `odd.name` — matched against `"yes"` / `"no"` (case-insensitive)
+
+Two odds, two columns. Name matching is the discriminator. Fallback to array position `[0]` / `[1]` if names don't match (handles non-English locales).
+
+---
+
+### PLAYER_PROPS
+
+**Filter:** all odds where `marketId` matches (e.g. `236218` for Player Total Shots)
+
+**Fields used:** `odd.specifiers.player_name`, `odd.specifiers.total`
+
+Odds are grouped into a two-dimensional structure — rows by player, columns by threshold:
+
+```
+specifiers.player_name = "Kane, Harry"
+specifiers.total       = "2.5"
+→ row: Kane, Harry | column: 2.5+
+```
+
+A player may not have an odd at every threshold — those cells render as N/A. The column set is derived from all unique `specifiers.total` values across all odds in the filtered slice, sorted ascending.
+
+---
+
+## Summary
+
+```
+Offer API (/by-date)
+    └── eventId saved to DB
+
+Offer API (/events/:eventId)
+    └── returns flat odds[]
+            └── filtered by marketId per configured Market
+                    ├── code "1"/"X"/"2"          → ONE_X_TWO
+                    ├── specifiers.total + name    → OVER_UNDER
+                    ├── name "yes"/"no"            → ONE_FROM_TWO
+                    └── specifiers.player_name     → PLAYER_PROPS
+                        + specifiers.total
+
+Offer API (/events/:eventId?oddsResults=true)
+    └── same structure, odds have status "won"/"lost"
+            └── same display templates, results mode
+```
