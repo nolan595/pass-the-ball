@@ -1,5 +1,8 @@
 import { Sidebar } from "@/components/layout/Sidebar";
 
+// Admin pages always fetch fresh data — no ISR caching
+export const dynamic = "force-dynamic";
+
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-slate-100">
