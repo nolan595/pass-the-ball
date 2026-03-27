@@ -150,6 +150,28 @@ exports.Prisma.GameScalarFieldEnum = {
   multiplier: 'multiplier',
   s3Status: 's3Status',
   paymentStatus: 'paymentStatus',
+  sgaUuid: 'sgaUuid',
+  sgaPrice: 'sgaPrice',
+  sgaStatus: 'sgaStatus',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.PlayerScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  displayName: 'displayName',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.PickScalarFieldEnum = {
+  id: 'id',
+  gameId: 'gameId',
+  playerId: 'playerId',
+  marketId: 'marketId',
+  oddUuid: 'oddUuid',
+  oddName: 'oddName',
+  marketName: 'marketName',
+  oddPrice: 'oddPrice',
   createdAt: 'createdAt'
 };
 
@@ -191,7 +213,9 @@ exports.PrizeType = exports.$Enums.PrizeType = {
 exports.Prisma.ModelName = {
   Market: 'Market',
   ExternalEvent: 'ExternalEvent',
-  Game: 'Game'
+  Game: 'Game',
+  Player: 'Player',
+  Pick: 'Pick'
 };
 
 /**

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { formatDateTime } from "@/lib/utils";
 import { Plus, Trophy } from "lucide-react";
+import { DeleteGameButton } from "./DeleteGameButton";
 import type { GameStatus } from "@/app/generated/prisma";
 
 const statusVariant: Record<GameStatus, "neutral" | "warning" | "success" | "info" | "danger"> = {
@@ -70,7 +71,7 @@ export default async function GamesPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-slate-100">
-                  {["Game Name", "Event", "Start", "End", "Multiplier", "Status", "S3 Status", "Payment", ""].map(
+                  {["Game Name", "Event", "Start", "End", "Multiplier", "Status", ""].map(
                     (h) => (
                       <th
                         key={h}
@@ -110,24 +111,13 @@ export default async function GamesPage() {
                     <td className="px-6 py-3.5">
                       <Badge variant={statusVariant[game.status]}>{game.status}</Badge>
                     </td>
-                    <td className="px-6 py-3.5">
-                      {game.s3Status ? (
-                        <Badge variant="success">{game.s3Status}</Badge>
-                      ) : (
-                        <span className="text-xs text-slate-400">—</span>
-                      )}
-                    </td>
-                    <td className="px-6 py-3.5">
-                      {game.paymentStatus ? (
-                        <Badge variant="info">{game.paymentStatus}</Badge>
-                      ) : (
-                        <span className="text-xs text-slate-400">—</span>
-                      )}
-                    </td>
                     <td className="px-4 py-3.5">
-                      <Button asChild size="sm" variant="ghost">
-                        <Link href={`/games/${game.id}`}>View</Link>
-                      </Button>
+                      <div className="flex items-center gap-1">
+                        <Button asChild size="sm" variant="ghost">
+                          <Link href={`/games/${game.id}`}>View</Link>
+                        </Button>
+                        <DeleteGameButton gameId={game.id} gameStatus={game.status} />
+                      </div>
                     </td>
                   </tr>
                 ))}

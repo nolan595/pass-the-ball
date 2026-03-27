@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
-import { Sidebar } from "@/components/layout/Sidebar";
 import { Toaster } from "@/components/ui/Toaster";
 
 const outfit = Outfit({
@@ -11,8 +10,8 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "PassTheBall · Admin",
-  description: "PassTheBall game simulation dashboard",
+  title: "PassTheBall",
+  description: "PassTheBall prediction game",
 };
 
 export default function RootLayout({
@@ -22,11 +21,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={outfit.variable}>
-      <body className="antialiased min-h-screen bg-slate-100 font-[family-name:var(--font-outfit)]">
-        <Sidebar />
-        <main className="md:ml-56 min-h-screen p-4 pt-[72px] md:p-8 max-w-[1600px]">
-          {children}
-        </main>
+      <body className="antialiased font-[family-name:var(--font-outfit)]">
+        {children}
         <Toaster />
       </body>
     </html>

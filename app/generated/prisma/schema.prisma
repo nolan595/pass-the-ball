@@ -65,7 +65,40 @@ model Game {
   multiplier    Float         @default(1.0)
   s3Status      String?
   paymentStatus String?
+  sgaUuid       String?
+  sgaPrice      Float?
+  sgaStatus     String?
   createdAt     DateTime      @default(now())
 
+  picks Pick[]
+
   @@map("games")
+}
+
+model Player {
+  id          Int      @id @default(autoincrement())
+  slug        String   @unique
+  displayName String
+  createdAt   DateTime @default(now())
+
+  picks Pick[]
+
+  @@map("players")
+}
+
+model Pick {
+  id         Int      @id @default(autoincrement())
+  gameId     Int
+  game       Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  playerId   Int
+  player     Player   @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  marketId   Int
+  oddUuid    String
+  oddName    String
+  marketName String
+  oddPrice   Float
+  createdAt  DateTime @default(now())
+
+  @@unique([gameId, playerId])
+  @@map("picks")
 }

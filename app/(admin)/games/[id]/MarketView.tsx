@@ -62,7 +62,7 @@ function OddButton({ odd, showResult }: { odd: OfferOutcome | null; showResult: 
 // ── 1×2 ───────────────────────────────────────────────────────────────────────
 function OneXTwo({ odds, showResults }: { odds: OfferOutcome[]; showResults: boolean }) {
   const home = odds.find((o) => o.code === "1") ?? null;
-  const draw = odds.find((o) => o.code === "X") ?? null;
+  const draw = odds.find((o) => o.code === "X" || o.name === "X") ?? null;
   const away = odds.find((o) => o.code === "2") ?? null;
 
   return (

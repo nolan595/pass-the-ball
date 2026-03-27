@@ -28,6 +28,16 @@ export type ExternalEvent = $Result.DefaultSelection<Prisma.$ExternalEventPayloa
  * 
  */
 export type Game = $Result.DefaultSelection<Prisma.$GamePayload>
+/**
+ * Model Player
+ * 
+ */
+export type Player = $Result.DefaultSelection<Prisma.$PlayerPayload>
+/**
+ * Model Pick
+ * 
+ */
+export type Pick = $Result.DefaultSelection<Prisma.$PickPayload>
 
 /**
  * Enums
@@ -226,6 +236,26 @@ export class PrismaClient<
     * ```
     */
   get game(): Prisma.GameDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.player`: Exposes CRUD operations for the **Player** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Players
+    * const players = await prisma.player.findMany()
+    * ```
+    */
+  get player(): Prisma.PlayerDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.pick`: Exposes CRUD operations for the **Pick** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Picks
+    * const picks = await prisma.pick.findMany()
+    * ```
+    */
+  get pick(): Prisma.PickDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -662,7 +692,9 @@ export namespace Prisma {
   export const ModelName: {
     Market: 'Market',
     ExternalEvent: 'ExternalEvent',
-    Game: 'Game'
+    Game: 'Game',
+    Player: 'Player',
+    Pick: 'Pick'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -678,7 +710,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "market" | "externalEvent" | "game"
+      modelProps: "market" | "externalEvent" | "game" | "player" | "pick"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -904,6 +936,154 @@ export namespace Prisma {
           }
         }
       }
+      Player: {
+        payload: Prisma.$PlayerPayload<ExtArgs>
+        fields: Prisma.PlayerFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PlayerFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlayerPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PlayerFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlayerPayload>
+          }
+          findFirst: {
+            args: Prisma.PlayerFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlayerPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PlayerFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlayerPayload>
+          }
+          findMany: {
+            args: Prisma.PlayerFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlayerPayload>[]
+          }
+          create: {
+            args: Prisma.PlayerCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlayerPayload>
+          }
+          createMany: {
+            args: Prisma.PlayerCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PlayerCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlayerPayload>[]
+          }
+          delete: {
+            args: Prisma.PlayerDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlayerPayload>
+          }
+          update: {
+            args: Prisma.PlayerUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlayerPayload>
+          }
+          deleteMany: {
+            args: Prisma.PlayerDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PlayerUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PlayerUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlayerPayload>[]
+          }
+          upsert: {
+            args: Prisma.PlayerUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PlayerPayload>
+          }
+          aggregate: {
+            args: Prisma.PlayerAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePlayer>
+          }
+          groupBy: {
+            args: Prisma.PlayerGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PlayerGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PlayerCountArgs<ExtArgs>
+            result: $Utils.Optional<PlayerCountAggregateOutputType> | number
+          }
+        }
+      }
+      Pick: {
+        payload: Prisma.$PickPayload<ExtArgs>
+        fields: Prisma.PickFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PickFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PickPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PickFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PickPayload>
+          }
+          findFirst: {
+            args: Prisma.PickFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PickPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PickFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PickPayload>
+          }
+          findMany: {
+            args: Prisma.PickFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PickPayload>[]
+          }
+          create: {
+            args: Prisma.PickCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PickPayload>
+          }
+          createMany: {
+            args: Prisma.PickCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PickCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PickPayload>[]
+          }
+          delete: {
+            args: Prisma.PickDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PickPayload>
+          }
+          update: {
+            args: Prisma.PickUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PickPayload>
+          }
+          deleteMany: {
+            args: Prisma.PickDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PickUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PickUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PickPayload>[]
+          }
+          upsert: {
+            args: Prisma.PickUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PickPayload>
+          }
+          aggregate: {
+            args: Prisma.PickAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePick>
+          }
+          groupBy: {
+            args: Prisma.PickGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PickGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PickCountArgs<ExtArgs>
+            result: $Utils.Optional<PickCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1015,6 +1195,8 @@ export namespace Prisma {
     market?: MarketOmit
     externalEvent?: ExternalEventOmit
     game?: GameOmit
+    player?: PlayerOmit
+    pick?: PickOmit
   }
 
   /* Types for Logging */
@@ -1118,6 +1300,68 @@ export namespace Prisma {
    */
   export type ExternalEventCountOutputTypeCountGamesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: GameWhereInput
+  }
+
+
+  /**
+   * Count Type GameCountOutputType
+   */
+
+  export type GameCountOutputType = {
+    picks: number
+  }
+
+  export type GameCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    picks?: boolean | GameCountOutputTypeCountPicksArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * GameCountOutputType without action
+   */
+  export type GameCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GameCountOutputType
+     */
+    select?: GameCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * GameCountOutputType without action
+   */
+  export type GameCountOutputTypeCountPicksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PickWhereInput
+  }
+
+
+  /**
+   * Count Type PlayerCountOutputType
+   */
+
+  export type PlayerCountOutputType = {
+    picks: number
+  }
+
+  export type PlayerCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    picks?: boolean | PlayerCountOutputTypeCountPicksArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PlayerCountOutputType without action
+   */
+  export type PlayerCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PlayerCountOutputType
+     */
+    select?: PlayerCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PlayerCountOutputType without action
+   */
+  export type PlayerCountOutputTypeCountPicksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PickWhereInput
   }
 
 
@@ -3314,12 +3558,14 @@ export namespace Prisma {
     id: number | null
     eventId: number | null
     multiplier: number | null
+    sgaPrice: number | null
   }
 
   export type GameSumAggregateOutputType = {
     id: number | null
     eventId: number | null
     multiplier: number | null
+    sgaPrice: number | null
   }
 
   export type GameMinAggregateOutputType = {
@@ -3334,6 +3580,9 @@ export namespace Prisma {
     multiplier: number | null
     s3Status: string | null
     paymentStatus: string | null
+    sgaUuid: string | null
+    sgaPrice: number | null
+    sgaStatus: string | null
     createdAt: Date | null
   }
 
@@ -3349,6 +3598,9 @@ export namespace Prisma {
     multiplier: number | null
     s3Status: string | null
     paymentStatus: string | null
+    sgaUuid: string | null
+    sgaPrice: number | null
+    sgaStatus: string | null
     createdAt: Date | null
   }
 
@@ -3364,6 +3616,9 @@ export namespace Prisma {
     multiplier: number
     s3Status: number
     paymentStatus: number
+    sgaUuid: number
+    sgaPrice: number
+    sgaStatus: number
     createdAt: number
     _all: number
   }
@@ -3373,12 +3628,14 @@ export namespace Prisma {
     id?: true
     eventId?: true
     multiplier?: true
+    sgaPrice?: true
   }
 
   export type GameSumAggregateInputType = {
     id?: true
     eventId?: true
     multiplier?: true
+    sgaPrice?: true
   }
 
   export type GameMinAggregateInputType = {
@@ -3393,6 +3650,9 @@ export namespace Prisma {
     multiplier?: true
     s3Status?: true
     paymentStatus?: true
+    sgaUuid?: true
+    sgaPrice?: true
+    sgaStatus?: true
     createdAt?: true
   }
 
@@ -3408,6 +3668,9 @@ export namespace Prisma {
     multiplier?: true
     s3Status?: true
     paymentStatus?: true
+    sgaUuid?: true
+    sgaPrice?: true
+    sgaStatus?: true
     createdAt?: true
   }
 
@@ -3423,6 +3686,9 @@ export namespace Prisma {
     multiplier?: true
     s3Status?: true
     paymentStatus?: true
+    sgaUuid?: true
+    sgaPrice?: true
+    sgaStatus?: true
     createdAt?: true
     _all?: true
   }
@@ -3525,6 +3791,9 @@ export namespace Prisma {
     multiplier: number
     s3Status: string | null
     paymentStatus: string | null
+    sgaUuid: string | null
+    sgaPrice: number | null
+    sgaStatus: string | null
     createdAt: Date
     _count: GameCountAggregateOutputType | null
     _avg: GameAvgAggregateOutputType | null
@@ -3559,8 +3828,13 @@ export namespace Prisma {
     multiplier?: boolean
     s3Status?: boolean
     paymentStatus?: boolean
+    sgaUuid?: boolean
+    sgaPrice?: boolean
+    sgaStatus?: boolean
     createdAt?: boolean
     event?: boolean | ExternalEventDefaultArgs<ExtArgs>
+    picks?: boolean | Game$picksArgs<ExtArgs>
+    _count?: boolean | GameCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["game"]>
 
   export type GameSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3575,6 +3849,9 @@ export namespace Prisma {
     multiplier?: boolean
     s3Status?: boolean
     paymentStatus?: boolean
+    sgaUuid?: boolean
+    sgaPrice?: boolean
+    sgaStatus?: boolean
     createdAt?: boolean
     event?: boolean | ExternalEventDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["game"]>
@@ -3591,6 +3868,9 @@ export namespace Prisma {
     multiplier?: boolean
     s3Status?: boolean
     paymentStatus?: boolean
+    sgaUuid?: boolean
+    sgaPrice?: boolean
+    sgaStatus?: boolean
     createdAt?: boolean
     event?: boolean | ExternalEventDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["game"]>
@@ -3607,12 +3887,17 @@ export namespace Prisma {
     multiplier?: boolean
     s3Status?: boolean
     paymentStatus?: boolean
+    sgaUuid?: boolean
+    sgaPrice?: boolean
+    sgaStatus?: boolean
     createdAt?: boolean
   }
 
-  export type GameOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "eventId" | "status" | "openTime" | "closeTime" | "prizeType" | "bonusId" | "multiplier" | "s3Status" | "paymentStatus" | "createdAt", ExtArgs["result"]["game"]>
+  export type GameOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "eventId" | "status" | "openTime" | "closeTime" | "prizeType" | "bonusId" | "multiplier" | "s3Status" | "paymentStatus" | "sgaUuid" | "sgaPrice" | "sgaStatus" | "createdAt", ExtArgs["result"]["game"]>
   export type GameInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     event?: boolean | ExternalEventDefaultArgs<ExtArgs>
+    picks?: boolean | Game$picksArgs<ExtArgs>
+    _count?: boolean | GameCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type GameIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     event?: boolean | ExternalEventDefaultArgs<ExtArgs>
@@ -3625,6 +3910,7 @@ export namespace Prisma {
     name: "Game"
     objects: {
       event: Prisma.$ExternalEventPayload<ExtArgs>
+      picks: Prisma.$PickPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -3638,6 +3924,9 @@ export namespace Prisma {
       multiplier: number
       s3Status: string | null
       paymentStatus: string | null
+      sgaUuid: string | null
+      sgaPrice: number | null
+      sgaStatus: string | null
       createdAt: Date
     }, ExtArgs["result"]["game"]>
     composites: {}
@@ -4034,6 +4323,7 @@ export namespace Prisma {
   export interface Prisma__GameClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     event<T extends ExternalEventDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ExternalEventDefaultArgs<ExtArgs>>): Prisma__ExternalEventClient<$Result.GetResult<Prisma.$ExternalEventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    picks<T extends Game$picksArgs<ExtArgs> = {}>(args?: Subset<T, Game$picksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PickPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4074,6 +4364,9 @@ export namespace Prisma {
     readonly multiplier: FieldRef<"Game", 'Float'>
     readonly s3Status: FieldRef<"Game", 'String'>
     readonly paymentStatus: FieldRef<"Game", 'String'>
+    readonly sgaUuid: FieldRef<"Game", 'String'>
+    readonly sgaPrice: FieldRef<"Game", 'Float'>
+    readonly sgaStatus: FieldRef<"Game", 'String'>
     readonly createdAt: FieldRef<"Game", 'DateTime'>
   }
     
@@ -4476,6 +4769,30 @@ export namespace Prisma {
   }
 
   /**
+   * Game.picks
+   */
+  export type Game$picksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pick
+     */
+    select?: PickSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pick
+     */
+    omit?: PickOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PickInclude<ExtArgs> | null
+    where?: PickWhereInput
+    orderBy?: PickOrderByWithRelationInput | PickOrderByWithRelationInput[]
+    cursor?: PickWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PickScalarFieldEnum | PickScalarFieldEnum[]
+  }
+
+  /**
    * Game without action
    */
   export type GameDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4491,6 +4808,2275 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: GameInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Player
+   */
+
+  export type AggregatePlayer = {
+    _count: PlayerCountAggregateOutputType | null
+    _avg: PlayerAvgAggregateOutputType | null
+    _sum: PlayerSumAggregateOutputType | null
+    _min: PlayerMinAggregateOutputType | null
+    _max: PlayerMaxAggregateOutputType | null
+  }
+
+  export type PlayerAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type PlayerSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type PlayerMinAggregateOutputType = {
+    id: number | null
+    slug: string | null
+    displayName: string | null
+    createdAt: Date | null
+  }
+
+  export type PlayerMaxAggregateOutputType = {
+    id: number | null
+    slug: string | null
+    displayName: string | null
+    createdAt: Date | null
+  }
+
+  export type PlayerCountAggregateOutputType = {
+    id: number
+    slug: number
+    displayName: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type PlayerAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type PlayerSumAggregateInputType = {
+    id?: true
+  }
+
+  export type PlayerMinAggregateInputType = {
+    id?: true
+    slug?: true
+    displayName?: true
+    createdAt?: true
+  }
+
+  export type PlayerMaxAggregateInputType = {
+    id?: true
+    slug?: true
+    displayName?: true
+    createdAt?: true
+  }
+
+  export type PlayerCountAggregateInputType = {
+    id?: true
+    slug?: true
+    displayName?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type PlayerAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Player to aggregate.
+     */
+    where?: PlayerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Players to fetch.
+     */
+    orderBy?: PlayerOrderByWithRelationInput | PlayerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PlayerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Players from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Players.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Players
+    **/
+    _count?: true | PlayerCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PlayerAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PlayerSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PlayerMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PlayerMaxAggregateInputType
+  }
+
+  export type GetPlayerAggregateType<T extends PlayerAggregateArgs> = {
+        [P in keyof T & keyof AggregatePlayer]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePlayer[P]>
+      : GetScalarType<T[P], AggregatePlayer[P]>
+  }
+
+
+
+
+  export type PlayerGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PlayerWhereInput
+    orderBy?: PlayerOrderByWithAggregationInput | PlayerOrderByWithAggregationInput[]
+    by: PlayerScalarFieldEnum[] | PlayerScalarFieldEnum
+    having?: PlayerScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PlayerCountAggregateInputType | true
+    _avg?: PlayerAvgAggregateInputType
+    _sum?: PlayerSumAggregateInputType
+    _min?: PlayerMinAggregateInputType
+    _max?: PlayerMaxAggregateInputType
+  }
+
+  export type PlayerGroupByOutputType = {
+    id: number
+    slug: string
+    displayName: string
+    createdAt: Date
+    _count: PlayerCountAggregateOutputType | null
+    _avg: PlayerAvgAggregateOutputType | null
+    _sum: PlayerSumAggregateOutputType | null
+    _min: PlayerMinAggregateOutputType | null
+    _max: PlayerMaxAggregateOutputType | null
+  }
+
+  type GetPlayerGroupByPayload<T extends PlayerGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PlayerGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PlayerGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PlayerGroupByOutputType[P]>
+            : GetScalarType<T[P], PlayerGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PlayerSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    slug?: boolean
+    displayName?: boolean
+    createdAt?: boolean
+    picks?: boolean | Player$picksArgs<ExtArgs>
+    _count?: boolean | PlayerCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["player"]>
+
+  export type PlayerSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    slug?: boolean
+    displayName?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["player"]>
+
+  export type PlayerSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    slug?: boolean
+    displayName?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["player"]>
+
+  export type PlayerSelectScalar = {
+    id?: boolean
+    slug?: boolean
+    displayName?: boolean
+    createdAt?: boolean
+  }
+
+  export type PlayerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "displayName" | "createdAt", ExtArgs["result"]["player"]>
+  export type PlayerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    picks?: boolean | Player$picksArgs<ExtArgs>
+    _count?: boolean | PlayerCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type PlayerIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type PlayerIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $PlayerPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Player"
+    objects: {
+      picks: Prisma.$PickPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      slug: string
+      displayName: string
+      createdAt: Date
+    }, ExtArgs["result"]["player"]>
+    composites: {}
+  }
+
+  type PlayerGetPayload<S extends boolean | null | undefined | PlayerDefaultArgs> = $Result.GetResult<Prisma.$PlayerPayload, S>
+
+  type PlayerCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PlayerFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PlayerCountAggregateInputType | true
+    }
+
+  export interface PlayerDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Player'], meta: { name: 'Player' } }
+    /**
+     * Find zero or one Player that matches the filter.
+     * @param {PlayerFindUniqueArgs} args - Arguments to find a Player
+     * @example
+     * // Get one Player
+     * const player = await prisma.player.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PlayerFindUniqueArgs>(args: SelectSubset<T, PlayerFindUniqueArgs<ExtArgs>>): Prisma__PlayerClient<$Result.GetResult<Prisma.$PlayerPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Player that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PlayerFindUniqueOrThrowArgs} args - Arguments to find a Player
+     * @example
+     * // Get one Player
+     * const player = await prisma.player.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PlayerFindUniqueOrThrowArgs>(args: SelectSubset<T, PlayerFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PlayerClient<$Result.GetResult<Prisma.$PlayerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Player that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlayerFindFirstArgs} args - Arguments to find a Player
+     * @example
+     * // Get one Player
+     * const player = await prisma.player.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PlayerFindFirstArgs>(args?: SelectSubset<T, PlayerFindFirstArgs<ExtArgs>>): Prisma__PlayerClient<$Result.GetResult<Prisma.$PlayerPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Player that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlayerFindFirstOrThrowArgs} args - Arguments to find a Player
+     * @example
+     * // Get one Player
+     * const player = await prisma.player.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PlayerFindFirstOrThrowArgs>(args?: SelectSubset<T, PlayerFindFirstOrThrowArgs<ExtArgs>>): Prisma__PlayerClient<$Result.GetResult<Prisma.$PlayerPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Players that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlayerFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Players
+     * const players = await prisma.player.findMany()
+     * 
+     * // Get first 10 Players
+     * const players = await prisma.player.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const playerWithIdOnly = await prisma.player.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PlayerFindManyArgs>(args?: SelectSubset<T, PlayerFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlayerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Player.
+     * @param {PlayerCreateArgs} args - Arguments to create a Player.
+     * @example
+     * // Create one Player
+     * const Player = await prisma.player.create({
+     *   data: {
+     *     // ... data to create a Player
+     *   }
+     * })
+     * 
+     */
+    create<T extends PlayerCreateArgs>(args: SelectSubset<T, PlayerCreateArgs<ExtArgs>>): Prisma__PlayerClient<$Result.GetResult<Prisma.$PlayerPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Players.
+     * @param {PlayerCreateManyArgs} args - Arguments to create many Players.
+     * @example
+     * // Create many Players
+     * const player = await prisma.player.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PlayerCreateManyArgs>(args?: SelectSubset<T, PlayerCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Players and returns the data saved in the database.
+     * @param {PlayerCreateManyAndReturnArgs} args - Arguments to create many Players.
+     * @example
+     * // Create many Players
+     * const player = await prisma.player.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Players and only return the `id`
+     * const playerWithIdOnly = await prisma.player.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PlayerCreateManyAndReturnArgs>(args?: SelectSubset<T, PlayerCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlayerPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Player.
+     * @param {PlayerDeleteArgs} args - Arguments to delete one Player.
+     * @example
+     * // Delete one Player
+     * const Player = await prisma.player.delete({
+     *   where: {
+     *     // ... filter to delete one Player
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PlayerDeleteArgs>(args: SelectSubset<T, PlayerDeleteArgs<ExtArgs>>): Prisma__PlayerClient<$Result.GetResult<Prisma.$PlayerPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Player.
+     * @param {PlayerUpdateArgs} args - Arguments to update one Player.
+     * @example
+     * // Update one Player
+     * const player = await prisma.player.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PlayerUpdateArgs>(args: SelectSubset<T, PlayerUpdateArgs<ExtArgs>>): Prisma__PlayerClient<$Result.GetResult<Prisma.$PlayerPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Players.
+     * @param {PlayerDeleteManyArgs} args - Arguments to filter Players to delete.
+     * @example
+     * // Delete a few Players
+     * const { count } = await prisma.player.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PlayerDeleteManyArgs>(args?: SelectSubset<T, PlayerDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Players.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlayerUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Players
+     * const player = await prisma.player.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PlayerUpdateManyArgs>(args: SelectSubset<T, PlayerUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Players and returns the data updated in the database.
+     * @param {PlayerUpdateManyAndReturnArgs} args - Arguments to update many Players.
+     * @example
+     * // Update many Players
+     * const player = await prisma.player.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Players and only return the `id`
+     * const playerWithIdOnly = await prisma.player.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PlayerUpdateManyAndReturnArgs>(args: SelectSubset<T, PlayerUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlayerPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Player.
+     * @param {PlayerUpsertArgs} args - Arguments to update or create a Player.
+     * @example
+     * // Update or create a Player
+     * const player = await prisma.player.upsert({
+     *   create: {
+     *     // ... data to create a Player
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Player we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PlayerUpsertArgs>(args: SelectSubset<T, PlayerUpsertArgs<ExtArgs>>): Prisma__PlayerClient<$Result.GetResult<Prisma.$PlayerPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Players.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlayerCountArgs} args - Arguments to filter Players to count.
+     * @example
+     * // Count the number of Players
+     * const count = await prisma.player.count({
+     *   where: {
+     *     // ... the filter for the Players we want to count
+     *   }
+     * })
+    **/
+    count<T extends PlayerCountArgs>(
+      args?: Subset<T, PlayerCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PlayerCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Player.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlayerAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PlayerAggregateArgs>(args: Subset<T, PlayerAggregateArgs>): Prisma.PrismaPromise<GetPlayerAggregateType<T>>
+
+    /**
+     * Group by Player.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PlayerGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PlayerGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PlayerGroupByArgs['orderBy'] }
+        : { orderBy?: PlayerGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PlayerGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPlayerGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Player model
+   */
+  readonly fields: PlayerFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Player.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PlayerClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    picks<T extends Player$picksArgs<ExtArgs> = {}>(args?: Subset<T, Player$picksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PickPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Player model
+   */
+  interface PlayerFieldRefs {
+    readonly id: FieldRef<"Player", 'Int'>
+    readonly slug: FieldRef<"Player", 'String'>
+    readonly displayName: FieldRef<"Player", 'String'>
+    readonly createdAt: FieldRef<"Player", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Player findUnique
+   */
+  export type PlayerFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Player
+     */
+    select?: PlayerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Player
+     */
+    omit?: PlayerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerInclude<ExtArgs> | null
+    /**
+     * Filter, which Player to fetch.
+     */
+    where: PlayerWhereUniqueInput
+  }
+
+  /**
+   * Player findUniqueOrThrow
+   */
+  export type PlayerFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Player
+     */
+    select?: PlayerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Player
+     */
+    omit?: PlayerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerInclude<ExtArgs> | null
+    /**
+     * Filter, which Player to fetch.
+     */
+    where: PlayerWhereUniqueInput
+  }
+
+  /**
+   * Player findFirst
+   */
+  export type PlayerFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Player
+     */
+    select?: PlayerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Player
+     */
+    omit?: PlayerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerInclude<ExtArgs> | null
+    /**
+     * Filter, which Player to fetch.
+     */
+    where?: PlayerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Players to fetch.
+     */
+    orderBy?: PlayerOrderByWithRelationInput | PlayerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Players.
+     */
+    cursor?: PlayerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Players from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Players.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Players.
+     */
+    distinct?: PlayerScalarFieldEnum | PlayerScalarFieldEnum[]
+  }
+
+  /**
+   * Player findFirstOrThrow
+   */
+  export type PlayerFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Player
+     */
+    select?: PlayerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Player
+     */
+    omit?: PlayerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerInclude<ExtArgs> | null
+    /**
+     * Filter, which Player to fetch.
+     */
+    where?: PlayerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Players to fetch.
+     */
+    orderBy?: PlayerOrderByWithRelationInput | PlayerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Players.
+     */
+    cursor?: PlayerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Players from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Players.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Players.
+     */
+    distinct?: PlayerScalarFieldEnum | PlayerScalarFieldEnum[]
+  }
+
+  /**
+   * Player findMany
+   */
+  export type PlayerFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Player
+     */
+    select?: PlayerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Player
+     */
+    omit?: PlayerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerInclude<ExtArgs> | null
+    /**
+     * Filter, which Players to fetch.
+     */
+    where?: PlayerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Players to fetch.
+     */
+    orderBy?: PlayerOrderByWithRelationInput | PlayerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Players.
+     */
+    cursor?: PlayerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Players from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Players.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Players.
+     */
+    distinct?: PlayerScalarFieldEnum | PlayerScalarFieldEnum[]
+  }
+
+  /**
+   * Player create
+   */
+  export type PlayerCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Player
+     */
+    select?: PlayerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Player
+     */
+    omit?: PlayerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Player.
+     */
+    data: XOR<PlayerCreateInput, PlayerUncheckedCreateInput>
+  }
+
+  /**
+   * Player createMany
+   */
+  export type PlayerCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Players.
+     */
+    data: PlayerCreateManyInput | PlayerCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Player createManyAndReturn
+   */
+  export type PlayerCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Player
+     */
+    select?: PlayerSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Player
+     */
+    omit?: PlayerOmit<ExtArgs> | null
+    /**
+     * The data used to create many Players.
+     */
+    data: PlayerCreateManyInput | PlayerCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Player update
+   */
+  export type PlayerUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Player
+     */
+    select?: PlayerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Player
+     */
+    omit?: PlayerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Player.
+     */
+    data: XOR<PlayerUpdateInput, PlayerUncheckedUpdateInput>
+    /**
+     * Choose, which Player to update.
+     */
+    where: PlayerWhereUniqueInput
+  }
+
+  /**
+   * Player updateMany
+   */
+  export type PlayerUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Players.
+     */
+    data: XOR<PlayerUpdateManyMutationInput, PlayerUncheckedUpdateManyInput>
+    /**
+     * Filter which Players to update
+     */
+    where?: PlayerWhereInput
+    /**
+     * Limit how many Players to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Player updateManyAndReturn
+   */
+  export type PlayerUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Player
+     */
+    select?: PlayerSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Player
+     */
+    omit?: PlayerOmit<ExtArgs> | null
+    /**
+     * The data used to update Players.
+     */
+    data: XOR<PlayerUpdateManyMutationInput, PlayerUncheckedUpdateManyInput>
+    /**
+     * Filter which Players to update
+     */
+    where?: PlayerWhereInput
+    /**
+     * Limit how many Players to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Player upsert
+   */
+  export type PlayerUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Player
+     */
+    select?: PlayerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Player
+     */
+    omit?: PlayerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Player to update in case it exists.
+     */
+    where: PlayerWhereUniqueInput
+    /**
+     * In case the Player found by the `where` argument doesn't exist, create a new Player with this data.
+     */
+    create: XOR<PlayerCreateInput, PlayerUncheckedCreateInput>
+    /**
+     * In case the Player was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PlayerUpdateInput, PlayerUncheckedUpdateInput>
+  }
+
+  /**
+   * Player delete
+   */
+  export type PlayerDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Player
+     */
+    select?: PlayerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Player
+     */
+    omit?: PlayerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerInclude<ExtArgs> | null
+    /**
+     * Filter which Player to delete.
+     */
+    where: PlayerWhereUniqueInput
+  }
+
+  /**
+   * Player deleteMany
+   */
+  export type PlayerDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Players to delete
+     */
+    where?: PlayerWhereInput
+    /**
+     * Limit how many Players to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Player.picks
+   */
+  export type Player$picksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pick
+     */
+    select?: PickSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pick
+     */
+    omit?: PickOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PickInclude<ExtArgs> | null
+    where?: PickWhereInput
+    orderBy?: PickOrderByWithRelationInput | PickOrderByWithRelationInput[]
+    cursor?: PickWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PickScalarFieldEnum | PickScalarFieldEnum[]
+  }
+
+  /**
+   * Player without action
+   */
+  export type PlayerDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Player
+     */
+    select?: PlayerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Player
+     */
+    omit?: PlayerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PlayerInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Pick
+   */
+
+  export type AggregatePick = {
+    _count: PickCountAggregateOutputType | null
+    _avg: PickAvgAggregateOutputType | null
+    _sum: PickSumAggregateOutputType | null
+    _min: PickMinAggregateOutputType | null
+    _max: PickMaxAggregateOutputType | null
+  }
+
+  export type PickAvgAggregateOutputType = {
+    id: number | null
+    gameId: number | null
+    playerId: number | null
+    marketId: number | null
+    oddPrice: number | null
+  }
+
+  export type PickSumAggregateOutputType = {
+    id: number | null
+    gameId: number | null
+    playerId: number | null
+    marketId: number | null
+    oddPrice: number | null
+  }
+
+  export type PickMinAggregateOutputType = {
+    id: number | null
+    gameId: number | null
+    playerId: number | null
+    marketId: number | null
+    oddUuid: string | null
+    oddName: string | null
+    marketName: string | null
+    oddPrice: number | null
+    createdAt: Date | null
+  }
+
+  export type PickMaxAggregateOutputType = {
+    id: number | null
+    gameId: number | null
+    playerId: number | null
+    marketId: number | null
+    oddUuid: string | null
+    oddName: string | null
+    marketName: string | null
+    oddPrice: number | null
+    createdAt: Date | null
+  }
+
+  export type PickCountAggregateOutputType = {
+    id: number
+    gameId: number
+    playerId: number
+    marketId: number
+    oddUuid: number
+    oddName: number
+    marketName: number
+    oddPrice: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type PickAvgAggregateInputType = {
+    id?: true
+    gameId?: true
+    playerId?: true
+    marketId?: true
+    oddPrice?: true
+  }
+
+  export type PickSumAggregateInputType = {
+    id?: true
+    gameId?: true
+    playerId?: true
+    marketId?: true
+    oddPrice?: true
+  }
+
+  export type PickMinAggregateInputType = {
+    id?: true
+    gameId?: true
+    playerId?: true
+    marketId?: true
+    oddUuid?: true
+    oddName?: true
+    marketName?: true
+    oddPrice?: true
+    createdAt?: true
+  }
+
+  export type PickMaxAggregateInputType = {
+    id?: true
+    gameId?: true
+    playerId?: true
+    marketId?: true
+    oddUuid?: true
+    oddName?: true
+    marketName?: true
+    oddPrice?: true
+    createdAt?: true
+  }
+
+  export type PickCountAggregateInputType = {
+    id?: true
+    gameId?: true
+    playerId?: true
+    marketId?: true
+    oddUuid?: true
+    oddName?: true
+    marketName?: true
+    oddPrice?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type PickAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Pick to aggregate.
+     */
+    where?: PickWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Picks to fetch.
+     */
+    orderBy?: PickOrderByWithRelationInput | PickOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PickWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Picks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Picks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Picks
+    **/
+    _count?: true | PickCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PickAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PickSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PickMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PickMaxAggregateInputType
+  }
+
+  export type GetPickAggregateType<T extends PickAggregateArgs> = {
+        [P in keyof T & keyof AggregatePick]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePick[P]>
+      : GetScalarType<T[P], AggregatePick[P]>
+  }
+
+
+
+
+  export type PickGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PickWhereInput
+    orderBy?: PickOrderByWithAggregationInput | PickOrderByWithAggregationInput[]
+    by: PickScalarFieldEnum[] | PickScalarFieldEnum
+    having?: PickScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PickCountAggregateInputType | true
+    _avg?: PickAvgAggregateInputType
+    _sum?: PickSumAggregateInputType
+    _min?: PickMinAggregateInputType
+    _max?: PickMaxAggregateInputType
+  }
+
+  export type PickGroupByOutputType = {
+    id: number
+    gameId: number
+    playerId: number
+    marketId: number
+    oddUuid: string
+    oddName: string
+    marketName: string
+    oddPrice: number
+    createdAt: Date
+    _count: PickCountAggregateOutputType | null
+    _avg: PickAvgAggregateOutputType | null
+    _sum: PickSumAggregateOutputType | null
+    _min: PickMinAggregateOutputType | null
+    _max: PickMaxAggregateOutputType | null
+  }
+
+  type GetPickGroupByPayload<T extends PickGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PickGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PickGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PickGroupByOutputType[P]>
+            : GetScalarType<T[P], PickGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PickSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    gameId?: boolean
+    playerId?: boolean
+    marketId?: boolean
+    oddUuid?: boolean
+    oddName?: boolean
+    marketName?: boolean
+    oddPrice?: boolean
+    createdAt?: boolean
+    game?: boolean | GameDefaultArgs<ExtArgs>
+    player?: boolean | PlayerDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["pick"]>
+
+  export type PickSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    gameId?: boolean
+    playerId?: boolean
+    marketId?: boolean
+    oddUuid?: boolean
+    oddName?: boolean
+    marketName?: boolean
+    oddPrice?: boolean
+    createdAt?: boolean
+    game?: boolean | GameDefaultArgs<ExtArgs>
+    player?: boolean | PlayerDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["pick"]>
+
+  export type PickSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    gameId?: boolean
+    playerId?: boolean
+    marketId?: boolean
+    oddUuid?: boolean
+    oddName?: boolean
+    marketName?: boolean
+    oddPrice?: boolean
+    createdAt?: boolean
+    game?: boolean | GameDefaultArgs<ExtArgs>
+    player?: boolean | PlayerDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["pick"]>
+
+  export type PickSelectScalar = {
+    id?: boolean
+    gameId?: boolean
+    playerId?: boolean
+    marketId?: boolean
+    oddUuid?: boolean
+    oddName?: boolean
+    marketName?: boolean
+    oddPrice?: boolean
+    createdAt?: boolean
+  }
+
+  export type PickOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "gameId" | "playerId" | "marketId" | "oddUuid" | "oddName" | "marketName" | "oddPrice" | "createdAt", ExtArgs["result"]["pick"]>
+  export type PickInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    game?: boolean | GameDefaultArgs<ExtArgs>
+    player?: boolean | PlayerDefaultArgs<ExtArgs>
+  }
+  export type PickIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    game?: boolean | GameDefaultArgs<ExtArgs>
+    player?: boolean | PlayerDefaultArgs<ExtArgs>
+  }
+  export type PickIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    game?: boolean | GameDefaultArgs<ExtArgs>
+    player?: boolean | PlayerDefaultArgs<ExtArgs>
+  }
+
+  export type $PickPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Pick"
+    objects: {
+      game: Prisma.$GamePayload<ExtArgs>
+      player: Prisma.$PlayerPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      gameId: number
+      playerId: number
+      marketId: number
+      oddUuid: string
+      oddName: string
+      marketName: string
+      oddPrice: number
+      createdAt: Date
+    }, ExtArgs["result"]["pick"]>
+    composites: {}
+  }
+
+  type PickGetPayload<S extends boolean | null | undefined | PickDefaultArgs> = $Result.GetResult<Prisma.$PickPayload, S>
+
+  type PickCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PickFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PickCountAggregateInputType | true
+    }
+
+  export interface PickDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Pick'], meta: { name: 'Pick' } }
+    /**
+     * Find zero or one Pick that matches the filter.
+     * @param {PickFindUniqueArgs} args - Arguments to find a Pick
+     * @example
+     * // Get one Pick
+     * const pick = await prisma.pick.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PickFindUniqueArgs>(args: SelectSubset<T, PickFindUniqueArgs<ExtArgs>>): Prisma__PickClient<$Result.GetResult<Prisma.$PickPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Pick that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PickFindUniqueOrThrowArgs} args - Arguments to find a Pick
+     * @example
+     * // Get one Pick
+     * const pick = await prisma.pick.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PickFindUniqueOrThrowArgs>(args: SelectSubset<T, PickFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PickClient<$Result.GetResult<Prisma.$PickPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Pick that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PickFindFirstArgs} args - Arguments to find a Pick
+     * @example
+     * // Get one Pick
+     * const pick = await prisma.pick.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PickFindFirstArgs>(args?: SelectSubset<T, PickFindFirstArgs<ExtArgs>>): Prisma__PickClient<$Result.GetResult<Prisma.$PickPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Pick that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PickFindFirstOrThrowArgs} args - Arguments to find a Pick
+     * @example
+     * // Get one Pick
+     * const pick = await prisma.pick.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PickFindFirstOrThrowArgs>(args?: SelectSubset<T, PickFindFirstOrThrowArgs<ExtArgs>>): Prisma__PickClient<$Result.GetResult<Prisma.$PickPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Picks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PickFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Picks
+     * const picks = await prisma.pick.findMany()
+     * 
+     * // Get first 10 Picks
+     * const picks = await prisma.pick.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const pickWithIdOnly = await prisma.pick.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PickFindManyArgs>(args?: SelectSubset<T, PickFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PickPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Pick.
+     * @param {PickCreateArgs} args - Arguments to create a Pick.
+     * @example
+     * // Create one Pick
+     * const Pick = await prisma.pick.create({
+     *   data: {
+     *     // ... data to create a Pick
+     *   }
+     * })
+     * 
+     */
+    create<T extends PickCreateArgs>(args: SelectSubset<T, PickCreateArgs<ExtArgs>>): Prisma__PickClient<$Result.GetResult<Prisma.$PickPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Picks.
+     * @param {PickCreateManyArgs} args - Arguments to create many Picks.
+     * @example
+     * // Create many Picks
+     * const pick = await prisma.pick.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PickCreateManyArgs>(args?: SelectSubset<T, PickCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Picks and returns the data saved in the database.
+     * @param {PickCreateManyAndReturnArgs} args - Arguments to create many Picks.
+     * @example
+     * // Create many Picks
+     * const pick = await prisma.pick.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Picks and only return the `id`
+     * const pickWithIdOnly = await prisma.pick.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PickCreateManyAndReturnArgs>(args?: SelectSubset<T, PickCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PickPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Pick.
+     * @param {PickDeleteArgs} args - Arguments to delete one Pick.
+     * @example
+     * // Delete one Pick
+     * const Pick = await prisma.pick.delete({
+     *   where: {
+     *     // ... filter to delete one Pick
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PickDeleteArgs>(args: SelectSubset<T, PickDeleteArgs<ExtArgs>>): Prisma__PickClient<$Result.GetResult<Prisma.$PickPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Pick.
+     * @param {PickUpdateArgs} args - Arguments to update one Pick.
+     * @example
+     * // Update one Pick
+     * const pick = await prisma.pick.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PickUpdateArgs>(args: SelectSubset<T, PickUpdateArgs<ExtArgs>>): Prisma__PickClient<$Result.GetResult<Prisma.$PickPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Picks.
+     * @param {PickDeleteManyArgs} args - Arguments to filter Picks to delete.
+     * @example
+     * // Delete a few Picks
+     * const { count } = await prisma.pick.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PickDeleteManyArgs>(args?: SelectSubset<T, PickDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Picks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PickUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Picks
+     * const pick = await prisma.pick.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PickUpdateManyArgs>(args: SelectSubset<T, PickUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Picks and returns the data updated in the database.
+     * @param {PickUpdateManyAndReturnArgs} args - Arguments to update many Picks.
+     * @example
+     * // Update many Picks
+     * const pick = await prisma.pick.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Picks and only return the `id`
+     * const pickWithIdOnly = await prisma.pick.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PickUpdateManyAndReturnArgs>(args: SelectSubset<T, PickUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PickPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Pick.
+     * @param {PickUpsertArgs} args - Arguments to update or create a Pick.
+     * @example
+     * // Update or create a Pick
+     * const pick = await prisma.pick.upsert({
+     *   create: {
+     *     // ... data to create a Pick
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Pick we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PickUpsertArgs>(args: SelectSubset<T, PickUpsertArgs<ExtArgs>>): Prisma__PickClient<$Result.GetResult<Prisma.$PickPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Picks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PickCountArgs} args - Arguments to filter Picks to count.
+     * @example
+     * // Count the number of Picks
+     * const count = await prisma.pick.count({
+     *   where: {
+     *     // ... the filter for the Picks we want to count
+     *   }
+     * })
+    **/
+    count<T extends PickCountArgs>(
+      args?: Subset<T, PickCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PickCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Pick.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PickAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PickAggregateArgs>(args: Subset<T, PickAggregateArgs>): Prisma.PrismaPromise<GetPickAggregateType<T>>
+
+    /**
+     * Group by Pick.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PickGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PickGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PickGroupByArgs['orderBy'] }
+        : { orderBy?: PickGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PickGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPickGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Pick model
+   */
+  readonly fields: PickFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Pick.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PickClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    game<T extends GameDefaultArgs<ExtArgs> = {}>(args?: Subset<T, GameDefaultArgs<ExtArgs>>): Prisma__GameClient<$Result.GetResult<Prisma.$GamePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    player<T extends PlayerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PlayerDefaultArgs<ExtArgs>>): Prisma__PlayerClient<$Result.GetResult<Prisma.$PlayerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Pick model
+   */
+  interface PickFieldRefs {
+    readonly id: FieldRef<"Pick", 'Int'>
+    readonly gameId: FieldRef<"Pick", 'Int'>
+    readonly playerId: FieldRef<"Pick", 'Int'>
+    readonly marketId: FieldRef<"Pick", 'Int'>
+    readonly oddUuid: FieldRef<"Pick", 'String'>
+    readonly oddName: FieldRef<"Pick", 'String'>
+    readonly marketName: FieldRef<"Pick", 'String'>
+    readonly oddPrice: FieldRef<"Pick", 'Float'>
+    readonly createdAt: FieldRef<"Pick", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Pick findUnique
+   */
+  export type PickFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pick
+     */
+    select?: PickSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pick
+     */
+    omit?: PickOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PickInclude<ExtArgs> | null
+    /**
+     * Filter, which Pick to fetch.
+     */
+    where: PickWhereUniqueInput
+  }
+
+  /**
+   * Pick findUniqueOrThrow
+   */
+  export type PickFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pick
+     */
+    select?: PickSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pick
+     */
+    omit?: PickOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PickInclude<ExtArgs> | null
+    /**
+     * Filter, which Pick to fetch.
+     */
+    where: PickWhereUniqueInput
+  }
+
+  /**
+   * Pick findFirst
+   */
+  export type PickFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pick
+     */
+    select?: PickSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pick
+     */
+    omit?: PickOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PickInclude<ExtArgs> | null
+    /**
+     * Filter, which Pick to fetch.
+     */
+    where?: PickWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Picks to fetch.
+     */
+    orderBy?: PickOrderByWithRelationInput | PickOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Picks.
+     */
+    cursor?: PickWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Picks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Picks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Picks.
+     */
+    distinct?: PickScalarFieldEnum | PickScalarFieldEnum[]
+  }
+
+  /**
+   * Pick findFirstOrThrow
+   */
+  export type PickFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pick
+     */
+    select?: PickSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pick
+     */
+    omit?: PickOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PickInclude<ExtArgs> | null
+    /**
+     * Filter, which Pick to fetch.
+     */
+    where?: PickWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Picks to fetch.
+     */
+    orderBy?: PickOrderByWithRelationInput | PickOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Picks.
+     */
+    cursor?: PickWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Picks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Picks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Picks.
+     */
+    distinct?: PickScalarFieldEnum | PickScalarFieldEnum[]
+  }
+
+  /**
+   * Pick findMany
+   */
+  export type PickFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pick
+     */
+    select?: PickSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pick
+     */
+    omit?: PickOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PickInclude<ExtArgs> | null
+    /**
+     * Filter, which Picks to fetch.
+     */
+    where?: PickWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Picks to fetch.
+     */
+    orderBy?: PickOrderByWithRelationInput | PickOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Picks.
+     */
+    cursor?: PickWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Picks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Picks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Picks.
+     */
+    distinct?: PickScalarFieldEnum | PickScalarFieldEnum[]
+  }
+
+  /**
+   * Pick create
+   */
+  export type PickCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pick
+     */
+    select?: PickSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pick
+     */
+    omit?: PickOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PickInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Pick.
+     */
+    data: XOR<PickCreateInput, PickUncheckedCreateInput>
+  }
+
+  /**
+   * Pick createMany
+   */
+  export type PickCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Picks.
+     */
+    data: PickCreateManyInput | PickCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Pick createManyAndReturn
+   */
+  export type PickCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pick
+     */
+    select?: PickSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pick
+     */
+    omit?: PickOmit<ExtArgs> | null
+    /**
+     * The data used to create many Picks.
+     */
+    data: PickCreateManyInput | PickCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PickIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Pick update
+   */
+  export type PickUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pick
+     */
+    select?: PickSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pick
+     */
+    omit?: PickOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PickInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Pick.
+     */
+    data: XOR<PickUpdateInput, PickUncheckedUpdateInput>
+    /**
+     * Choose, which Pick to update.
+     */
+    where: PickWhereUniqueInput
+  }
+
+  /**
+   * Pick updateMany
+   */
+  export type PickUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Picks.
+     */
+    data: XOR<PickUpdateManyMutationInput, PickUncheckedUpdateManyInput>
+    /**
+     * Filter which Picks to update
+     */
+    where?: PickWhereInput
+    /**
+     * Limit how many Picks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Pick updateManyAndReturn
+   */
+  export type PickUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pick
+     */
+    select?: PickSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pick
+     */
+    omit?: PickOmit<ExtArgs> | null
+    /**
+     * The data used to update Picks.
+     */
+    data: XOR<PickUpdateManyMutationInput, PickUncheckedUpdateManyInput>
+    /**
+     * Filter which Picks to update
+     */
+    where?: PickWhereInput
+    /**
+     * Limit how many Picks to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PickIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Pick upsert
+   */
+  export type PickUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pick
+     */
+    select?: PickSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pick
+     */
+    omit?: PickOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PickInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Pick to update in case it exists.
+     */
+    where: PickWhereUniqueInput
+    /**
+     * In case the Pick found by the `where` argument doesn't exist, create a new Pick with this data.
+     */
+    create: XOR<PickCreateInput, PickUncheckedCreateInput>
+    /**
+     * In case the Pick was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PickUpdateInput, PickUncheckedUpdateInput>
+  }
+
+  /**
+   * Pick delete
+   */
+  export type PickDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pick
+     */
+    select?: PickSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pick
+     */
+    omit?: PickOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PickInclude<ExtArgs> | null
+    /**
+     * Filter which Pick to delete.
+     */
+    where: PickWhereUniqueInput
+  }
+
+  /**
+   * Pick deleteMany
+   */
+  export type PickDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Picks to delete
+     */
+    where?: PickWhereInput
+    /**
+     * Limit how many Picks to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Pick without action
+   */
+  export type PickDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pick
+     */
+    select?: PickSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Pick
+     */
+    omit?: PickOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PickInclude<ExtArgs> | null
   }
 
 
@@ -4544,10 +7130,38 @@ export namespace Prisma {
     multiplier: 'multiplier',
     s3Status: 's3Status',
     paymentStatus: 'paymentStatus',
+    sgaUuid: 'sgaUuid',
+    sgaPrice: 'sgaPrice',
+    sgaStatus: 'sgaStatus',
     createdAt: 'createdAt'
   };
 
   export type GameScalarFieldEnum = (typeof GameScalarFieldEnum)[keyof typeof GameScalarFieldEnum]
+
+
+  export const PlayerScalarFieldEnum: {
+    id: 'id',
+    slug: 'slug',
+    displayName: 'displayName',
+    createdAt: 'createdAt'
+  };
+
+  export type PlayerScalarFieldEnum = (typeof PlayerScalarFieldEnum)[keyof typeof PlayerScalarFieldEnum]
+
+
+  export const PickScalarFieldEnum: {
+    id: 'id',
+    gameId: 'gameId',
+    playerId: 'playerId',
+    marketId: 'marketId',
+    oddUuid: 'oddUuid',
+    oddName: 'oddName',
+    marketName: 'marketName',
+    oddPrice: 'oddPrice',
+    createdAt: 'createdAt'
+  };
+
+  export type PickScalarFieldEnum = (typeof PickScalarFieldEnum)[keyof typeof PickScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -4823,8 +7437,12 @@ export namespace Prisma {
     multiplier?: FloatFilter<"Game"> | number
     s3Status?: StringNullableFilter<"Game"> | string | null
     paymentStatus?: StringNullableFilter<"Game"> | string | null
+    sgaUuid?: StringNullableFilter<"Game"> | string | null
+    sgaPrice?: FloatNullableFilter<"Game"> | number | null
+    sgaStatus?: StringNullableFilter<"Game"> | string | null
     createdAt?: DateTimeFilter<"Game"> | Date | string
     event?: XOR<ExternalEventScalarRelationFilter, ExternalEventWhereInput>
+    picks?: PickListRelationFilter
   }
 
   export type GameOrderByWithRelationInput = {
@@ -4839,8 +7457,12 @@ export namespace Prisma {
     multiplier?: SortOrder
     s3Status?: SortOrderInput | SortOrder
     paymentStatus?: SortOrderInput | SortOrder
+    sgaUuid?: SortOrderInput | SortOrder
+    sgaPrice?: SortOrderInput | SortOrder
+    sgaStatus?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     event?: ExternalEventOrderByWithRelationInput
+    picks?: PickOrderByRelationAggregateInput
   }
 
   export type GameWhereUniqueInput = Prisma.AtLeast<{
@@ -4858,8 +7480,12 @@ export namespace Prisma {
     multiplier?: FloatFilter<"Game"> | number
     s3Status?: StringNullableFilter<"Game"> | string | null
     paymentStatus?: StringNullableFilter<"Game"> | string | null
+    sgaUuid?: StringNullableFilter<"Game"> | string | null
+    sgaPrice?: FloatNullableFilter<"Game"> | number | null
+    sgaStatus?: StringNullableFilter<"Game"> | string | null
     createdAt?: DateTimeFilter<"Game"> | Date | string
     event?: XOR<ExternalEventScalarRelationFilter, ExternalEventWhereInput>
+    picks?: PickListRelationFilter
   }, "id">
 
   export type GameOrderByWithAggregationInput = {
@@ -4874,6 +7500,9 @@ export namespace Prisma {
     multiplier?: SortOrder
     s3Status?: SortOrderInput | SortOrder
     paymentStatus?: SortOrderInput | SortOrder
+    sgaUuid?: SortOrderInput | SortOrder
+    sgaPrice?: SortOrderInput | SortOrder
+    sgaStatus?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: GameCountOrderByAggregateInput
     _avg?: GameAvgOrderByAggregateInput
@@ -4897,7 +7526,143 @@ export namespace Prisma {
     multiplier?: FloatWithAggregatesFilter<"Game"> | number
     s3Status?: StringNullableWithAggregatesFilter<"Game"> | string | null
     paymentStatus?: StringNullableWithAggregatesFilter<"Game"> | string | null
+    sgaUuid?: StringNullableWithAggregatesFilter<"Game"> | string | null
+    sgaPrice?: FloatNullableWithAggregatesFilter<"Game"> | number | null
+    sgaStatus?: StringNullableWithAggregatesFilter<"Game"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Game"> | Date | string
+  }
+
+  export type PlayerWhereInput = {
+    AND?: PlayerWhereInput | PlayerWhereInput[]
+    OR?: PlayerWhereInput[]
+    NOT?: PlayerWhereInput | PlayerWhereInput[]
+    id?: IntFilter<"Player"> | number
+    slug?: StringFilter<"Player"> | string
+    displayName?: StringFilter<"Player"> | string
+    createdAt?: DateTimeFilter<"Player"> | Date | string
+    picks?: PickListRelationFilter
+  }
+
+  export type PlayerOrderByWithRelationInput = {
+    id?: SortOrder
+    slug?: SortOrder
+    displayName?: SortOrder
+    createdAt?: SortOrder
+    picks?: PickOrderByRelationAggregateInput
+  }
+
+  export type PlayerWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    slug?: string
+    AND?: PlayerWhereInput | PlayerWhereInput[]
+    OR?: PlayerWhereInput[]
+    NOT?: PlayerWhereInput | PlayerWhereInput[]
+    displayName?: StringFilter<"Player"> | string
+    createdAt?: DateTimeFilter<"Player"> | Date | string
+    picks?: PickListRelationFilter
+  }, "id" | "slug">
+
+  export type PlayerOrderByWithAggregationInput = {
+    id?: SortOrder
+    slug?: SortOrder
+    displayName?: SortOrder
+    createdAt?: SortOrder
+    _count?: PlayerCountOrderByAggregateInput
+    _avg?: PlayerAvgOrderByAggregateInput
+    _max?: PlayerMaxOrderByAggregateInput
+    _min?: PlayerMinOrderByAggregateInput
+    _sum?: PlayerSumOrderByAggregateInput
+  }
+
+  export type PlayerScalarWhereWithAggregatesInput = {
+    AND?: PlayerScalarWhereWithAggregatesInput | PlayerScalarWhereWithAggregatesInput[]
+    OR?: PlayerScalarWhereWithAggregatesInput[]
+    NOT?: PlayerScalarWhereWithAggregatesInput | PlayerScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Player"> | number
+    slug?: StringWithAggregatesFilter<"Player"> | string
+    displayName?: StringWithAggregatesFilter<"Player"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Player"> | Date | string
+  }
+
+  export type PickWhereInput = {
+    AND?: PickWhereInput | PickWhereInput[]
+    OR?: PickWhereInput[]
+    NOT?: PickWhereInput | PickWhereInput[]
+    id?: IntFilter<"Pick"> | number
+    gameId?: IntFilter<"Pick"> | number
+    playerId?: IntFilter<"Pick"> | number
+    marketId?: IntFilter<"Pick"> | number
+    oddUuid?: StringFilter<"Pick"> | string
+    oddName?: StringFilter<"Pick"> | string
+    marketName?: StringFilter<"Pick"> | string
+    oddPrice?: FloatFilter<"Pick"> | number
+    createdAt?: DateTimeFilter<"Pick"> | Date | string
+    game?: XOR<GameScalarRelationFilter, GameWhereInput>
+    player?: XOR<PlayerScalarRelationFilter, PlayerWhereInput>
+  }
+
+  export type PickOrderByWithRelationInput = {
+    id?: SortOrder
+    gameId?: SortOrder
+    playerId?: SortOrder
+    marketId?: SortOrder
+    oddUuid?: SortOrder
+    oddName?: SortOrder
+    marketName?: SortOrder
+    oddPrice?: SortOrder
+    createdAt?: SortOrder
+    game?: GameOrderByWithRelationInput
+    player?: PlayerOrderByWithRelationInput
+  }
+
+  export type PickWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    gameId_playerId?: PickGameIdPlayerIdCompoundUniqueInput
+    AND?: PickWhereInput | PickWhereInput[]
+    OR?: PickWhereInput[]
+    NOT?: PickWhereInput | PickWhereInput[]
+    gameId?: IntFilter<"Pick"> | number
+    playerId?: IntFilter<"Pick"> | number
+    marketId?: IntFilter<"Pick"> | number
+    oddUuid?: StringFilter<"Pick"> | string
+    oddName?: StringFilter<"Pick"> | string
+    marketName?: StringFilter<"Pick"> | string
+    oddPrice?: FloatFilter<"Pick"> | number
+    createdAt?: DateTimeFilter<"Pick"> | Date | string
+    game?: XOR<GameScalarRelationFilter, GameWhereInput>
+    player?: XOR<PlayerScalarRelationFilter, PlayerWhereInput>
+  }, "id" | "gameId_playerId">
+
+  export type PickOrderByWithAggregationInput = {
+    id?: SortOrder
+    gameId?: SortOrder
+    playerId?: SortOrder
+    marketId?: SortOrder
+    oddUuid?: SortOrder
+    oddName?: SortOrder
+    marketName?: SortOrder
+    oddPrice?: SortOrder
+    createdAt?: SortOrder
+    _count?: PickCountOrderByAggregateInput
+    _avg?: PickAvgOrderByAggregateInput
+    _max?: PickMaxOrderByAggregateInput
+    _min?: PickMinOrderByAggregateInput
+    _sum?: PickSumOrderByAggregateInput
+  }
+
+  export type PickScalarWhereWithAggregatesInput = {
+    AND?: PickScalarWhereWithAggregatesInput | PickScalarWhereWithAggregatesInput[]
+    OR?: PickScalarWhereWithAggregatesInput[]
+    NOT?: PickScalarWhereWithAggregatesInput | PickScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Pick"> | number
+    gameId?: IntWithAggregatesFilter<"Pick"> | number
+    playerId?: IntWithAggregatesFilter<"Pick"> | number
+    marketId?: IntWithAggregatesFilter<"Pick"> | number
+    oddUuid?: StringWithAggregatesFilter<"Pick"> | string
+    oddName?: StringWithAggregatesFilter<"Pick"> | string
+    marketName?: StringWithAggregatesFilter<"Pick"> | string
+    oddPrice?: FloatWithAggregatesFilter<"Pick"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"Pick"> | Date | string
   }
 
   export type MarketCreateInput = {
@@ -5034,8 +7799,12 @@ export namespace Prisma {
     multiplier?: number
     s3Status?: string | null
     paymentStatus?: string | null
+    sgaUuid?: string | null
+    sgaPrice?: number | null
+    sgaStatus?: string | null
     createdAt?: Date | string
     event: ExternalEventCreateNestedOneWithoutGamesInput
+    picks?: PickCreateNestedManyWithoutGameInput
   }
 
   export type GameUncheckedCreateInput = {
@@ -5050,7 +7819,11 @@ export namespace Prisma {
     multiplier?: number
     s3Status?: string | null
     paymentStatus?: string | null
+    sgaUuid?: string | null
+    sgaPrice?: number | null
+    sgaStatus?: string | null
     createdAt?: Date | string
+    picks?: PickUncheckedCreateNestedManyWithoutGameInput
   }
 
   export type GameUpdateInput = {
@@ -5063,8 +7836,12 @@ export namespace Prisma {
     multiplier?: FloatFieldUpdateOperationsInput | number
     s3Status?: NullableStringFieldUpdateOperationsInput | string | null
     paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    sgaUuid?: NullableStringFieldUpdateOperationsInput | string | null
+    sgaPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    sgaStatus?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     event?: ExternalEventUpdateOneRequiredWithoutGamesNestedInput
+    picks?: PickUpdateManyWithoutGameNestedInput
   }
 
   export type GameUncheckedUpdateInput = {
@@ -5079,7 +7856,11 @@ export namespace Prisma {
     multiplier?: FloatFieldUpdateOperationsInput | number
     s3Status?: NullableStringFieldUpdateOperationsInput | string | null
     paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    sgaUuid?: NullableStringFieldUpdateOperationsInput | string | null
+    sgaPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    sgaStatus?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    picks?: PickUncheckedUpdateManyWithoutGameNestedInput
   }
 
   export type GameCreateManyInput = {
@@ -5094,6 +7875,9 @@ export namespace Prisma {
     multiplier?: number
     s3Status?: string | null
     paymentStatus?: string | null
+    sgaUuid?: string | null
+    sgaPrice?: number | null
+    sgaStatus?: string | null
     createdAt?: Date | string
   }
 
@@ -5107,6 +7891,9 @@ export namespace Prisma {
     multiplier?: FloatFieldUpdateOperationsInput | number
     s3Status?: NullableStringFieldUpdateOperationsInput | string | null
     paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    sgaUuid?: NullableStringFieldUpdateOperationsInput | string | null
+    sgaPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    sgaStatus?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -5122,6 +7909,138 @@ export namespace Prisma {
     multiplier?: FloatFieldUpdateOperationsInput | number
     s3Status?: NullableStringFieldUpdateOperationsInput | string | null
     paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    sgaUuid?: NullableStringFieldUpdateOperationsInput | string | null
+    sgaPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    sgaStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlayerCreateInput = {
+    slug: string
+    displayName: string
+    createdAt?: Date | string
+    picks?: PickCreateNestedManyWithoutPlayerInput
+  }
+
+  export type PlayerUncheckedCreateInput = {
+    id?: number
+    slug: string
+    displayName: string
+    createdAt?: Date | string
+    picks?: PickUncheckedCreateNestedManyWithoutPlayerInput
+  }
+
+  export type PlayerUpdateInput = {
+    slug?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    picks?: PickUpdateManyWithoutPlayerNestedInput
+  }
+
+  export type PlayerUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    slug?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    picks?: PickUncheckedUpdateManyWithoutPlayerNestedInput
+  }
+
+  export type PlayerCreateManyInput = {
+    id?: number
+    slug: string
+    displayName: string
+    createdAt?: Date | string
+  }
+
+  export type PlayerUpdateManyMutationInput = {
+    slug?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlayerUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    slug?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PickCreateInput = {
+    marketId: number
+    oddUuid: string
+    oddName: string
+    marketName: string
+    oddPrice: number
+    createdAt?: Date | string
+    game: GameCreateNestedOneWithoutPicksInput
+    player: PlayerCreateNestedOneWithoutPicksInput
+  }
+
+  export type PickUncheckedCreateInput = {
+    id?: number
+    gameId: number
+    playerId: number
+    marketId: number
+    oddUuid: string
+    oddName: string
+    marketName: string
+    oddPrice: number
+    createdAt?: Date | string
+  }
+
+  export type PickUpdateInput = {
+    marketId?: IntFieldUpdateOperationsInput | number
+    oddUuid?: StringFieldUpdateOperationsInput | string
+    oddName?: StringFieldUpdateOperationsInput | string
+    marketName?: StringFieldUpdateOperationsInput | string
+    oddPrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    game?: GameUpdateOneRequiredWithoutPicksNestedInput
+    player?: PlayerUpdateOneRequiredWithoutPicksNestedInput
+  }
+
+  export type PickUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    gameId?: IntFieldUpdateOperationsInput | number
+    playerId?: IntFieldUpdateOperationsInput | number
+    marketId?: IntFieldUpdateOperationsInput | number
+    oddUuid?: StringFieldUpdateOperationsInput | string
+    oddName?: StringFieldUpdateOperationsInput | string
+    marketName?: StringFieldUpdateOperationsInput | string
+    oddPrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PickCreateManyInput = {
+    id?: number
+    gameId: number
+    playerId: number
+    marketId: number
+    oddUuid: string
+    oddName: string
+    marketName: string
+    oddPrice: number
+    createdAt?: Date | string
+  }
+
+  export type PickUpdateManyMutationInput = {
+    marketId?: IntFieldUpdateOperationsInput | number
+    oddUuid?: StringFieldUpdateOperationsInput | string
+    oddName?: StringFieldUpdateOperationsInput | string
+    marketName?: StringFieldUpdateOperationsInput | string
+    oddPrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PickUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    gameId?: IntFieldUpdateOperationsInput | number
+    playerId?: IntFieldUpdateOperationsInput | number
+    marketId?: IntFieldUpdateOperationsInput | number
+    oddUuid?: StringFieldUpdateOperationsInput | string
+    oddName?: StringFieldUpdateOperationsInput | string
+    marketName?: StringFieldUpdateOperationsInput | string
+    oddPrice?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -5392,9 +8311,30 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type ExternalEventScalarRelationFilter = {
     is?: ExternalEventWhereInput
     isNot?: ExternalEventWhereInput
+  }
+
+  export type PickListRelationFilter = {
+    every?: PickWhereInput
+    some?: PickWhereInput
+    none?: PickWhereInput
+  }
+
+  export type PickOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type GameCountOrderByAggregateInput = {
@@ -5409,6 +8349,9 @@ export namespace Prisma {
     multiplier?: SortOrder
     s3Status?: SortOrder
     paymentStatus?: SortOrder
+    sgaUuid?: SortOrder
+    sgaPrice?: SortOrder
+    sgaStatus?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -5416,6 +8359,7 @@ export namespace Prisma {
     id?: SortOrder
     eventId?: SortOrder
     multiplier?: SortOrder
+    sgaPrice?: SortOrder
   }
 
   export type GameMaxOrderByAggregateInput = {
@@ -5430,6 +8374,9 @@ export namespace Prisma {
     multiplier?: SortOrder
     s3Status?: SortOrder
     paymentStatus?: SortOrder
+    sgaUuid?: SortOrder
+    sgaPrice?: SortOrder
+    sgaStatus?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -5445,6 +8392,9 @@ export namespace Prisma {
     multiplier?: SortOrder
     s3Status?: SortOrder
     paymentStatus?: SortOrder
+    sgaUuid?: SortOrder
+    sgaPrice?: SortOrder
+    sgaStatus?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -5452,6 +8402,7 @@ export namespace Prisma {
     id?: SortOrder
     eventId?: SortOrder
     multiplier?: SortOrder
+    sgaPrice?: SortOrder
   }
 
   export type EnumGameStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -5506,6 +8457,118 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type PlayerCountOrderByAggregateInput = {
+    id?: SortOrder
+    slug?: SortOrder
+    displayName?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PlayerAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type PlayerMaxOrderByAggregateInput = {
+    id?: SortOrder
+    slug?: SortOrder
+    displayName?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PlayerMinOrderByAggregateInput = {
+    id?: SortOrder
+    slug?: SortOrder
+    displayName?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PlayerSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type GameScalarRelationFilter = {
+    is?: GameWhereInput
+    isNot?: GameWhereInput
+  }
+
+  export type PlayerScalarRelationFilter = {
+    is?: PlayerWhereInput
+    isNot?: PlayerWhereInput
+  }
+
+  export type PickGameIdPlayerIdCompoundUniqueInput = {
+    gameId: number
+    playerId: number
+  }
+
+  export type PickCountOrderByAggregateInput = {
+    id?: SortOrder
+    gameId?: SortOrder
+    playerId?: SortOrder
+    marketId?: SortOrder
+    oddUuid?: SortOrder
+    oddName?: SortOrder
+    marketName?: SortOrder
+    oddPrice?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PickAvgOrderByAggregateInput = {
+    id?: SortOrder
+    gameId?: SortOrder
+    playerId?: SortOrder
+    marketId?: SortOrder
+    oddPrice?: SortOrder
+  }
+
+  export type PickMaxOrderByAggregateInput = {
+    id?: SortOrder
+    gameId?: SortOrder
+    playerId?: SortOrder
+    marketId?: SortOrder
+    oddUuid?: SortOrder
+    oddName?: SortOrder
+    marketName?: SortOrder
+    oddPrice?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PickMinOrderByAggregateInput = {
+    id?: SortOrder
+    gameId?: SortOrder
+    playerId?: SortOrder
+    marketId?: SortOrder
+    oddUuid?: SortOrder
+    oddName?: SortOrder
+    marketName?: SortOrder
+    oddPrice?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PickSumOrderByAggregateInput = {
+    id?: SortOrder
+    gameId?: SortOrder
+    playerId?: SortOrder
+    marketId?: SortOrder
+    oddPrice?: SortOrder
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -5584,6 +8647,20 @@ export namespace Prisma {
     connect?: ExternalEventWhereUniqueInput
   }
 
+  export type PickCreateNestedManyWithoutGameInput = {
+    create?: XOR<PickCreateWithoutGameInput, PickUncheckedCreateWithoutGameInput> | PickCreateWithoutGameInput[] | PickUncheckedCreateWithoutGameInput[]
+    connectOrCreate?: PickCreateOrConnectWithoutGameInput | PickCreateOrConnectWithoutGameInput[]
+    createMany?: PickCreateManyGameInputEnvelope
+    connect?: PickWhereUniqueInput | PickWhereUniqueInput[]
+  }
+
+  export type PickUncheckedCreateNestedManyWithoutGameInput = {
+    create?: XOR<PickCreateWithoutGameInput, PickUncheckedCreateWithoutGameInput> | PickCreateWithoutGameInput[] | PickUncheckedCreateWithoutGameInput[]
+    connectOrCreate?: PickCreateOrConnectWithoutGameInput | PickCreateOrConnectWithoutGameInput[]
+    createMany?: PickCreateManyGameInputEnvelope
+    connect?: PickWhereUniqueInput | PickWhereUniqueInput[]
+  }
+
   export type EnumGameStatusFieldUpdateOperationsInput = {
     set?: $Enums.GameStatus
   }
@@ -5604,12 +8681,118 @@ export namespace Prisma {
     divide?: number
   }
 
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type ExternalEventUpdateOneRequiredWithoutGamesNestedInput = {
     create?: XOR<ExternalEventCreateWithoutGamesInput, ExternalEventUncheckedCreateWithoutGamesInput>
     connectOrCreate?: ExternalEventCreateOrConnectWithoutGamesInput
     upsert?: ExternalEventUpsertWithoutGamesInput
     connect?: ExternalEventWhereUniqueInput
     update?: XOR<XOR<ExternalEventUpdateToOneWithWhereWithoutGamesInput, ExternalEventUpdateWithoutGamesInput>, ExternalEventUncheckedUpdateWithoutGamesInput>
+  }
+
+  export type PickUpdateManyWithoutGameNestedInput = {
+    create?: XOR<PickCreateWithoutGameInput, PickUncheckedCreateWithoutGameInput> | PickCreateWithoutGameInput[] | PickUncheckedCreateWithoutGameInput[]
+    connectOrCreate?: PickCreateOrConnectWithoutGameInput | PickCreateOrConnectWithoutGameInput[]
+    upsert?: PickUpsertWithWhereUniqueWithoutGameInput | PickUpsertWithWhereUniqueWithoutGameInput[]
+    createMany?: PickCreateManyGameInputEnvelope
+    set?: PickWhereUniqueInput | PickWhereUniqueInput[]
+    disconnect?: PickWhereUniqueInput | PickWhereUniqueInput[]
+    delete?: PickWhereUniqueInput | PickWhereUniqueInput[]
+    connect?: PickWhereUniqueInput | PickWhereUniqueInput[]
+    update?: PickUpdateWithWhereUniqueWithoutGameInput | PickUpdateWithWhereUniqueWithoutGameInput[]
+    updateMany?: PickUpdateManyWithWhereWithoutGameInput | PickUpdateManyWithWhereWithoutGameInput[]
+    deleteMany?: PickScalarWhereInput | PickScalarWhereInput[]
+  }
+
+  export type PickUncheckedUpdateManyWithoutGameNestedInput = {
+    create?: XOR<PickCreateWithoutGameInput, PickUncheckedCreateWithoutGameInput> | PickCreateWithoutGameInput[] | PickUncheckedCreateWithoutGameInput[]
+    connectOrCreate?: PickCreateOrConnectWithoutGameInput | PickCreateOrConnectWithoutGameInput[]
+    upsert?: PickUpsertWithWhereUniqueWithoutGameInput | PickUpsertWithWhereUniqueWithoutGameInput[]
+    createMany?: PickCreateManyGameInputEnvelope
+    set?: PickWhereUniqueInput | PickWhereUniqueInput[]
+    disconnect?: PickWhereUniqueInput | PickWhereUniqueInput[]
+    delete?: PickWhereUniqueInput | PickWhereUniqueInput[]
+    connect?: PickWhereUniqueInput | PickWhereUniqueInput[]
+    update?: PickUpdateWithWhereUniqueWithoutGameInput | PickUpdateWithWhereUniqueWithoutGameInput[]
+    updateMany?: PickUpdateManyWithWhereWithoutGameInput | PickUpdateManyWithWhereWithoutGameInput[]
+    deleteMany?: PickScalarWhereInput | PickScalarWhereInput[]
+  }
+
+  export type PickCreateNestedManyWithoutPlayerInput = {
+    create?: XOR<PickCreateWithoutPlayerInput, PickUncheckedCreateWithoutPlayerInput> | PickCreateWithoutPlayerInput[] | PickUncheckedCreateWithoutPlayerInput[]
+    connectOrCreate?: PickCreateOrConnectWithoutPlayerInput | PickCreateOrConnectWithoutPlayerInput[]
+    createMany?: PickCreateManyPlayerInputEnvelope
+    connect?: PickWhereUniqueInput | PickWhereUniqueInput[]
+  }
+
+  export type PickUncheckedCreateNestedManyWithoutPlayerInput = {
+    create?: XOR<PickCreateWithoutPlayerInput, PickUncheckedCreateWithoutPlayerInput> | PickCreateWithoutPlayerInput[] | PickUncheckedCreateWithoutPlayerInput[]
+    connectOrCreate?: PickCreateOrConnectWithoutPlayerInput | PickCreateOrConnectWithoutPlayerInput[]
+    createMany?: PickCreateManyPlayerInputEnvelope
+    connect?: PickWhereUniqueInput | PickWhereUniqueInput[]
+  }
+
+  export type PickUpdateManyWithoutPlayerNestedInput = {
+    create?: XOR<PickCreateWithoutPlayerInput, PickUncheckedCreateWithoutPlayerInput> | PickCreateWithoutPlayerInput[] | PickUncheckedCreateWithoutPlayerInput[]
+    connectOrCreate?: PickCreateOrConnectWithoutPlayerInput | PickCreateOrConnectWithoutPlayerInput[]
+    upsert?: PickUpsertWithWhereUniqueWithoutPlayerInput | PickUpsertWithWhereUniqueWithoutPlayerInput[]
+    createMany?: PickCreateManyPlayerInputEnvelope
+    set?: PickWhereUniqueInput | PickWhereUniqueInput[]
+    disconnect?: PickWhereUniqueInput | PickWhereUniqueInput[]
+    delete?: PickWhereUniqueInput | PickWhereUniqueInput[]
+    connect?: PickWhereUniqueInput | PickWhereUniqueInput[]
+    update?: PickUpdateWithWhereUniqueWithoutPlayerInput | PickUpdateWithWhereUniqueWithoutPlayerInput[]
+    updateMany?: PickUpdateManyWithWhereWithoutPlayerInput | PickUpdateManyWithWhereWithoutPlayerInput[]
+    deleteMany?: PickScalarWhereInput | PickScalarWhereInput[]
+  }
+
+  export type PickUncheckedUpdateManyWithoutPlayerNestedInput = {
+    create?: XOR<PickCreateWithoutPlayerInput, PickUncheckedCreateWithoutPlayerInput> | PickCreateWithoutPlayerInput[] | PickUncheckedCreateWithoutPlayerInput[]
+    connectOrCreate?: PickCreateOrConnectWithoutPlayerInput | PickCreateOrConnectWithoutPlayerInput[]
+    upsert?: PickUpsertWithWhereUniqueWithoutPlayerInput | PickUpsertWithWhereUniqueWithoutPlayerInput[]
+    createMany?: PickCreateManyPlayerInputEnvelope
+    set?: PickWhereUniqueInput | PickWhereUniqueInput[]
+    disconnect?: PickWhereUniqueInput | PickWhereUniqueInput[]
+    delete?: PickWhereUniqueInput | PickWhereUniqueInput[]
+    connect?: PickWhereUniqueInput | PickWhereUniqueInput[]
+    update?: PickUpdateWithWhereUniqueWithoutPlayerInput | PickUpdateWithWhereUniqueWithoutPlayerInput[]
+    updateMany?: PickUpdateManyWithWhereWithoutPlayerInput | PickUpdateManyWithWhereWithoutPlayerInput[]
+    deleteMany?: PickScalarWhereInput | PickScalarWhereInput[]
+  }
+
+  export type GameCreateNestedOneWithoutPicksInput = {
+    create?: XOR<GameCreateWithoutPicksInput, GameUncheckedCreateWithoutPicksInput>
+    connectOrCreate?: GameCreateOrConnectWithoutPicksInput
+    connect?: GameWhereUniqueInput
+  }
+
+  export type PlayerCreateNestedOneWithoutPicksInput = {
+    create?: XOR<PlayerCreateWithoutPicksInput, PlayerUncheckedCreateWithoutPicksInput>
+    connectOrCreate?: PlayerCreateOrConnectWithoutPicksInput
+    connect?: PlayerWhereUniqueInput
+  }
+
+  export type GameUpdateOneRequiredWithoutPicksNestedInput = {
+    create?: XOR<GameCreateWithoutPicksInput, GameUncheckedCreateWithoutPicksInput>
+    connectOrCreate?: GameCreateOrConnectWithoutPicksInput
+    upsert?: GameUpsertWithoutPicksInput
+    connect?: GameWhereUniqueInput
+    update?: XOR<XOR<GameUpdateToOneWithWhereWithoutPicksInput, GameUpdateWithoutPicksInput>, GameUncheckedUpdateWithoutPicksInput>
+  }
+
+  export type PlayerUpdateOneRequiredWithoutPicksNestedInput = {
+    create?: XOR<PlayerCreateWithoutPicksInput, PlayerUncheckedCreateWithoutPicksInput>
+    connectOrCreate?: PlayerCreateOrConnectWithoutPicksInput
+    upsert?: PlayerUpsertWithoutPicksInput
+    connect?: PlayerWhereUniqueInput
+    update?: XOR<XOR<PlayerUpdateToOneWithWhereWithoutPicksInput, PlayerUpdateWithoutPicksInput>, PlayerUncheckedUpdateWithoutPicksInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -5800,6 +8983,17 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedEnumGameStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.GameStatus | EnumGameStatusFieldRefInput<$PrismaModel>
     in?: $Enums.GameStatus[] | ListEnumGameStatusFieldRefInput<$PrismaModel>
@@ -5853,6 +9047,22 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
   export type GameCreateWithoutEventInput = {
     name: string
     status?: $Enums.GameStatus
@@ -5863,7 +9073,11 @@ export namespace Prisma {
     multiplier?: number
     s3Status?: string | null
     paymentStatus?: string | null
+    sgaUuid?: string | null
+    sgaPrice?: number | null
+    sgaStatus?: string | null
     createdAt?: Date | string
+    picks?: PickCreateNestedManyWithoutGameInput
   }
 
   export type GameUncheckedCreateWithoutEventInput = {
@@ -5877,7 +9091,11 @@ export namespace Prisma {
     multiplier?: number
     s3Status?: string | null
     paymentStatus?: string | null
+    sgaUuid?: string | null
+    sgaPrice?: number | null
+    sgaStatus?: string | null
     createdAt?: Date | string
+    picks?: PickUncheckedCreateNestedManyWithoutGameInput
   }
 
   export type GameCreateOrConnectWithoutEventInput = {
@@ -5921,6 +9139,9 @@ export namespace Prisma {
     multiplier?: FloatFilter<"Game"> | number
     s3Status?: StringNullableFilter<"Game"> | string | null
     paymentStatus?: StringNullableFilter<"Game"> | string | null
+    sgaUuid?: StringNullableFilter<"Game"> | string | null
+    sgaPrice?: FloatNullableFilter<"Game"> | number | null
+    sgaStatus?: StringNullableFilter<"Game"> | string | null
     createdAt?: DateTimeFilter<"Game"> | Date | string
   }
 
@@ -5942,6 +9163,37 @@ export namespace Prisma {
   export type ExternalEventCreateOrConnectWithoutGamesInput = {
     where: ExternalEventWhereUniqueInput
     create: XOR<ExternalEventCreateWithoutGamesInput, ExternalEventUncheckedCreateWithoutGamesInput>
+  }
+
+  export type PickCreateWithoutGameInput = {
+    marketId: number
+    oddUuid: string
+    oddName: string
+    marketName: string
+    oddPrice: number
+    createdAt?: Date | string
+    player: PlayerCreateNestedOneWithoutPicksInput
+  }
+
+  export type PickUncheckedCreateWithoutGameInput = {
+    id?: number
+    playerId: number
+    marketId: number
+    oddUuid: string
+    oddName: string
+    marketName: string
+    oddPrice: number
+    createdAt?: Date | string
+  }
+
+  export type PickCreateOrConnectWithoutGameInput = {
+    where: PickWhereUniqueInput
+    create: XOR<PickCreateWithoutGameInput, PickUncheckedCreateWithoutGameInput>
+  }
+
+  export type PickCreateManyGameInputEnvelope = {
+    data: PickCreateManyGameInput | PickCreateManyGameInput[]
+    skipDuplicates?: boolean
   }
 
   export type ExternalEventUpsertWithoutGamesInput = {
@@ -5970,6 +9222,212 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PickUpsertWithWhereUniqueWithoutGameInput = {
+    where: PickWhereUniqueInput
+    update: XOR<PickUpdateWithoutGameInput, PickUncheckedUpdateWithoutGameInput>
+    create: XOR<PickCreateWithoutGameInput, PickUncheckedCreateWithoutGameInput>
+  }
+
+  export type PickUpdateWithWhereUniqueWithoutGameInput = {
+    where: PickWhereUniqueInput
+    data: XOR<PickUpdateWithoutGameInput, PickUncheckedUpdateWithoutGameInput>
+  }
+
+  export type PickUpdateManyWithWhereWithoutGameInput = {
+    where: PickScalarWhereInput
+    data: XOR<PickUpdateManyMutationInput, PickUncheckedUpdateManyWithoutGameInput>
+  }
+
+  export type PickScalarWhereInput = {
+    AND?: PickScalarWhereInput | PickScalarWhereInput[]
+    OR?: PickScalarWhereInput[]
+    NOT?: PickScalarWhereInput | PickScalarWhereInput[]
+    id?: IntFilter<"Pick"> | number
+    gameId?: IntFilter<"Pick"> | number
+    playerId?: IntFilter<"Pick"> | number
+    marketId?: IntFilter<"Pick"> | number
+    oddUuid?: StringFilter<"Pick"> | string
+    oddName?: StringFilter<"Pick"> | string
+    marketName?: StringFilter<"Pick"> | string
+    oddPrice?: FloatFilter<"Pick"> | number
+    createdAt?: DateTimeFilter<"Pick"> | Date | string
+  }
+
+  export type PickCreateWithoutPlayerInput = {
+    marketId: number
+    oddUuid: string
+    oddName: string
+    marketName: string
+    oddPrice: number
+    createdAt?: Date | string
+    game: GameCreateNestedOneWithoutPicksInput
+  }
+
+  export type PickUncheckedCreateWithoutPlayerInput = {
+    id?: number
+    gameId: number
+    marketId: number
+    oddUuid: string
+    oddName: string
+    marketName: string
+    oddPrice: number
+    createdAt?: Date | string
+  }
+
+  export type PickCreateOrConnectWithoutPlayerInput = {
+    where: PickWhereUniqueInput
+    create: XOR<PickCreateWithoutPlayerInput, PickUncheckedCreateWithoutPlayerInput>
+  }
+
+  export type PickCreateManyPlayerInputEnvelope = {
+    data: PickCreateManyPlayerInput | PickCreateManyPlayerInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PickUpsertWithWhereUniqueWithoutPlayerInput = {
+    where: PickWhereUniqueInput
+    update: XOR<PickUpdateWithoutPlayerInput, PickUncheckedUpdateWithoutPlayerInput>
+    create: XOR<PickCreateWithoutPlayerInput, PickUncheckedCreateWithoutPlayerInput>
+  }
+
+  export type PickUpdateWithWhereUniqueWithoutPlayerInput = {
+    where: PickWhereUniqueInput
+    data: XOR<PickUpdateWithoutPlayerInput, PickUncheckedUpdateWithoutPlayerInput>
+  }
+
+  export type PickUpdateManyWithWhereWithoutPlayerInput = {
+    where: PickScalarWhereInput
+    data: XOR<PickUpdateManyMutationInput, PickUncheckedUpdateManyWithoutPlayerInput>
+  }
+
+  export type GameCreateWithoutPicksInput = {
+    name: string
+    status?: $Enums.GameStatus
+    openTime: Date | string
+    closeTime: Date | string
+    prizeType: $Enums.PrizeType
+    bonusId?: string | null
+    multiplier?: number
+    s3Status?: string | null
+    paymentStatus?: string | null
+    sgaUuid?: string | null
+    sgaPrice?: number | null
+    sgaStatus?: string | null
+    createdAt?: Date | string
+    event: ExternalEventCreateNestedOneWithoutGamesInput
+  }
+
+  export type GameUncheckedCreateWithoutPicksInput = {
+    id?: number
+    name: string
+    eventId: number
+    status?: $Enums.GameStatus
+    openTime: Date | string
+    closeTime: Date | string
+    prizeType: $Enums.PrizeType
+    bonusId?: string | null
+    multiplier?: number
+    s3Status?: string | null
+    paymentStatus?: string | null
+    sgaUuid?: string | null
+    sgaPrice?: number | null
+    sgaStatus?: string | null
+    createdAt?: Date | string
+  }
+
+  export type GameCreateOrConnectWithoutPicksInput = {
+    where: GameWhereUniqueInput
+    create: XOR<GameCreateWithoutPicksInput, GameUncheckedCreateWithoutPicksInput>
+  }
+
+  export type PlayerCreateWithoutPicksInput = {
+    slug: string
+    displayName: string
+    createdAt?: Date | string
+  }
+
+  export type PlayerUncheckedCreateWithoutPicksInput = {
+    id?: number
+    slug: string
+    displayName: string
+    createdAt?: Date | string
+  }
+
+  export type PlayerCreateOrConnectWithoutPicksInput = {
+    where: PlayerWhereUniqueInput
+    create: XOR<PlayerCreateWithoutPicksInput, PlayerUncheckedCreateWithoutPicksInput>
+  }
+
+  export type GameUpsertWithoutPicksInput = {
+    update: XOR<GameUpdateWithoutPicksInput, GameUncheckedUpdateWithoutPicksInput>
+    create: XOR<GameCreateWithoutPicksInput, GameUncheckedCreateWithoutPicksInput>
+    where?: GameWhereInput
+  }
+
+  export type GameUpdateToOneWithWhereWithoutPicksInput = {
+    where?: GameWhereInput
+    data: XOR<GameUpdateWithoutPicksInput, GameUncheckedUpdateWithoutPicksInput>
+  }
+
+  export type GameUpdateWithoutPicksInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
+    openTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    closeTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    prizeType?: EnumPrizeTypeFieldUpdateOperationsInput | $Enums.PrizeType
+    bonusId?: NullableStringFieldUpdateOperationsInput | string | null
+    multiplier?: FloatFieldUpdateOperationsInput | number
+    s3Status?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    sgaUuid?: NullableStringFieldUpdateOperationsInput | string | null
+    sgaPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    sgaStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    event?: ExternalEventUpdateOneRequiredWithoutGamesNestedInput
+  }
+
+  export type GameUncheckedUpdateWithoutPicksInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    eventId?: IntFieldUpdateOperationsInput | number
+    status?: EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
+    openTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    closeTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    prizeType?: EnumPrizeTypeFieldUpdateOperationsInput | $Enums.PrizeType
+    bonusId?: NullableStringFieldUpdateOperationsInput | string | null
+    multiplier?: FloatFieldUpdateOperationsInput | number
+    s3Status?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    sgaUuid?: NullableStringFieldUpdateOperationsInput | string | null
+    sgaPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    sgaStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlayerUpsertWithoutPicksInput = {
+    update: XOR<PlayerUpdateWithoutPicksInput, PlayerUncheckedUpdateWithoutPicksInput>
+    create: XOR<PlayerCreateWithoutPicksInput, PlayerUncheckedCreateWithoutPicksInput>
+    where?: PlayerWhereInput
+  }
+
+  export type PlayerUpdateToOneWithWhereWithoutPicksInput = {
+    where?: PlayerWhereInput
+    data: XOR<PlayerUpdateWithoutPicksInput, PlayerUncheckedUpdateWithoutPicksInput>
+  }
+
+  export type PlayerUpdateWithoutPicksInput = {
+    slug?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PlayerUncheckedUpdateWithoutPicksInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    slug?: StringFieldUpdateOperationsInput | string
+    displayName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type GameCreateManyEventInput = {
     id?: number
     name: string
@@ -5981,6 +9439,9 @@ export namespace Prisma {
     multiplier?: number
     s3Status?: string | null
     paymentStatus?: string | null
+    sgaUuid?: string | null
+    sgaPrice?: number | null
+    sgaStatus?: string | null
     createdAt?: Date | string
   }
 
@@ -5994,7 +9455,11 @@ export namespace Prisma {
     multiplier?: FloatFieldUpdateOperationsInput | number
     s3Status?: NullableStringFieldUpdateOperationsInput | string | null
     paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    sgaUuid?: NullableStringFieldUpdateOperationsInput | string | null
+    sgaPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    sgaStatus?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    picks?: PickUpdateManyWithoutGameNestedInput
   }
 
   export type GameUncheckedUpdateWithoutEventInput = {
@@ -6008,7 +9473,11 @@ export namespace Prisma {
     multiplier?: FloatFieldUpdateOperationsInput | number
     s3Status?: NullableStringFieldUpdateOperationsInput | string | null
     paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    sgaUuid?: NullableStringFieldUpdateOperationsInput | string | null
+    sgaPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    sgaStatus?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    picks?: PickUncheckedUpdateManyWithoutGameNestedInput
   }
 
   export type GameUncheckedUpdateManyWithoutEventInput = {
@@ -6022,6 +9491,95 @@ export namespace Prisma {
     multiplier?: FloatFieldUpdateOperationsInput | number
     s3Status?: NullableStringFieldUpdateOperationsInput | string | null
     paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    sgaUuid?: NullableStringFieldUpdateOperationsInput | string | null
+    sgaPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    sgaStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PickCreateManyGameInput = {
+    id?: number
+    playerId: number
+    marketId: number
+    oddUuid: string
+    oddName: string
+    marketName: string
+    oddPrice: number
+    createdAt?: Date | string
+  }
+
+  export type PickUpdateWithoutGameInput = {
+    marketId?: IntFieldUpdateOperationsInput | number
+    oddUuid?: StringFieldUpdateOperationsInput | string
+    oddName?: StringFieldUpdateOperationsInput | string
+    marketName?: StringFieldUpdateOperationsInput | string
+    oddPrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    player?: PlayerUpdateOneRequiredWithoutPicksNestedInput
+  }
+
+  export type PickUncheckedUpdateWithoutGameInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    playerId?: IntFieldUpdateOperationsInput | number
+    marketId?: IntFieldUpdateOperationsInput | number
+    oddUuid?: StringFieldUpdateOperationsInput | string
+    oddName?: StringFieldUpdateOperationsInput | string
+    marketName?: StringFieldUpdateOperationsInput | string
+    oddPrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PickUncheckedUpdateManyWithoutGameInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    playerId?: IntFieldUpdateOperationsInput | number
+    marketId?: IntFieldUpdateOperationsInput | number
+    oddUuid?: StringFieldUpdateOperationsInput | string
+    oddName?: StringFieldUpdateOperationsInput | string
+    marketName?: StringFieldUpdateOperationsInput | string
+    oddPrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PickCreateManyPlayerInput = {
+    id?: number
+    gameId: number
+    marketId: number
+    oddUuid: string
+    oddName: string
+    marketName: string
+    oddPrice: number
+    createdAt?: Date | string
+  }
+
+  export type PickUpdateWithoutPlayerInput = {
+    marketId?: IntFieldUpdateOperationsInput | number
+    oddUuid?: StringFieldUpdateOperationsInput | string
+    oddName?: StringFieldUpdateOperationsInput | string
+    marketName?: StringFieldUpdateOperationsInput | string
+    oddPrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    game?: GameUpdateOneRequiredWithoutPicksNestedInput
+  }
+
+  export type PickUncheckedUpdateWithoutPlayerInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    gameId?: IntFieldUpdateOperationsInput | number
+    marketId?: IntFieldUpdateOperationsInput | number
+    oddUuid?: StringFieldUpdateOperationsInput | string
+    oddName?: StringFieldUpdateOperationsInput | string
+    marketName?: StringFieldUpdateOperationsInput | string
+    oddPrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PickUncheckedUpdateManyWithoutPlayerInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    gameId?: IntFieldUpdateOperationsInput | number
+    marketId?: IntFieldUpdateOperationsInput | number
+    oddUuid?: StringFieldUpdateOperationsInput | string
+    oddName?: StringFieldUpdateOperationsInput | string
+    marketName?: StringFieldUpdateOperationsInput | string
+    oddPrice?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

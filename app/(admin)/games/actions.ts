@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { fetchSgaOddPrice } from "@/lib/sga-api";
 import type { PrizeType } from "@/app/generated/prisma";
 
 export async function createGame(formData: FormData) {
@@ -25,8 +26,12 @@ export async function createGame(formData: FormData) {
   redirect(`/games/${game.id}`);
 }
 
-export async function deleteGame(id: number) {
-  await prisma.game.delete({ where: { id } });
+export async function deleteGame(gameId: number) {
+  const game = await prisma.game.findUniqueOrThrow({ where: { id: gameId } });
+  if (game.status === "OPEN" || game.status === "CLOSED" || game.status === "COMPLETED") {
+    throw new Error("Cannot delete a game that is OPEN or has been played");
+  }
+  await prisma.game.delete({ where: { id: gameId } });
   revalidatePath("/games");
 }
 
@@ -48,4 +53,23 @@ export async function advanceGameStatus(id: number) {
 
   revalidatePath(`/games/${id}`);
   revalidatePath("/games");
+}
+
+export async function calculateGameSgaPrice(gameId: number) {
+  const game = await prisma.game.findUniqueOrThrow({
+    where: { id: gameId },
+    include: { event: true, picks: true },
+  });
+
+  const oddUuids = game.picks.map((p) => p.oddUuid);
+  if (oddUuids.length === 0) throw new Error("No picks to price");
+
+  const result = await fetchSgaOddPrice(game.event.externalEventId, oddUuids);
+
+  await prisma.game.update({
+    where: { id: gameId },
+    data: { sgaPrice: result.price, sgaUuid: result.sgaUuid, sgaStatus: result.status },
+  });
+
+  revalidatePath(`/games/${gameId}`);
 }

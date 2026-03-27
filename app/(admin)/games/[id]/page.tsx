@@ -7,8 +7,10 @@ import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { GameControls } from "./GameControls";
 import { MarketView } from "./MarketView";
+import { PicksSummary } from "./PicksSummary";
 import { formatDateTime } from "@/lib/utils";
 import { ArrowLeft, Calendar, Trophy, Zap } from "lucide-react";
+import { DeleteGameDetailButton } from "./DeleteGameDetailButton";
 import type { GameStatus } from "@/app/generated/prisma";
 
 const statusVariant: Record<GameStatus, "neutral" | "warning" | "success" | "info" | "danger"> = {
@@ -36,15 +38,19 @@ export default async function GameDetailPage({
   const gameId = parseInt(id);
   if (isNaN(gameId)) notFound();
 
-  const [game, markets] = await Promise.all([
+  const [game, markets, allPlayers] = await Promise.all([
     prisma.game.findUnique({
       where: { id: gameId },
-      include: { event: true },
+      include: {
+        event: true,
+        picks: { include: { player: true } },
+      },
     }),
     prisma.market.findMany({
       where: { enabled: true },
       orderBy: { createdAt: "asc" },
     }),
+    prisma.player.findMany({ orderBy: { createdAt: "asc" } }),
   ]);
 
   if (!game) notFound();
@@ -77,11 +83,12 @@ export default async function GameDetailPage({
             <p className="text-sm text-slate-500 mt-0.5">{game.event.name}</p>
           </div>
         </div>
-        {statusNext[game.status] && (
-          <div className="shrink-0 self-start sm:self-auto">
+        <div className="shrink-0 self-start sm:self-auto flex items-center gap-2">
+          <DeleteGameDetailButton gameId={game.id} gameStatus={game.status} />
+          {statusNext[game.status] && (
             <GameControls gameId={game.id} status={game.status} label={statusNext[game.status]!} />
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       {/* Meta cards */}
@@ -138,6 +145,15 @@ export default async function GameDetailPage({
           </div>
         </div>
       )}
+
+      {/* Player picks */}
+      <PicksSummary
+        gameId={game.id}
+        picks={game.picks}
+        allPlayers={allPlayers}
+        sgaPrice={game.sgaPrice}
+        sgaStatus={game.sgaStatus}
+      />
 
       {/* Markets — player-view preview */}
       <div>
