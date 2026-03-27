@@ -62,7 +62,8 @@ export default async function GameDetailPage({
     ? await fetchEvent(game.event.externalEventId, isResulted)
     : null;
 
-  const odds = isResulted ? (event?.oddsResults ?? []) : (event?.odds ?? []);
+  // Always use live odds[] for market display — oddsResults[] only populates after the match finishes
+  const odds = event?.odds ?? [];
 
   return (
     <div className="space-y-6">
