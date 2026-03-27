@@ -76,7 +76,28 @@ export async function fetchPreviewBetbuilderOdd(
   return res.json();
 }
 
-export async function fetchSgaMarkets(matchId: string) {
+export type SgaMarketOdd = {
+  uuid: string;
+  name: string;
+  price: number;
+  status: string;
+  superSubEligible: boolean;
+  superAdvantageEligible: boolean;
+  specifiers?: Record<string, string>;
+};
+
+export type SgaMarket = {
+  id: number;
+  name: string;
+  odds: SgaMarketOdd[];
+};
+
+export type SgaMarketsResponse = {
+  matchId: string;
+  markets: SgaMarket[];
+};
+
+export async function fetchSgaMarkets(matchId: string): Promise<SgaMarketsResponse> {
   const params = new URLSearchParams({ match_id: matchId, target: TARGET, lang: LANG });
   const url = `${SGA_BASE}/v2/getBetbuilderMarketsForMatch?${params}`;
   const res = await fetch(url, {

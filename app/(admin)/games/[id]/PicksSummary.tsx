@@ -5,7 +5,7 @@ import { calculateGameSgaPrice } from "../actions";
 import { Card, CardHeader, CardBody } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
-import { Users, RefreshCw, Copy, Check } from "lucide-react";
+import { Users, RefreshCw, Copy, Check, CheckCircle2, XCircle } from "lucide-react";
 
 type Pick = {
   id: number;
@@ -24,12 +24,14 @@ export function PicksSummary({
   allPlayers,
   sgaPrice,
   sgaStatus,
+  oddsResultsMap = {},
 }: {
   gameId: number;
   picks: Pick[];
   allPlayers: Player[];
   sgaPrice: number | null;
   sgaStatus: string | null;
+  oddsResultsMap?: Record<string, string>;
 }) {
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
@@ -93,11 +95,21 @@ export function PicksSummary({
               </div>
 
               <div className="flex items-center gap-2 shrink-0 ml-3">
-                {pick ? (
-                  <Badge variant="success">Picked</Badge>
-                ) : (
-                  <Badge variant="neutral">Waiting</Badge>
+                {pick && oddsResultsMap[pick.oddUuid] === "won" && (
+                  <span className="inline-flex items-center gap-1 text-emerald-600 text-xs font-bold">
+                    <CheckCircle2 className="w-3.5 h-3.5" /> WON
+                  </span>
                 )}
+                {pick && oddsResultsMap[pick.oddUuid] === "lost" && (
+                  <span className="inline-flex items-center gap-1 text-red-500 text-xs font-bold">
+                    <XCircle className="w-3.5 h-3.5" /> LOST
+                  </span>
+                )}
+                {pick && !oddsResultsMap[pick.oddUuid] ? (
+                  <Badge variant="success">Picked</Badge>
+                ) : !pick ? (
+                  <Badge variant="neutral">Waiting</Badge>
+                ) : null}
                 <button
                   onClick={() => copyLink(player.slug)}
                   className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"

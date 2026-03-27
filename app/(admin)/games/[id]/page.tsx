@@ -153,6 +153,7 @@ export default async function GameDetailPage({
         allPlayers={allPlayers}
         sgaPrice={game.sgaPrice}
         sgaStatus={game.sgaStatus}
+        oddsResultsMap={isResulted ? Object.fromEntries((event?.oddsResults ?? []).map((o) => [o.uuid, o.status])) : {}}
       />
 
       {/* Markets — player-view preview */}

@@ -1,19 +1,28 @@
 import { prisma } from "@/lib/prisma";
 import { fetchEvent } from "@/lib/offer-api";
-import { fetchPreviewBetbuilderOdd } from "@/lib/sga-api";
+import { fetchPreviewBetbuilderOdd, fetchSgaMarkets } from "@/lib/sga-api";
 import { notFound } from "next/navigation";
 import { PlayerGameView } from "./PlayerGameView";
 import { formatDate } from "@/lib/utils";
-import { Lock, Users, Clock } from "lucide-react";
-import type { GameStatus } from "@/app/generated/prisma";
+import { Lock, Users, Clock, CheckCircle2, XCircle } from "lucide-react";
 
-const statusLabel: Record<GameStatus, string> = {
-  DRAFT: "Not yet open",
-  PENDING: "Opening soon",
-  OPEN: "Open",
-  CLOSED: "Closed",
-  COMPLETED: "Completed",
-};
+function ResultBadge({ status }: { status: string }) {
+  if (status === "won") {
+    return (
+      <span className="inline-flex items-center gap-1 text-emerald-400 text-xs font-bold">
+        <CheckCircle2 className="w-3.5 h-3.5" /> WON
+      </span>
+    );
+  }
+  if (status === "lost") {
+    return (
+      <span className="inline-flex items-center gap-1 text-red-400 text-xs font-bold">
+        <XCircle className="w-3.5 h-3.5" /> LOST
+      </span>
+    );
+  }
+  return null;
+}
 
 export default async function PlayerGamePage({
   params,
@@ -43,39 +52,60 @@ export default async function PlayerGamePage({
   if (!game) notFound();
 
   const myPick = game.picks.find((p) => p.playerId === player.id);
+  const isResulted = game.status === "CLOSED" || game.status === "COMPLETED";
 
-  // Fetch live odds for OPEN games (needed for the selection UI)
+  // Fetch live odds for OPEN games (pick selection UI)
   const event = game.status === "OPEN"
     ? await fetchEvent(game.event.externalEventId)
     : null;
 
   const odds = event?.odds ?? [];
-
   const marketsWithOdds = markets.map((m) => ({
     market: m,
     odds: odds.filter((o) => o.marketId === m.marketId),
   }));
 
-  // Count all players for "waiting" display
   const totalPlayers = await prisma.player.count();
-
-  // If other players have already picked, fetch which odds are blocked from combining
-  // with their selections — these will be greyed out for this player
-  let unavailableOddsUuids: string[] = [];
   const otherPicks = game.picks.filter((p) => p.playerId !== player.id);
-  if (game.status === "OPEN" && !myPick && otherPicks.length > 0) {
-    try {
-      const preview = await fetchPreviewBetbuilderOdd(
-        game.event.externalEventId,
-        otherPicks.map((p) => p.oddUuid)
-      );
-      unavailableOddsUuids = preview.unavailableOddsUuids ?? [];
-    } catch {
-      // Non-fatal — if preview fails, show all odds as available
+
+  // For the pick selection UI: unavailable odds + SuperSub eligible market IDs
+  let unavailableOddsUuids: string[] = [];
+  let superSubMarketIds: number[] = [];
+
+  if (game.status === "OPEN" && !myPick) {
+    const [previewResult, sgaMarketsResult] = await Promise.allSettled([
+      otherPicks.length > 0
+        ? fetchPreviewBetbuilderOdd(game.event.externalEventId, otherPicks.map((p) => p.oddUuid))
+        : Promise.resolve(null),
+      fetchSgaMarkets(game.event.externalEventId),
+    ]);
+
+    if (previewResult.status === "fulfilled" && previewResult.value) {
+      unavailableOddsUuids = previewResult.value.unavailableOddsUuids ?? [];
+    }
+    if (sgaMarketsResult.status === "fulfilled") {
+      for (const market of sgaMarketsResult.value.markets ?? []) {
+        if (market.odds?.some((o) => o.superSubEligible)) {
+          superSubMarketIds.push(market.id);
+        }
+      }
     }
   }
 
-  // Build stable per-player info for the "taken" avatars in the pick UI
+  // Fetch results for CLOSED/COMPLETED games
+  let oddsResultsMap = new Map<string, string>();
+  if (isResulted && game.picks.length > 0) {
+    try {
+      const resultEvent = await fetchEvent(game.event.externalEventId, true);
+      for (const o of resultEvent?.oddsResults ?? []) {
+        oddsResultsMap.set(o.uuid, o.status);
+      }
+    } catch {
+      // Non-fatal — results show as pending if API unavailable
+    }
+  }
+
+  // Build stable per-player info for taken-odd avatars in the pick UI
   const otherPickedOdds = [...otherPicks]
     .sort((a, b) => a.playerId - b.playerId)
     .map((p, index) => ({
@@ -103,28 +133,75 @@ export default async function PlayerGamePage({
         )}
       </div>
 
-      {/* Game not open */}
-      {game.status !== "OPEN" && (
+      {/* Game not yet open */}
+      {(game.status === "DRAFT" || game.status === "PENDING") && (
         <div className="rounded-xl bg-[#1e1f2a] border border-[#2c2d3d] p-6 text-center">
           <Clock className="w-8 h-8 text-white/20 mx-auto mb-3" />
-          <p className="text-white font-semibold mb-1">{statusLabel[game.status]}</p>
+          <p className="text-white font-semibold mb-1">
+            {game.status === "PENDING" ? "Opening soon" : "Not yet open"}
+          </p>
           <p className="text-white/40 text-sm">
             {game.status === "PENDING"
               ? "This game hasn't opened yet. Check back soon."
-              : game.status === "DRAFT"
-              ? "This game isn't ready yet."
-              : "This game is no longer accepting picks."}
+              : "This game isn't ready yet."}
           </p>
-          {(game.status === "CLOSED" || game.status === "COMPLETED") && game.sgaPrice && (
-            <div className="mt-5 pt-5 border-t border-[#2c2d3d]">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-white/30 mb-2">Combined Price</p>
-              <p className="text-4xl font-black text-indigo-400 tabular-nums">{game.sgaPrice.toFixed(2)}</p>
+        </div>
+      )}
+
+      {/* Results view — CLOSED or COMPLETED */}
+      {isResulted && (
+        <div className="space-y-4">
+          <div className="rounded-xl bg-[#1e1f2a] border border-[#2c2d3d] p-4">
+            <div className="flex items-center gap-2 mb-4">
+              <Users className="w-4 h-4 text-white/30" />
+              <span className="text-[10px] font-bold uppercase tracking-widest text-white/30">Results</span>
             </div>
+
+            {game.picks.length === 0 ? (
+              <p className="text-xs text-white/25 text-center py-2">No picks were made for this game.</p>
+            ) : (
+              <div className="space-y-3">
+                {game.picks.map((pick) => {
+                  const result = oddsResultsMap.get(pick.oddUuid);
+                  const isMe = pick.playerId === player.id;
+                  return (
+                    <div key={pick.id} className={`flex items-center justify-between rounded-lg px-3 py-2.5 ${isMe ? "bg-indigo-500/10 border border-indigo-500/20" : "bg-[#252636]"}`}>
+                      <div className="min-w-0">
+                        <p className="text-xs font-bold text-white/50 mb-0.5">
+                          {pick.player.displayName}{isMe && <span className="ml-1.5 text-indigo-400">(you)</span>}
+                        </p>
+                        <p className="text-sm font-semibold text-white truncate">{pick.oddName}</p>
+                        <p className="text-[10px] text-white/35 truncate">{pick.marketName}</p>
+                      </div>
+                      <div className="flex flex-col items-end gap-1 shrink-0 ml-3">
+                        <span className="text-indigo-400 font-bold tabular-nums">{pick.oddPrice.toFixed(2)}</span>
+                        {result ? (
+                          <ResultBadge status={result} />
+                        ) : (
+                          <span className="text-[10px] text-white/25">Pending</span>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {game.sgaPrice && (
+              <div className="mt-4 pt-4 border-t border-[#2c2d3d] text-center">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-white/30 mb-1">Combined Price</p>
+                <p className="text-4xl font-black text-indigo-400 tabular-nums">{game.sgaPrice.toFixed(2)}</p>
+              </div>
+            )}
+          </div>
+
+          {!myPick && (
+            <p className="text-center text-xs text-white/25">You didn&apos;t pick for this round.</p>
           )}
         </div>
       )}
 
-      {/* Player already picked */}
+      {/* Player already picked — OPEN game */}
       {game.status === "OPEN" && myPick && (
         <div className="space-y-4">
           <div className="rounded-xl bg-[#1e1f2a] border border-indigo-500/30 p-5">
@@ -137,7 +214,6 @@ export default async function PlayerGamePage({
             <p className="text-indigo-400 font-bold text-2xl tabular-nums mt-0.5">{myPick.oddPrice.toFixed(2)}</p>
           </div>
 
-          {/* Who else has picked */}
           <div className="rounded-xl bg-[#1e1f2a] border border-[#2c2d3d] p-4">
             <div className="flex items-center gap-2 mb-3">
               <Users className="w-4 h-4 text-white/30" />
@@ -174,7 +250,7 @@ export default async function PlayerGamePage({
         </div>
       )}
 
-      {/* Pick UI */}
+      {/* Pick UI — OPEN, not yet picked */}
       {game.status === "OPEN" && !myPick && (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
@@ -193,6 +269,7 @@ export default async function PlayerGamePage({
             markets={marketsWithOdds}
             unavailableOddsUuids={unavailableOddsUuids}
             otherPickedOdds={otherPickedOdds}
+            superSubMarketIds={superSubMarketIds}
           />
         </div>
       )}

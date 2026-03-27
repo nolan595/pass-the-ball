@@ -90,6 +90,7 @@ function MarketCard({
   locked,
   unavailableUuids,
   takenMap,
+  isSuperSub,
 }: {
   market: Market;
   odds: OfferOutcome[];
@@ -98,6 +99,7 @@ function MarketCard({
   locked: boolean;
   unavailableUuids: Set<string>;
   takenMap: Map<string, OtherPickInfo>;
+  isSuperSub?: boolean;
 }) {
   const [collapsed, setCollapsed] = useState(false);
   const hasSelection = odds.some((o) => o.uuid === selectedUuid);
@@ -110,6 +112,11 @@ function MarketCard({
         <div className="flex items-center gap-2 min-w-0">
           {hasSelection && <CheckCircle className="w-3.5 h-3.5 text-indigo-400 shrink-0" />}
           <span className="text-sm font-semibold text-white leading-snug truncate">{market.name}</span>
+          {isSuperSub && (
+            <span className="shrink-0 inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-black tracking-wide bg-amber-500/15 text-amber-400 border border-amber-500/25 uppercase">
+              SuperSub
+            </span>
+          )}
         </div>
         <button
           onClick={() => setCollapsed((v) => !v)}
@@ -286,15 +293,18 @@ export function PlayerGameView({
   markets,
   unavailableOddsUuids = [],
   otherPickedOdds = [],
+  superSubMarketIds = [],
 }: {
   playerSlug: string;
   gameId: number;
   markets: MarketWithOdds[];
   unavailableOddsUuids?: string[];
   otherPickedOdds?: OtherPickInfo[];
+  superSubMarketIds?: number[];
 }) {
   const unavailableSet = new Set(unavailableOddsUuids);
   const takenMap = new Map(otherPickedOdds.map((p) => [p.oddUuid, p]));
+  const superSubSet = new Set(superSubMarketIds);
   const [selectedUuid, setSelectedUuid] = useState<string | null>(null);
   const [selectedOdd, setSelectedOdd] = useState<OfferOutcome | null>(null);
   const [selectedMarket, setSelectedMarket] = useState<Market | null>(null);
@@ -361,6 +371,7 @@ export function PlayerGameView({
             locked={false}
             unavailableUuids={unavailableSet}
             takenMap={takenMap}
+            isSuperSub={superSubSet.has(market.marketId)}
           />
         ))}
       </div>
