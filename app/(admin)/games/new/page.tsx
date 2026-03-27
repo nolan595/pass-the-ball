@@ -5,7 +5,10 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
 export default async function NewGamePage() {
-  const events = await prisma.externalEvent.findMany({ orderBy: { matchDate: "desc" } });
+  const events = await prisma.externalEvent.findMany({
+    where: { matchDate: { gte: new Date() } },
+    orderBy: { matchDate: "asc" },
+  });
 
   return (
     <div className="max-w-xl space-y-6">
