@@ -6,6 +6,7 @@ import { Card, CardHeader, CardBody } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { DateTimePicker } from "@/components/ui/DateTimePicker";
 import Link from "next/link";
+import { SubmitButton } from "./SubmitButton";
 import type { ExternalEvent } from "@/app/generated/prisma";
 
 type Props = { events: ExternalEvent[] };
@@ -93,9 +94,7 @@ export function NewGameForm({ events }: Props) {
           </div>
 
           <div className="flex gap-3 pt-2">
-            <Button type="submit" disabled={events.length === 0} className="flex-1">
-              Create Game
-            </Button>
+            <SubmitButton disabled={events.length === 0} />
             <Button asChild variant="secondary">
               <Link href="/games">Cancel</Link>
             </Button>
