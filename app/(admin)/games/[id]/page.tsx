@@ -9,7 +9,7 @@ import { GameControls } from "./GameControls";
 import { MarketView } from "./MarketView";
 import { PicksSummary } from "./PicksSummary";
 import { formatDateTime } from "@/lib/utils";
-import { ArrowLeft, Calendar, Trophy, Zap } from "lucide-react";
+import { ArrowLeft, Calendar, Zap } from "lucide-react";
 import { DeleteGameDetailButton } from "./DeleteGameDetailButton";
 import type { GameStatus } from "@/app/generated/prisma";
 
@@ -112,18 +112,6 @@ export default async function GameDetailPage({
           <p className="text-sm font-semibold text-slate-900 flex items-center gap-1.5">
             <Zap className="w-3.5 h-3.5 text-amber-500" />
             ×{game.multiplier}
-          </p>
-        </Card>
-        <Card className="p-4">
-          <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-1">Prize Type</p>
-          <p className="text-sm font-semibold text-slate-900 flex items-center gap-1.5">
-            <Trophy className="w-3.5 h-3.5 text-emerald-500" />
-            {game.prizeType === "FREE_BET" ? "Free Bet" : `Cash`}
-            {game.bonusId && (
-              <span className="font-mono text-xs bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded">
-                {game.bonusId}
-              </span>
-            )}
           </p>
         </Card>
       </div>

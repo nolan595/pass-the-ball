@@ -79,35 +79,6 @@ export function NewGameForm({ events }: Props) {
 
           <div>
             <label className="block text-xs font-semibold uppercase tracking-widest text-slate-500 mb-1.5">
-              Prize Type
-            </label>
-            <select
-              name="prizeType"
-              required
-              className="w-full h-9 px-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/15 focus:border-indigo-400 bg-white transition-all"
-            >
-              <option value="">Select prize type…</option>
-              <option value="FREE_BET">Free Bet (uses VD default bonus ID)</option>
-              <option value="CASH">Cash (requires bonus ID)</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-xs font-semibold uppercase tracking-widest text-slate-500 mb-1.5">
-              Bonus ID{" "}
-              <span className="text-slate-400 normal-case tracking-normal font-normal">
-                (required for Cash prizes)
-              </span>
-            </label>
-            <input
-              name="bonusId"
-              placeholder="e.g. BONUS_12345"
-              className="w-full h-9 px-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/15 focus:border-indigo-400 bg-white transition-all"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-semibold uppercase tracking-widest text-slate-500 mb-1.5">
               Multiplier
             </label>
             <input
