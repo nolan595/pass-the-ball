@@ -171,9 +171,11 @@ export default async function PlayerGamePage({
     const allWon = game.picks.every((p) => oddsResultsMap.get(p.oddUuid) === "win");
     const ringPlayers: RingPlayer[] = allPlayers.map((p) => {
       const pick = game.picks.find((pk) => pk.playerId === p.id);
+      const status = pick ? oddsResultsMap.get(pick.oddUuid) : undefined;
       return {
         name: p.displayName,
-        won: pick ? oddsResultsMap.get(pick.oddUuid) === "win" : false,
+        won: status === "win",
+        refunded: status === "refund",
       };
     });
 
@@ -186,6 +188,7 @@ export default async function PlayerGamePage({
         oddPrice: pick.oddPrice,
         isMe: pick.playerId === player.id,
         won: resultStatus === "win" ? true : resultStatus === "lost" ? false : undefined,
+        refunded: resultStatus === "refund",
       };
     });
 

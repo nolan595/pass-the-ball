@@ -1,6 +1,7 @@
 export type RingPlayer = {
   name: string;
   won: boolean;
+  refunded?: boolean;
 };
 
 function deg2rad(d: number) {
@@ -51,7 +52,7 @@ export function ScoreRing({ players }: { players: RingPlayer[] }) {
           // Midpoint of the arc — dot and name sit here
           const midDeg = startDeg + segDeg / 2;
 
-          const color = player.won ? "#00C48C" : "#E8725A";
+          const color = player.refunded ? "#6B7280" : player.won ? "#00C48C" : "#E8725A";
 
           // Dot sits at the midpoint of the arc
           const dot = ptOnCircle(cx, cy, r, midDeg);
@@ -84,7 +85,7 @@ export function ScoreRing({ players }: { players: RingPlayer[] }) {
                 fontWeight="900"
                 fill="#FFFFFF"
               >
-                {player.won ? "✓" : "✗"}
+                {player.refunded ? "~" : player.won ? "✓" : "✗"}
               </text>
 
               {/* Player name */}

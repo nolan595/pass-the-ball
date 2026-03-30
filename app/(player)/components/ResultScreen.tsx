@@ -12,6 +12,7 @@ export type ResultPick = {
   oddPrice: number;
   isMe: boolean;
   won?: boolean;
+  refunded?: boolean;
 };
 
 export function ResultScreen({
@@ -200,7 +201,9 @@ export function ResultScreen({
                 padding: "8px 10px",
                 borderRadius: "8px",
                 background:
-                  pick.won === true
+                  pick.refunded
+                    ? "rgba(107,114,128,0.10)"
+                    : pick.won === true
                     ? "rgba(0,196,140,0.08)"
                     : pick.won === false
                     ? "rgba(232,114,90,0.08)"
@@ -208,7 +211,9 @@ export function ResultScreen({
                     ? "rgba(0,196,140,0.08)"
                     : "transparent",
                 border:
-                  pick.won === true
+                  pick.refunded
+                    ? "1px solid rgba(107,114,128,0.25)"
+                    : pick.won === true
                     ? "1px solid rgba(0,196,140,0.20)"
                     : pick.won === false
                     ? "1px solid rgba(232,114,90,0.20)"
@@ -234,7 +239,9 @@ export function ResultScreen({
                     fontWeight: 700,
                     fontSize: "14px",
                     color:
-                      pick.won === true
+                      pick.refunded
+                        ? "#9CA3AF"
+                        : pick.won === true
                         ? "var(--accent-green)"
                         : pick.won === false
                         ? "#E8725A"
@@ -243,7 +250,19 @@ export function ResultScreen({
                 >
                   {pick.oddPrice.toFixed(2)}
                 </span>
-                {pick.won !== undefined && (
+                {pick.refunded ? (
+                  <span
+                    style={{
+                      fontSize: "10px",
+                      fontWeight: 700,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.08em",
+                      color: "#9CA3AF",
+                    }}
+                  >
+                    Refunded
+                  </span>
+                ) : pick.won !== undefined ? (
                   <span
                     style={{
                       fontSize: "10px",
@@ -255,7 +274,7 @@ export function ResultScreen({
                   >
                     {pick.won ? "Won" : "Lost"}
                   </span>
-                )}
+                ) : null}
               </div>
             </div>
           ))}
