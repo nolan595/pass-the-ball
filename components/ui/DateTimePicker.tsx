@@ -104,7 +104,9 @@ export function DateTimePicker({ value, onChange, placeholder = "Select date & t
   function confirm() {
     commitBuffers();
     if (!selected) return;
-    onChange(toInputString(selected, hour, minute));
+    // Build a local-time Date then serialise as UTC ISO so the server stores the right instant
+    const dt = new Date(selected.getFullYear(), selected.getMonth(), selected.getDate(), hour, minute);
+    onChange(dt.toISOString());
     setOpen(false);
   }
 
