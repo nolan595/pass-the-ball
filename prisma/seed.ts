@@ -2,10 +2,10 @@ import "dotenv/config";
 import { prisma } from "../lib/prisma";
 
 const players = [
-  { slug: "user1", displayName: "Player 1" },
-  { slug: "user2", displayName: "Player 2" },
-  { slug: "user3", displayName: "Player 3" },
-  { slug: "user4", displayName: "Player 4" },
+  { slug: "rob", displayName: "Rob" },
+  { slug: "renata", displayName: "Renata" },
+  { slug: "mark", displayName: "Mark" },
+  { slug: "dmytro", displayName: "Dmytro" },
 ];
 
 async function main() {

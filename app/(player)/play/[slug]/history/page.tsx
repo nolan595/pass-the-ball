@@ -15,6 +15,13 @@ export default async function PlayerHistoryPage({
   const player = await prisma.player.findUnique({ where: { slug } });
   if (!player) notFound();
 
+  // Find the most recent active game for the Home nav link
+  const activeGame = await prisma.game.findFirst({
+    where: { status: { in: ["OPEN", "PENDING"] } },
+    orderBy: { openTime: "desc" },
+    select: { id: true },
+  });
+
   // Fetch all closed/completed games this player participated in
   const games = await prisma.game.findMany({
     where: {
@@ -87,7 +94,7 @@ export default async function PlayerHistoryPage({
     <div>
       <FixedHeader state="HISTORY" backHref={`/play/${slug}`} />
       <HistoryView rounds={rounds} />
-      <BottomNavBar activeTab="picks" playerSlug={slug} />
+      <BottomNavBar activeTab="picks" playerSlug={slug} gameId={activeGame?.id} />
     </div>
   );
 }
