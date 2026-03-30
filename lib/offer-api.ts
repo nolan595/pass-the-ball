@@ -7,7 +7,7 @@ export type OfferOutcome = {
   marketId: number;
   outcomeId: number;
   price: number;
-  status: string; // "active" | "won" | "lost"
+  status: string; // "active" | "win" | "lost" | "refund"
   code: string;
   name: string;
   marketName: string;

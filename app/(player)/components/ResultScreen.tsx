@@ -11,6 +11,7 @@ export type ResultPick = {
   oddName: string;
   oddPrice: number;
   isMe: boolean;
+  won?: boolean;
 };
 
 export function ResultScreen({
@@ -198,8 +199,22 @@ export function ResultScreen({
                 gap: "12px",
                 padding: "8px 10px",
                 borderRadius: "8px",
-                background: pick.isMe ? "rgba(0,196,140,0.08)" : "transparent",
-                border: pick.isMe ? "1px solid rgba(0,196,140,0.20)" : "1px solid transparent",
+                background:
+                  pick.won === true
+                    ? "rgba(0,196,140,0.08)"
+                    : pick.won === false
+                    ? "rgba(232,114,90,0.08)"
+                    : pick.isMe
+                    ? "rgba(0,196,140,0.08)"
+                    : "transparent",
+                border:
+                  pick.won === true
+                    ? "1px solid rgba(0,196,140,0.20)"
+                    : pick.won === false
+                    ? "1px solid rgba(232,114,90,0.20)"
+                    : pick.isMe
+                    ? "1px solid rgba(0,196,140,0.20)"
+                    : "1px solid transparent",
               }}
             >
               <div style={{ minWidth: 0 }}>
@@ -212,17 +227,36 @@ export function ResultScreen({
                 </p>
                 <p style={{ fontSize: "11px", color: "var(--text-muted)", margin: 0 }}>{pick.marketName}</p>
               </div>
-              <span
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontWeight: 700,
-                  fontSize: "14px",
-                  color: "var(--accent-green)",
-                  flexShrink: 0,
-                }}
-              >
-                {pick.oddPrice.toFixed(2)}
-              </span>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "4px", flexShrink: 0 }}>
+                <span
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    fontWeight: 700,
+                    fontSize: "14px",
+                    color:
+                      pick.won === true
+                        ? "var(--accent-green)"
+                        : pick.won === false
+                        ? "#E8725A"
+                        : "var(--accent-green)",
+                  }}
+                >
+                  {pick.oddPrice.toFixed(2)}
+                </span>
+                {pick.won !== undefined && (
+                  <span
+                    style={{
+                      fontSize: "10px",
+                      fontWeight: 700,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.08em",
+                      color: pick.won ? "var(--accent-green)" : "#E8725A",
+                    }}
+                  >
+                    {pick.won ? "Won" : "Lost"}
+                  </span>
+                )}
+              </div>
             </div>
           ))}
         </div>

@@ -168,22 +168,26 @@ export default async function PlayerGamePage({
 
   // ── Result screen ───────────────────────────────────────────────────────────
   if (isResulted) {
-    const allWon = game.picks.every((p) => oddsResultsMap.get(p.oddUuid) === "won");
+    const allWon = game.picks.every((p) => oddsResultsMap.get(p.oddUuid) === "win");
     const ringPlayers: RingPlayer[] = allPlayers.map((p) => {
       const pick = game.picks.find((pk) => pk.playerId === p.id);
       return {
         name: p.displayName,
-        won: pick ? oddsResultsMap.get(pick.oddUuid) === "won" : false,
+        won: pick ? oddsResultsMap.get(pick.oddUuid) === "win" : false,
       };
     });
 
-    const resultPicks: ResultPick[] = game.picks.map((pick) => ({
-      playerName: pick.player.displayName,
-      marketName: pick.marketName,
-      oddName: pick.oddName,
-      oddPrice: pick.oddPrice,
-      isMe: pick.playerId === player.id,
-    }));
+    const resultPicks: ResultPick[] = game.picks.map((pick) => {
+      const resultStatus = oddsResultsMap.get(pick.oddUuid);
+      return {
+        playerName: pick.player.displayName,
+        marketName: pick.marketName,
+        oddName: pick.oddName,
+        oddPrice: pick.oddPrice,
+        isMe: pick.playerId === player.id,
+        won: resultStatus === "win" ? true : resultStatus === "lost" ? false : undefined,
+      };
+    });
 
     const prizeAmount =
       game.prizeType === "CASH" && game.multiplier > 1 ? game.multiplier : undefined;
