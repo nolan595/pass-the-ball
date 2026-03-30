@@ -65,6 +65,9 @@ export default async function GameDetailPage({
   // Always use live odds[] for market display — oddsResults[] only populates after the match finishes
   const odds = event?.odds ?? [];
 
+  // Derive SuperSub eligibility from live odds (the DB field is never set dynamically)
+  const superSubMarketIds = new Set(odds.filter((o) => o.superSubEligible).map((o) => o.marketId));
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -176,6 +179,7 @@ export default async function GameDetailPage({
                   market={market}
                   odds={marketOdds}
                   showResults={isResulted}
+                  isSuperSub={superSubMarketIds.has(market.marketId)}
                   displayName={resolveMarketName(
                     marketOdds[0]?.marketName ?? market.name,
                     event?.homeTeamName,

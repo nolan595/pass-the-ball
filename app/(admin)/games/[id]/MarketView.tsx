@@ -187,11 +187,13 @@ export function MarketView({
   market,
   odds,
   showResults,
+  isSuperSub = false,
   displayName,
 }: {
   market: Market;
   odds: OfferOutcome[];
   showResults: boolean;
+  isSuperSub?: boolean;
   displayName?: string;
 }) {
   const [collapsed, setCollapsed] = useState(false);
@@ -202,7 +204,7 @@ export function MarketView({
       <div className="flex items-start justify-between px-4 py-3.5">
         <div className="min-w-0">
           <span className="text-sm font-semibold text-white leading-snug block">{displayName ?? market.name}</span>
-          {market.superSubEligible && <SuperSubBadge />}
+          {(market.superSubEligible || isSuperSub) && <SuperSubBadge />}
         </div>
         <div className="flex items-center gap-2.5 ml-3 mt-0.5 shrink-0">
           <Info className="w-4 h-4 text-white/25 cursor-pointer hover:text-white/50 transition-colors" />
