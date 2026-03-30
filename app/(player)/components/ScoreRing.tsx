@@ -32,8 +32,8 @@ export function ScoreRing({ players }: { players: RingPlayer[] }) {
   const wonCount = players.filter((p) => p.won).length;
 
   // Extra canvas padding so names outside the ring aren't clipped
-  const padX = 72;
-  const padY = 40;
+  const padX = 80;
+  const padY = 56;
 
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
@@ -44,7 +44,7 @@ export function ScoreRing({ players }: { players: RingPlayer[] }) {
       >
         {players.map((player, i) => {
           // Boundary point between previous segment and this one (centre of gap)
-          const boundaryDeg = i * (360 / n) - 90;
+          const boundaryDeg = i * (360 / n) - 45;
           const startDeg = boundaryDeg + gapDeg / 2;
           const endDeg = startDeg + segDeg;
 
@@ -90,7 +90,7 @@ export function ScoreRing({ players }: { players: RingPlayer[] }) {
                 y={namePt.y}
                 textAnchor={anchor}
                 dominantBaseline="middle"
-                fontSize="12"
+                fontSize="16"
                 fontWeight="700"
                 fontStyle="italic"
                 fontFamily="var(--font-display)"
