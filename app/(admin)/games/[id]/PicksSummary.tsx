@@ -5,7 +5,7 @@ import { calculateGameSgaPrice } from "../actions";
 import { Card, CardHeader, CardBody } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
-import { Users, RefreshCw, Copy, Check, CheckCircle2, XCircle } from "lucide-react";
+import { Users, RefreshCw, Copy, Check, CheckCircle2, XCircle, RotateCcw } from "lucide-react";
 
 type Pick = {
   id: number;
@@ -103,6 +103,11 @@ export function PicksSummary({
                 {pick && oddsResultsMap[pick.oddUuid] === "lost" && (
                   <span className="inline-flex items-center gap-1 text-red-500 text-xs font-bold">
                     <XCircle className="w-3.5 h-3.5" /> LOST
+                  </span>
+                )}
+                {pick && oddsResultsMap[pick.oddUuid] === "refund" && (
+                  <span className="inline-flex items-center gap-1 text-amber-500 text-xs font-bold">
+                    <RotateCcw className="w-3.5 h-3.5" /> REFUND
                   </span>
                 )}
                 {pick && !oddsResultsMap[pick.oddUuid] ? (
