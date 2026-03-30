@@ -43,19 +43,22 @@ export function ScoreRing({ players }: { players: RingPlayer[] }) {
         viewBox={`${-padX} ${-padY} ${size + padX * 2} ${size + padY * 2}`}
       >
         {players.map((player, i) => {
-          // Boundary point between previous segment and this one (centre of gap)
-          const boundaryDeg = i * (360 / n) - 45;
+          // Arc boundaries at cardinal points (12→3, 3→6, 6→9, 9→12)
+          const boundaryDeg = i * (360 / n) - 90;
           const startDeg = boundaryDeg + gapDeg / 2;
           const endDeg = startDeg + segDeg;
 
+          // Midpoint of the arc — dot and name sit here
+          const midDeg = startDeg + segDeg / 2;
+
           const color = player.won ? "#00C48C" : "#E8725A";
 
-          // Dot sits at the gap centre (visually the junction between two arcs)
-          const dot = ptOnCircle(cx, cy, r, boundaryDeg);
+          // Dot sits at the midpoint of the arc
+          const dot = ptOnCircle(cx, cy, r, midDeg);
 
-          // Name outside the ring, further out than the dot
+          // Name outside the ring at the same midpoint angle
           const nameDist = r + strokeWidth / 2 + 22;
-          const namePt = ptOnCircle(cx, cy, nameDist, boundaryDeg);
+          const namePt = ptOnCircle(cx, cy, nameDist, midDeg);
           const anchor =
             namePt.x < cx - 6 ? "end" : namePt.x > cx + 6 ? "start" : "middle";
 
