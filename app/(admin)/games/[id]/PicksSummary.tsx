@@ -95,7 +95,7 @@ export function PicksSummary({
               </div>
 
               <div className="flex items-center gap-2 shrink-0 ml-3">
-                {pick && oddsResultsMap[pick.oddUuid] === "won" && (
+                {pick && oddsResultsMap[pick.oddUuid] === "win" && (
                   <span className="inline-flex items-center gap-1 text-emerald-600 text-xs font-bold">
                     <CheckCircle2 className="w-3.5 h-3.5" /> WON
                   </span>
