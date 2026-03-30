@@ -4,7 +4,35 @@ import { fetchPreviewBetbuilderOdd, fetchSgaMarkets } from "@/lib/sga-api";
 import { notFound } from "next/navigation";
 import { PlayerGameView } from "./PlayerGameView";
 import { formatDate } from "@/lib/utils";
-import { Lock, Users, Clock, CheckCircle2, XCircle } from "lucide-react";
+import { Lock, Users, Clock, CheckCircle2, XCircle, Hourglass } from "lucide-react";
+
+function TurnBanner({ isMyTurn, playerName }: { isMyTurn: boolean; playerName: string }) {
+  return (
+    <div
+      className="relative -mx-4 px-6 pt-10 pb-8 text-center overflow-hidden"
+      style={{ background: "linear-gradient(160deg, #2e0a0a 0%, #1c0505 50%, #110303 100%)" }}
+    >
+      {/* Subtle radial glow */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: "radial-gradient(ellipse 70% 60% at 50% 30%, rgba(185,28,28,0.18) 0%, transparent 70%)" }}
+      />
+      <div className="relative">
+        <h2
+          className="text-3xl font-black uppercase tracking-tight text-white leading-tight mb-2"
+          style={{ fontStyle: "italic", textShadow: "0 2px 20px rgba(0,0,0,0.6)" }}
+        >
+          {isMyTurn ? "Finish Your Turn" : `Waiting for ${playerName} to Pick`}
+        </h2>
+        <p className="text-white/45 text-sm max-w-xs mx-auto leading-relaxed">
+          {isMyTurn
+            ? "Your friends have added their legs. It's your turn to lock in your selection!"
+            : `${playerName} needs to make their pick before you can go.`}
+        </p>
+      </div>
+    </div>
+  );
+}
 
 function ResultBadge({ status }: { status: string }) {
   if (status === "won") {
@@ -33,7 +61,7 @@ export default async function PlayerGamePage({
   const gameId = parseInt(rawGameId);
   if (isNaN(gameId)) notFound();
 
-  const [player, game, markets] = await Promise.all([
+  const [player, game, markets, allPlayers] = await Promise.all([
     prisma.player.findUnique({ where: { slug } }),
     prisma.game.findUnique({
       where: { id: gameId },
@@ -46,12 +74,19 @@ export default async function PlayerGamePage({
       where: { enabled: true },
       orderBy: { createdAt: "asc" },
     }),
+    prisma.player.findMany({ orderBy: { createdAt: "asc" } }),
   ]);
 
   if (!player) notFound();
   if (!game) notFound();
 
   const myPick = game.picks.find((p) => p.playerId === player.id);
+
+  // Turn-order: first player (by creation) who hasn't picked yet
+  const pickedIds = new Set(game.picks.map((p) => p.playerId));
+  const currentTurnPlayer = allPlayers.find((p) => !pickedIds.has(p.id)) ?? null;
+  const isMyTurn = currentTurnPlayer?.id === player.id;
+  const isBlocked = !myPick && !isMyTurn && currentTurnPlayer !== null;
   const isResulted = game.status === "CLOSED" || game.status === "COMPLETED";
 
   // Fetch live odds for OPEN games (pick selection UI)
@@ -65,14 +100,14 @@ export default async function PlayerGamePage({
     odds: odds.filter((o) => o.marketId === m.marketId),
   }));
 
-  const totalPlayers = await prisma.player.count();
+  const totalPlayers = allPlayers.length;
   const otherPicks = game.picks.filter((p) => p.playerId !== player.id);
 
   // For the pick selection UI: unavailable odds + SuperSub eligible market IDs
   let unavailableOddsUuids: string[] = [];
   let superSubMarketIds: number[] = [];
 
-  if (game.status === "OPEN" && !myPick) {
+  if (game.status === "OPEN" && !myPick && isMyTurn) {
     const [previewResult, sgaMarketsResult] = await Promise.allSettled([
       otherPicks.length > 0
         ? fetchPreviewBetbuilderOdd(game.event.externalEventId, otherPicks.map((p) => p.oddUuid))
@@ -118,8 +153,13 @@ export default async function PlayerGamePage({
 
   return (
     <div className="max-w-lg mx-auto px-4 pb-8">
+      {/* Turn banner — shown when game is OPEN and player hasn't picked yet */}
+      {game.status === "OPEN" && !myPick && currentTurnPlayer && (
+        <TurnBanner isMyTurn={isMyTurn} playerName={currentTurnPlayer.displayName} />
+      )}
+
       {/* Match header */}
-      <div className="pt-8 pb-6">
+      <div className={`pb-6 ${game.status === "OPEN" && !myPick && currentTurnPlayer ? "pt-6" : "pt-8"}`}>
         <p className="text-[10px] font-bold uppercase tracking-widest text-white/30 mb-3 text-center">
           PassTheBall
         </p>
@@ -250,8 +290,49 @@ export default async function PlayerGamePage({
         </div>
       )}
 
-      {/* Pick UI — OPEN, not yet picked */}
-      {game.status === "OPEN" && !myPick && (
+      {/* Blocked — OPEN, not yet picked, not my turn */}
+      {game.status === "OPEN" && isBlocked && currentTurnPlayer && (
+        <div className="space-y-3">
+          <div className="rounded-xl bg-[#1e1f2a] border border-[#2c2d3d] p-5 text-center">
+            <Hourglass className="w-8 h-8 text-white/15 mx-auto mb-3" />
+            <p className="text-white/60 text-sm">
+              You&apos;ll be able to pick once {currentTurnPlayer.displayName} has locked in their selection.
+            </p>
+          </div>
+          {game.picks.length > 0 && (
+            <div className="rounded-xl bg-[#1e1f2a] border border-[#2c2d3d] p-4">
+              <div className="flex items-center gap-2 mb-3">
+                <Users className="w-4 h-4 text-white/30" />
+                <span className="text-[10px] font-bold uppercase tracking-widest text-white/30">
+                  {game.picks.length}/{totalPlayers} picked
+                </span>
+              </div>
+              <div className="space-y-2">
+                {allPlayers.map((p) => {
+                  const pick = game.picks.find((pk) => pk.playerId === p.id);
+                  return (
+                    <div key={p.id} className="flex items-center justify-between">
+                      <span className="text-sm text-white/70">{p.displayName}</span>
+                      {pick ? (
+                        <span className="text-sm font-semibold text-white">{pick.oddName}
+                          <span className="text-indigo-400 font-bold ml-2 tabular-nums">{pick.oddPrice.toFixed(2)}</span>
+                        </span>
+                      ) : (
+                        <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/20">
+                          Pending
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Pick UI — OPEN, not yet picked, my turn */}
+      {game.status === "OPEN" && !myPick && isMyTurn && (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <p className="text-[10px] font-bold uppercase tracking-widest text-white/30">

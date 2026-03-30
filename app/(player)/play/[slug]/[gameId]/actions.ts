@@ -48,6 +48,14 @@ export async function submitPick(
   const existingPick = game.picks.find((p) => p.playerId === player.id);
   if (existingPick) throw new Error("You have already locked in your pick");
 
+  // Turn-order enforcement: block out-of-order submissions
+  const allPlayers = await prisma.player.findMany({ orderBy: { createdAt: "asc" } });
+  const pickedIds = new Set(game.picks.map((p) => p.playerId));
+  const currentTurnPlayer = allPlayers.find((p) => !pickedIds.has(p.id));
+  if (currentTurnPlayer && currentTurnPlayer.id !== player.id) {
+    throw new Error(`It's ${currentTurnPlayer.displayName}'s turn to pick`);
+  }
+
   // Server-side validation: check this UUID isn't blocked by existing picks
   const otherPickUuids = game.picks
     .filter((p) => p.playerId !== player.id)
