@@ -43,6 +43,10 @@ function OddButton({
   const color = takenBy ? (PLAYER_COLORS[takenBy.playerIndex % PLAYER_COLORS.length] ?? PLAYER_COLORS[0]) : null;
   const initial = takenBy ? takenBy.playerDisplayName.charAt(0).toUpperCase() : null;
 
+  const selectedStyle = isSelected
+    ? { background: "var(--cta-red)", border: "1px solid rgba(192,57,43,0.8)", boxShadow: "0 0 0 2px rgba(192,57,43,0.25), 0 4px 16px rgba(192,57,43,0.3)" }
+    : {};
+
   return (
     <button
       onClick={() => !disabled && onSelect(odd)}
@@ -55,26 +59,34 @@ function OddButton({
           : undefined
       }
       className={`relative w-full flex items-center justify-center py-3 px-2 rounded-lg transition-all select-none
-        ${isSelected
-          ? "bg-indigo-600 border border-indigo-400 ring-2 ring-indigo-400/30 shadow-lg shadow-indigo-900/40"
-          : takenBy
+        ${takenBy
           ? "bg-[#16171e] border border-[#2c2d3d] opacity-50 cursor-not-allowed"
           : isUnavailable
           ? "bg-[#16171e] border border-dashed border-[#2c2d3d]/40 opacity-30 cursor-not-allowed"
           : locked
           ? "bg-[#252636] border border-[#2c2d3d] opacity-40 cursor-not-allowed"
+          : isSelected
+          ? ""
           : "bg-[#252636] border border-[#2c2d3d] hover:bg-[#2c2e44] hover:border-[#3e3f5e] active:scale-95 cursor-pointer"
         }`}
+      style={selectedStyle}
     >
       {takenBy && color && (
         <span
-          className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-black text-white ring-2 ring-[#0f1019] z-10"
+          className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-black text-white ring-2 z-10"
           style={{ backgroundColor: color }}
         >
           {initial}
         </span>
       )}
-      <span className={`text-sm font-bold tabular-nums ${isSelected ? "text-white" : takenBy ? "text-white/30" : isUnavailable ? "text-white/20 line-through" : "text-white/80"}`}>
+      <span
+        className="text-sm font-bold tabular-nums"
+        style={{
+          fontFamily: "var(--font-mono)",
+          color: isSelected ? "var(--text-primary)" : takenBy ? "rgba(255,255,255,0.3)" : isUnavailable ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.85)",
+          textDecoration: isUnavailable ? "line-through" : "none",
+        }}
+      >
         {odd.price > 0 ? odd.price.toFixed(2) : "—"}
       </span>
     </button>
@@ -105,13 +117,17 @@ function MarketCard({
   const hasSelection = odds.some((o) => o.uuid === selectedUuid);
 
   return (
-    <div className={`bg-[#1e1f2a] border rounded-xl overflow-hidden transition-colors ${
-      hasSelection ? "border-indigo-500/40" : "border-[#2c2d3d]"
-    }`}>
+    <div
+      className="rounded-xl overflow-hidden transition-colors"
+      style={{
+        background: "var(--bg-panel)",
+        border: hasSelection ? "1px solid rgba(192,57,43,0.35)" : "1px solid rgba(255,255,255,0.07)",
+      }}
+    >
       <div className="flex items-center justify-between px-4 py-3.5">
         <div className="flex items-center gap-2 min-w-0">
-          {hasSelection && <CheckCircle className="w-3.5 h-3.5 text-indigo-400 shrink-0" />}
-          <span className="text-sm font-semibold text-white leading-snug truncate">{market.name}</span>
+          {hasSelection && <CheckCircle className="w-3.5 h-3.5 shrink-0" style={{ color: "var(--accent-green)" }} />}
+          <span className="text-sm font-semibold leading-snug truncate" style={{ color: "var(--text-primary)", fontFamily: "var(--font-display)" }}>{market.name}</span>
           {isSuperSub && (
             <span className="shrink-0 inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-black tracking-wide bg-amber-500/15 text-amber-400 border border-amber-500/25 uppercase">
               SuperSub
@@ -342,17 +358,17 @@ export function PlayerGameView({
   if (submitted) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[40vh] text-center px-4">
-        <div className="w-14 h-14 rounded-full bg-indigo-600/20 flex items-center justify-center mb-4">
-          <Lock className="w-7 h-7 text-indigo-400" />
+        <div className="w-14 h-14 rounded-full flex items-center justify-center mb-4" style={{ background: "rgba(0,196,140,0.15)" }}>
+          <Lock className="w-7 h-7" style={{ color: "var(--accent-green)" }} />
         </div>
-        <h2 className="text-xl font-bold text-white mb-1">Pick Locked In</h2>
-        <p className="text-white/50 text-sm max-w-xs">
+        <h2 className="text-xl font-black mb-1" style={{ color: "var(--text-primary)", fontFamily: "var(--font-display)", fontStyle: "italic" }}>Pick Locked In</h2>
+        <p className="text-sm max-w-xs" style={{ color: "var(--text-muted)" }}>
           Your selection has been saved. Waiting for the other players to pick.
         </p>
-        <div className="mt-6 px-5 py-3 rounded-xl bg-[#1e1f2a] border border-indigo-500/30">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-white/30 mb-1">{selectedMarket?.name}</p>
-          <p className="text-white font-semibold">{selectedOdd?.name}</p>
-          <p className="text-indigo-400 font-bold text-lg tabular-nums">{selectedOdd?.price.toFixed(2)}</p>
+        <div className="mt-6 px-5 py-3 rounded-xl border" style={{ background: "var(--bg-panel)", borderColor: "rgba(0,196,140,0.20)" }}>
+          <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: "var(--text-muted)" }}>{selectedMarket?.name}</p>
+          <p className="font-semibold" style={{ color: "var(--text-primary)" }}>{selectedOdd?.name}</p>
+          <p className="font-black text-lg tabular-nums" style={{ color: "var(--accent-green)", fontFamily: "var(--font-mono)" }}>{selectedOdd?.price.toFixed(2)}</p>
         </div>
       </div>
     );
@@ -380,23 +396,28 @@ export function PlayerGameView({
       <div className={`fixed bottom-0 left-0 right-0 transition-all duration-300 ${
         selectedOdd ? "translate-y-0 opacity-100" : "translate-y-full opacity-0 pointer-events-none"
       }`}>
-        <div className="bg-[#1e1f2a]/95 backdrop-blur-sm border-t border-[#2c2d3d] px-4 py-4 safe-bottom">
+        <div className="backdrop-blur-sm border-t border-white/8 px-4 py-4 safe-bottom" style={{ background: "rgba(30,30,42,0.96)" }}>
           <div className="max-w-lg mx-auto">
             {error && (
-              <p className="text-red-400 text-xs text-center mb-2">{error}</p>
+              <p className="text-xs text-center mb-2" style={{ color: "#f87171" }}>{error}</p>
             )}
             <div className="flex items-center gap-3">
               <div className="flex-1 min-w-0">
-                <p className="text-[10px] font-bold uppercase tracking-widest text-white/30 truncate">{selectedMarket?.name}</p>
-                <p className="text-white font-semibold text-sm truncate">{selectedOdd?.name}</p>
+                <p className="text-[10px] font-bold uppercase tracking-widest truncate" style={{ color: "var(--text-muted)" }}>{selectedMarket?.name}</p>
+                <p className="font-semibold text-sm truncate" style={{ color: "var(--text-primary)" }}>{selectedOdd?.name}</p>
               </div>
               <div className="text-right shrink-0">
-                <p className="text-indigo-400 font-bold text-lg tabular-nums">{selectedOdd?.price.toFixed(2)}</p>
+                <p className="font-black text-lg tabular-nums" style={{ color: "var(--accent-green)", fontFamily: "var(--font-mono)" }}>{selectedOdd?.price.toFixed(2)}</p>
               </div>
               <button
                 onClick={handleSubmit}
                 disabled={pending}
-                className="shrink-0 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white font-bold text-sm transition-all disabled:opacity-60 disabled:cursor-not-allowed flex items-center gap-2"
+                className="shrink-0 px-5 py-2.5 rounded-xl font-black text-sm transition-all active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed flex items-center gap-2"
+                style={{
+                  background: "var(--cta-red)",
+                  color: "var(--text-primary)",
+                  fontFamily: "var(--font-display)",
+                }}
               >
                 <Lock className="w-3.5 h-3.5" />
                 {pending ? "Locking…" : "Lock In"}

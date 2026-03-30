@@ -27,7 +27,7 @@ function toInputString(d: Date, h: number, m: number) {
 export function DateTimePicker({ value, onChange, placeholder = "Select date & time…", className }: DateTimePickerProps) {
   const initial = value ? new Date(value) : null;
 
-  const [open, setOpen]         = useState(false);
+  const [open, setOpen] = useState(false);
   const [viewDate, setViewDate] = useState(() => initial ?? new Date());
   const [selected, setSelected] = useState<Date | null>(initial);
   const [hour, setHour]         = useState(initial?.getHours() ?? 12);

@@ -1,5 +1,23 @@
 @import "tailwindcss";
 
+/* ── Design tokens ───────────────────────────────────── */
+
+:root {
+  --bg-primary:    #0E0E10;
+  --bg-hero:       #3D0808;
+  --bg-match-card: #4A0C0C;
+  --bg-panel:      #1E1E2A;
+  --accent-green:  #00C48C;
+  --accent-amber:  #D4820A;
+  --cta-red:       #C0392B;
+  --text-primary:  #FFFFFF;
+  --text-muted:    #8A8A9A;
+
+  /* Fonts are provided by next/font — variables injected on <html> */
+  --font-display: var(--font-syne, 'Syne', sans-serif);
+  --font-mono:    var(--font-jetbrains-mono, 'JetBrains Mono', monospace);
+}
+
 /* ── Keyframe animations ─────────────────────────────── */
 
 @keyframes enter-up {

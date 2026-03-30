@@ -10,21 +10,27 @@ function TurnBanner({ isMyTurn, playerName }: { isMyTurn: boolean; playerName: s
   return (
     <div
       className="relative -mx-4 px-6 pt-10 pb-8 text-center overflow-hidden"
-      style={{ background: "linear-gradient(160deg, #2e0a0a 0%, #1c0505 50%, #110303 100%)" }}
+      style={{
+        background: "linear-gradient(160deg, var(--bg-match-card) 0%, var(--bg-hero) 45%, var(--bg-primary) 100%)",
+      }}
     >
-      {/* Subtle radial glow */}
       <div
         className="absolute inset-0 pointer-events-none"
-        style={{ background: "radial-gradient(ellipse 70% 60% at 50% 30%, rgba(185,28,28,0.18) 0%, transparent 70%)" }}
+        style={{ background: "radial-gradient(ellipse 70% 55% at 50% 20%, rgba(192,57,43,0.20) 0%, transparent 70%)" }}
       />
       <div className="relative">
         <h2
-          className="text-3xl font-black uppercase tracking-tight text-white leading-tight mb-2"
-          style={{ fontStyle: "italic", textShadow: "0 2px 20px rgba(0,0,0,0.6)" }}
+          className="text-3xl font-black uppercase tracking-tight leading-tight mb-2"
+          style={{
+            fontFamily: "var(--font-display)",
+            fontStyle: "italic",
+            color: "var(--text-primary)",
+            textShadow: "0 2px 24px rgba(0,0,0,0.7)",
+          }}
         >
           {isMyTurn ? "Finish Your Turn" : `Waiting for ${playerName} to Pick`}
         </h2>
-        <p className="text-white/45 text-sm max-w-xs mx-auto leading-relaxed">
+        <p className="text-sm max-w-xs mx-auto leading-relaxed" style={{ color: "var(--text-muted)" }}>
           {isMyTurn
             ? "Your friends have added their legs. It's your turn to lock in your selection!"
             : `${playerName} needs to make their pick before you can go.`}
@@ -175,12 +181,12 @@ export default async function PlayerGamePage({
 
       {/* Game not yet open */}
       {(game.status === "DRAFT" || game.status === "PENDING") && (
-        <div className="rounded-xl bg-[#1e1f2a] border border-[#2c2d3d] p-6 text-center">
-          <Clock className="w-8 h-8 text-white/20 mx-auto mb-3" />
-          <p className="text-white font-semibold mb-1">
+        <div className="rounded-xl border border-white/8 p-6 text-center" style={{ background: "var(--bg-panel)" }}>
+          <Clock className="w-8 h-8 mx-auto mb-3" style={{ color: "var(--text-muted)" }} />
+          <p className="font-semibold mb-1" style={{ color: "var(--text-primary)", fontFamily: "var(--font-display)" }}>
             {game.status === "PENDING" ? "Opening soon" : "Not yet open"}
           </p>
-          <p className="text-white/40 text-sm">
+          <p className="text-sm" style={{ color: "var(--text-muted)" }}>
             {game.status === "PENDING"
               ? "This game hasn't opened yet. Check back soon."
               : "This game isn't ready yet."}
@@ -191,34 +197,42 @@ export default async function PlayerGamePage({
       {/* Results view — CLOSED or COMPLETED */}
       {isResulted && (
         <div className="space-y-4">
-          <div className="rounded-xl bg-[#1e1f2a] border border-[#2c2d3d] p-4">
+          <div className="rounded-xl border border-white/8 p-4" style={{ background: "var(--bg-panel)" }}>
             <div className="flex items-center gap-2 mb-4">
-              <Users className="w-4 h-4 text-white/30" />
-              <span className="text-[10px] font-bold uppercase tracking-widest text-white/30">Results</span>
+              <Users className="w-4 h-4" style={{ color: "var(--text-muted)" }} />
+              <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "var(--text-muted)" }}>Results</span>
             </div>
 
             {game.picks.length === 0 ? (
-              <p className="text-xs text-white/25 text-center py-2">No picks were made for this game.</p>
+              <p className="text-xs text-center py-2" style={{ color: "var(--text-muted)" }}>No picks were made for this game.</p>
             ) : (
               <div className="space-y-3">
                 {game.picks.map((pick) => {
                   const result = oddsResultsMap.get(pick.oddUuid);
                   const isMe = pick.playerId === player.id;
                   return (
-                    <div key={pick.id} className={`flex items-center justify-between rounded-lg px-3 py-2.5 ${isMe ? "bg-indigo-500/10 border border-indigo-500/20" : "bg-[#252636]"}`}>
+                    <div
+                      key={pick.id}
+                      className="flex items-center justify-between rounded-lg px-3 py-2.5"
+                      style={isMe
+                        ? { background: "rgba(0,196,140,0.08)", border: "1px solid rgba(0,196,140,0.20)" }
+                        : { background: "rgba(255,255,255,0.04)" }
+                      }
+                    >
                       <div className="min-w-0">
-                        <p className="text-xs font-bold text-white/50 mb-0.5">
-                          {pick.player.displayName}{isMe && <span className="ml-1.5 text-indigo-400">(you)</span>}
+                        <p className="text-xs font-bold mb-0.5" style={{ color: "var(--text-muted)" }}>
+                          {pick.player.displayName}
+                          {isMe && <span className="ml-1.5" style={{ color: "var(--accent-green)" }}>(you)</span>}
                         </p>
-                        <p className="text-sm font-semibold text-white truncate">{pick.oddName}</p>
-                        <p className="text-[10px] text-white/35 truncate">{pick.marketName}</p>
+                        <p className="text-sm font-semibold truncate" style={{ color: "var(--text-primary)" }}>{pick.oddName}</p>
+                        <p className="text-[10px] truncate" style={{ color: "var(--text-muted)" }}>{pick.marketName}</p>
                       </div>
                       <div className="flex flex-col items-end gap-1 shrink-0 ml-3">
-                        <span className="text-indigo-400 font-bold tabular-nums">{pick.oddPrice.toFixed(2)}</span>
+                        <span className="font-bold tabular-nums" style={{ color: "var(--accent-green)", fontFamily: "var(--font-mono)" }}>{pick.oddPrice.toFixed(2)}</span>
                         {result ? (
                           <ResultBadge status={result} />
                         ) : (
-                          <span className="text-[10px] text-white/25">Pending</span>
+                          <span className="text-[10px]" style={{ color: "var(--text-muted)" }}>Pending</span>
                         )}
                       </div>
                     </div>
@@ -228,15 +242,15 @@ export default async function PlayerGamePage({
             )}
 
             {game.sgaPrice && (
-              <div className="mt-4 pt-4 border-t border-[#2c2d3d] text-center">
-                <p className="text-[10px] font-bold uppercase tracking-widest text-white/30 mb-1">Combined Price</p>
-                <p className="text-4xl font-black text-indigo-400 tabular-nums">{game.sgaPrice.toFixed(2)}</p>
+              <div className="mt-4 pt-4 border-t border-white/8 text-center">
+                <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: "var(--text-muted)" }}>Combined Price</p>
+                <p className="text-4xl font-black tabular-nums" style={{ color: "var(--accent-green)", fontFamily: "var(--font-mono)" }}>{game.sgaPrice.toFixed(2)}</p>
               </div>
             )}
           </div>
 
           {!myPick && (
-            <p className="text-center text-xs text-white/25">You didn&apos;t pick for this round.</p>
+            <p className="text-center text-xs" style={{ color: "var(--text-muted)" }}>You didn&apos;t pick for this round.</p>
           )}
         </div>
       )}
@@ -244,45 +258,45 @@ export default async function PlayerGamePage({
       {/* Player already picked — OPEN game */}
       {game.status === "OPEN" && myPick && (
         <div className="space-y-4">
-          <div className="rounded-xl bg-[#1e1f2a] border border-indigo-500/30 p-5">
+          <div className="rounded-xl border p-5" style={{ background: "var(--bg-panel)", borderColor: "rgba(0,196,140,0.25)" }}>
             <div className="flex items-center gap-2 mb-4">
-              <Lock className="w-4 h-4 text-indigo-400" />
-              <span className="text-sm font-bold text-white">Your Pick</span>
+              <Lock className="w-4 h-4" style={{ color: "var(--accent-green)" }} />
+              <span className="text-sm font-bold" style={{ color: "var(--text-primary)", fontFamily: "var(--font-display)" }}>Your Pick</span>
             </div>
-            <p className="text-[10px] font-bold uppercase tracking-widest text-white/30 mb-1">{myPick.marketName}</p>
-            <p className="text-white font-semibold text-lg">{myPick.oddName}</p>
-            <p className="text-indigo-400 font-bold text-2xl tabular-nums mt-0.5">{myPick.oddPrice.toFixed(2)}</p>
+            <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: "var(--text-muted)" }}>{myPick.marketName}</p>
+            <p className="font-semibold text-lg" style={{ color: "var(--text-primary)" }}>{myPick.oddName}</p>
+            <p className="font-black text-2xl tabular-nums mt-0.5" style={{ color: "var(--accent-green)", fontFamily: "var(--font-mono)" }}>{myPick.oddPrice.toFixed(2)}</p>
           </div>
 
-          <div className="rounded-xl bg-[#1e1f2a] border border-[#2c2d3d] p-4">
+          <div className="rounded-xl border border-white/8 p-4" style={{ background: "var(--bg-panel)" }}>
             <div className="flex items-center gap-2 mb-3">
-              <Users className="w-4 h-4 text-white/30" />
-              <span className="text-[10px] font-bold uppercase tracking-widest text-white/30">
+              <Users className="w-4 h-4" style={{ color: "var(--text-muted)" }} />
+              <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "var(--text-muted)" }}>
                 {game.picks.length} / {totalPlayers} picked
               </span>
             </div>
             <div className="space-y-2">
               {game.picks.map((pick) => (
                 <div key={pick.id} className="flex items-center justify-between">
-                  <span className="text-sm text-white/70">{pick.player.displayName}</span>
+                  <span className="text-sm" style={{ color: "var(--text-primary)" }}>{pick.player.displayName}</span>
                   <div className="text-right">
-                    <span className="text-xs text-white/40">{pick.marketName} · </span>
-                    <span className="text-sm font-semibold text-white">{pick.oddName}</span>
-                    <span className="text-indigo-400 font-bold text-sm ml-2 tabular-nums">{pick.oddPrice.toFixed(2)}</span>
+                    <span className="text-xs mr-1" style={{ color: "var(--text-muted)" }}>{pick.marketName} ·</span>
+                    <span className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>{pick.oddName}</span>
+                    <span className="font-bold text-sm ml-2 tabular-nums" style={{ color: "var(--accent-green)", fontFamily: "var(--font-mono)" }}>{pick.oddPrice.toFixed(2)}</span>
                   </div>
                 </div>
               ))}
             </div>
 
             {game.sgaPrice && (
-              <div className="mt-4 pt-4 border-t border-[#2c2d3d] text-center">
-                <p className="text-[10px] font-bold uppercase tracking-widest text-white/30 mb-1">Combined Price</p>
-                <p className="text-4xl font-black text-indigo-400 tabular-nums">{game.sgaPrice.toFixed(2)}</p>
+              <div className="mt-4 pt-4 border-t border-white/8 text-center">
+                <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: "var(--text-muted)" }}>Combined Price</p>
+                <p className="text-4xl font-black tabular-nums" style={{ color: "var(--accent-green)", fontFamily: "var(--font-mono)" }}>{game.sgaPrice.toFixed(2)}</p>
               </div>
             )}
 
             {!game.sgaPrice && game.picks.length < totalPlayers && (
-              <p className="mt-3 text-center text-xs text-white/25">
+              <p className="mt-3 text-center text-xs" style={{ color: "var(--text-muted)" }}>
                 Waiting for {totalPlayers - game.picks.length} more player{totalPlayers - game.picks.length !== 1 ? "s" : ""}…
               </p>
             )}
@@ -293,17 +307,17 @@ export default async function PlayerGamePage({
       {/* Blocked — OPEN, not yet picked, not my turn */}
       {game.status === "OPEN" && isBlocked && currentTurnPlayer && (
         <div className="space-y-3">
-          <div className="rounded-xl bg-[#1e1f2a] border border-[#2c2d3d] p-5 text-center">
-            <Hourglass className="w-8 h-8 text-white/15 mx-auto mb-3" />
-            <p className="text-white/60 text-sm">
+          <div className="rounded-xl border border-white/8 p-5 text-center" style={{ background: "var(--bg-panel)" }}>
+            <Hourglass className="w-8 h-8 mx-auto mb-3" style={{ color: "var(--text-muted)" }} />
+            <p className="text-sm" style={{ color: "var(--text-muted)" }}>
               You&apos;ll be able to pick once {currentTurnPlayer.displayName} has locked in their selection.
             </p>
           </div>
           {game.picks.length > 0 && (
-            <div className="rounded-xl bg-[#1e1f2a] border border-[#2c2d3d] p-4">
+            <div className="rounded-xl border border-white/8 p-4" style={{ background: "var(--bg-panel)" }}>
               <div className="flex items-center gap-2 mb-3">
-                <Users className="w-4 h-4 text-white/30" />
-                <span className="text-[10px] font-bold uppercase tracking-widest text-white/30">
+                <Users className="w-4 h-4" style={{ color: "var(--text-muted)" }} />
+                <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "var(--text-muted)" }}>
                   {game.picks.length}/{totalPlayers} picked
                 </span>
               </div>
@@ -312,13 +326,19 @@ export default async function PlayerGamePage({
                   const pick = game.picks.find((pk) => pk.playerId === p.id);
                   return (
                     <div key={p.id} className="flex items-center justify-between">
-                      <span className="text-sm text-white/70">{p.displayName}</span>
+                      <span className="text-sm" style={{ color: "var(--text-primary)" }}>{p.displayName}</span>
                       {pick ? (
-                        <span className="text-sm font-semibold text-white">{pick.oddName}
-                          <span className="text-indigo-400 font-bold ml-2 tabular-nums">{pick.oddPrice.toFixed(2)}</span>
+                        <span className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
+                          {pick.oddName}
+                          <span className="font-bold ml-2 tabular-nums" style={{ color: "var(--accent-green)", fontFamily: "var(--font-mono)" }}>
+                            {pick.oddPrice.toFixed(2)}
+                          </span>
                         </span>
                       ) : (
-                        <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/20">
+                        <span
+                          className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded border"
+                          style={{ background: "rgba(212,130,10,0.12)", color: "var(--accent-amber)", borderColor: "rgba(212,130,10,0.25)" }}
+                        >
                           Pending
                         </span>
                       )}
