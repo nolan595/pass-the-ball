@@ -55,15 +55,17 @@ export default async function PlayerGamePage({
     game.status === "OPEN" ? await fetchEvent(game.event.externalEventId) : null;
 
   const odds = event?.odds ?? [];
-  const marketsWithOdds = markets.map((m) => {
-    const marketOdds = odds.filter((o) => o.marketId === m.marketId);
-    const rawName = marketOdds[0]?.marketName ?? m.name;
-    return {
-      market: m,
-      odds: marketOdds,
-      displayName: resolveMarketName(rawName, event?.homeTeamName, event?.awayTeamName),
-    };
-  });
+  const marketsWithOdds = markets
+    .map((m) => {
+      const marketOdds = odds.filter((o) => o.marketId === m.marketId);
+      const rawName = marketOdds[0]?.marketName ?? m.name;
+      return {
+        market: m,
+        odds: marketOdds,
+        displayName: resolveMarketName(rawName, event?.homeTeamName, event?.awayTeamName),
+      };
+    })
+    .filter((m) => m.odds.length > 0);
 
   const otherPicks = game.picks.filter((p) => p.playerId !== player.id);
 

@@ -181,40 +181,42 @@ function MarketCard({
           padding: "14px 16px",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: "8px", minWidth: 0 }}>
-          {hasSelection && (
-            <CheckCircle size={14} style={{ color: "var(--accent-green)", flexShrink: 0 }} />
-          )}
-          <span
-            style={{
-              fontSize: "15px",
-              fontWeight: 700,
-              color: "#FFFFFF",
-              fontFamily: "var(--font-display)",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-            }}
-          >
-            {displayName}
-          </span>
-          {isSuperSub && (
+        <div style={{ minWidth: 0 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            {hasSelection && (
+              <CheckCircle size={14} style={{ color: "var(--accent-green)", flexShrink: 0 }} />
+            )}
             <span
               style={{
-                flexShrink: 0,
-                padding: "2px 6px",
-                borderRadius: "4px",
-                fontSize: "9px",
-                fontWeight: 900,
-                letterSpacing: "0.05em",
-                textTransform: "uppercase",
-                background: "rgba(217,119,6,0.15)",
-                color: "#fbbf24",
-                border: "1px solid rgba(217,119,6,0.25)",
+                fontSize: "15px",
+                fontWeight: 700,
+                color: "#FFFFFF",
+                fontFamily: "var(--font-display)",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
               }}
             >
-              SuperSub
+              {displayName}
             </span>
+          </div>
+          {isSuperSub && (
+            <div style={{ display: "flex", alignItems: "center", gap: "5px", marginTop: "4px" }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/super-sub.svg" alt="" style={{ width: "14px", height: "14px", flexShrink: 0 }} />
+              <span
+                style={{
+                  fontSize: "10px",
+                  fontWeight: 900,
+                  textTransform: "uppercase",
+                  fontStyle: "italic",
+                  letterSpacing: "0.05em",
+                  color: "#c9a227",
+                }}
+              >
+                Super Sub
+              </span>
+            </div>
           )}
         </div>
         <button
