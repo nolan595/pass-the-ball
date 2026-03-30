@@ -139,6 +139,7 @@ function OddButton({
 // ── Market card ────────────────────────────────────────────────────────────────
 function MarketCard({
   market,
+  displayName,
   odds,
   selectedUuid,
   onSelect,
@@ -148,9 +149,10 @@ function MarketCard({
   isSuperSub,
 }: {
   market: Market;
+  displayName: string;
   odds: OfferOutcome[];
   selectedUuid: string | null;
-  onSelect: (odd: OfferOutcome, market: Market) => void;
+  onSelect: (odd: OfferOutcome, market: Market, displayName: string) => void;
   locked: boolean;
   unavailableUuids: Set<string>;
   takenMap: Map<string, OtherPickInfo>;
@@ -194,7 +196,7 @@ function MarketCard({
               whiteSpace: "nowrap",
             }}
           >
-            {market.name}
+            {displayName}
           </span>
           {isSuperSub && (
             <span
@@ -246,7 +248,7 @@ function MarketCard({
             <OneXTwo
               odds={odds}
               selectedUuid={selectedUuid}
-              onSelect={(o) => onSelect(o, market)}
+              onSelect={(o) => onSelect(o, market, displayName)}
               locked={locked}
               unavailableUuids={unavailableUuids}
               takenMap={takenMap}
@@ -255,7 +257,7 @@ function MarketCard({
             <OverUnder
               odds={odds}
               selectedUuid={selectedUuid}
-              onSelect={(o) => onSelect(o, market)}
+              onSelect={(o) => onSelect(o, market, displayName)}
               locked={locked}
               unavailableUuids={unavailableUuids}
               takenMap={takenMap}
@@ -264,7 +266,7 @@ function MarketCard({
             <OneFromTwo
               odds={odds}
               selectedUuid={selectedUuid}
-              onSelect={(o) => onSelect(o, market)}
+              onSelect={(o) => onSelect(o, market, displayName)}
               locked={locked}
               unavailableUuids={unavailableUuids}
               takenMap={takenMap}
@@ -273,7 +275,7 @@ function MarketCard({
             <PlayerProps
               odds={odds}
               selectedUuid={selectedUuid}
-              onSelect={(o) => onSelect(o, market)}
+              onSelect={(o) => onSelect(o, market, displayName)}
               locked={locked}
               unavailableUuids={unavailableUuids}
               takenMap={takenMap}
@@ -450,6 +452,7 @@ function PlayerProps({ odds, selectedUuid, onSelect, locked, unavailableUuids, t
 export type MarketWithOdds = {
   market: Market;
   odds: OfferOutcome[];
+  displayName: string;
 };
 
 export function PlayerGameView({
@@ -473,14 +476,16 @@ export function PlayerGameView({
   const [selectedUuid, setSelectedUuid] = useState<string | null>(null);
   const [selectedOdd, setSelectedOdd] = useState<OfferOutcome | null>(null);
   const [selectedMarket, setSelectedMarket] = useState<Market | null>(null);
+  const [selectedDisplayName, setSelectedDisplayName] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
 
-  function handleSelect(odd: OfferOutcome, market: Market) {
+  function handleSelect(odd: OfferOutcome, market: Market, displayName: string) {
     setSelectedUuid(odd.uuid);
     setSelectedOdd(odd);
     setSelectedMarket(market);
+    setSelectedDisplayName(displayName);
     setError(null);
   }
 
@@ -494,7 +499,7 @@ export function PlayerGameView({
           selectedMarket.marketId,
           selectedOdd.uuid,
           selectedOdd.name,
-          selectedMarket.name,
+          selectedDisplayName ?? selectedMarket.name,
           selectedOdd.price
         );
         setSubmitted(true);
@@ -545,7 +550,7 @@ export function PlayerGameView({
           }}
         >
           <p style={{ fontSize: "10px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)", marginBottom: "4px" }}>
-            {selectedMarket?.name}
+            {selectedDisplayName}
           </p>
           <p style={{ fontWeight: 600, color: "#FFFFFF", marginBottom: "4px" }}>{selectedOdd?.name}</p>
           <p style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: "18px", color: "var(--accent-green)", margin: 0 }}>
@@ -562,10 +567,11 @@ export function PlayerGameView({
       <div style={{ height: "1px", background: "rgba(255,255,255,0.08)", margin: "0 0 12px" }} />
 
       <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-        {markets.map(({ market, odds }) => (
+        {markets.map(({ market, odds, displayName }) => (
           <MarketCard
             key={market.id}
             market={market}
+            displayName={displayName}
             odds={odds}
             selectedUuid={selectedUuid}
             onSelect={handleSelect}
@@ -604,7 +610,7 @@ export function PlayerGameView({
           <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "10px" }}>
             <div style={{ flex: 1, minWidth: 0 }}>
               <p style={{ fontSize: "10px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                {selectedMarket?.name}
+                {selectedDisplayName}
               </p>
               <p style={{ fontWeight: 600, fontSize: "14px", color: "#FFFFFF", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                 {selectedOdd?.name}

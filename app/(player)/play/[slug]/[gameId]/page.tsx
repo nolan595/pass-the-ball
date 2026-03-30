@@ -3,7 +3,7 @@ import { fetchEvent } from "@/lib/offer-api";
 import { fetchPreviewBetbuilderOdd, fetchSgaMarkets } from "@/lib/sga-api";
 import { notFound } from "next/navigation";
 import { PlayerGameView } from "./PlayerGameView";
-import { formatDate } from "@/lib/utils";
+import { formatDate, resolveMarketName } from "@/lib/utils";
 import { Clock } from "lucide-react";
 import { FixedHeader } from "@/app/(player)/components/FixedHeader";
 import { MatchCard } from "@/app/(player)/components/MatchCard";
@@ -55,10 +55,15 @@ export default async function PlayerGamePage({
     game.status === "OPEN" ? await fetchEvent(game.event.externalEventId) : null;
 
   const odds = event?.odds ?? [];
-  const marketsWithOdds = markets.map((m) => ({
-    market: m,
-    odds: odds.filter((o) => o.marketId === m.marketId),
-  }));
+  const marketsWithOdds = markets.map((m) => {
+    const marketOdds = odds.filter((o) => o.marketId === m.marketId);
+    const rawName = marketOdds[0]?.marketName ?? m.name;
+    return {
+      market: m,
+      odds: marketOdds,
+      displayName: resolveMarketName(rawName, event?.homeTeamName, event?.awayTeamName),
+    };
+  });
 
   const otherPicks = game.picks.filter((p) => p.playerId !== player.id);
 

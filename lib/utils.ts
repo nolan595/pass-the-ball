@@ -28,6 +28,16 @@ export function formatDateTime(date: Date | string): string {
   });
 }
 
+export function resolveMarketName(
+  name: string,
+  homeTeam: string | undefined,
+  awayTeam: string | undefined
+): string {
+  return name
+    .replace(/\{\$competitor1\}/g, homeTeam ?? "Home")
+    .replace(/\{\$competitor2\}/g, awayTeam ?? "Away");
+}
+
 export function formatDate(date: Date | string): string {
   return new Date(date).toLocaleDateString("en-GB", {
     day: "2-digit",

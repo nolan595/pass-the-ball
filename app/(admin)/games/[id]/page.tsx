@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { GameControls } from "./GameControls";
 import { MarketView } from "./MarketView";
 import { PicksSummary } from "./PicksSummary";
-import { formatDateTime } from "@/lib/utils";
+import { formatDateTime, resolveMarketName } from "@/lib/utils";
 import { ArrowLeft, Calendar, Zap } from "lucide-react";
 import { DeleteGameDetailButton } from "./DeleteGameDetailButton";
 import type { GameStatus } from "@/app/generated/prisma";
@@ -176,6 +176,11 @@ export default async function GameDetailPage({
                   market={market}
                   odds={marketOdds}
                   showResults={isResulted}
+                  displayName={resolveMarketName(
+                    marketOdds[0]?.marketName ?? market.name,
+                    event?.homeTeamName,
+                    event?.awayTeamName
+                  )}
                 />
               );
             })}

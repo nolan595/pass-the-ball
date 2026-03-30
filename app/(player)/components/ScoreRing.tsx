@@ -3,114 +3,115 @@ export type RingPlayer = {
   won: boolean;
 };
 
+function deg2rad(d: number) {
+  return (d * Math.PI) / 180;
+}
+
+function ptOnCircle(cx: number, cy: number, r: number, deg: number) {
+  const rad = deg2rad(deg);
+  return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+}
+
+function arcPath(cx: number, cy: number, r: number, startDeg: number, endDeg: number) {
+  const s = ptOnCircle(cx, cy, r, startDeg);
+  const e = ptOnCircle(cx, cy, r, endDeg);
+  const large = endDeg - startDeg > 180 ? 1 : 0;
+  return `M ${s.x.toFixed(3)} ${s.y.toFixed(3)} A ${r} ${r} 0 ${large} 1 ${e.x.toFixed(3)} ${e.y.toFixed(3)}`;
+}
+
 export function ScoreRing({ players }: { players: RingPlayer[] }) {
-  const size = 200;
+  const n = players.length || 4;
+  const size = 240;
   const cx = size / 2;
   const cy = size / 2;
-  const strokeWidth = 12;
-  const radius = (size - strokeWidth) / 2 - 4;
-  const circumference = 2 * Math.PI * radius;
-  const n = players.length || 4;
-  const gapDeg = 8; // degrees of gap between segments
-  const segmentDeg = 360 / n - gapDeg;
-  const segmentLen = (segmentDeg / 360) * circumference;
-  const gapLen = (gapDeg / 360) * circumference;
+  const strokeWidth = 16;
+  const r = (size - strokeWidth) / 2 - 6;
+  const gapDeg = 8;
+  const segDeg = 360 / n - gapDeg;
 
   const wonCount = players.filter((p) => p.won).length;
 
-  // Corner label positions (relative to centre)
-  const labelPositions = [
-    { x: cx - radius - strokeWidth - 8, y: cy - radius - strokeWidth - 8, anchor: "end" as const },   // top-left
-    { x: cx + radius + strokeWidth + 8, y: cy - radius - strokeWidth - 8, anchor: "start" as const }, // top-right
-    { x: cx - radius - strokeWidth - 8, y: cy + radius + strokeWidth + 24, anchor: "end" as const },  // bottom-left
-    { x: cx + radius + strokeWidth + 8, y: cy + radius + strokeWidth + 24, anchor: "start" as const }, // bottom-right
-  ];
-
-  // Badge positions at segment midpoints
-  const badgePositions = [
-    { x: cx - 20, y: cy - radius - 4 },  // top
-    { x: cx + radius + 4, y: cy - 8 },   // right
-    { x: cx - 8, y: cy + radius + 14 },  // bottom
-    { x: cx - radius - 20, y: cy - 8 },  // left
-  ];
+  // Extra canvas padding so names outside the ring aren't clipped
+  const padX = 72;
+  const padY = 40;
 
   return (
-    <div style={{ position: "relative", width: `${size + 80}px`, height: `${size + 60}px`, margin: "0 auto" }}>
+    <div style={{ display: "flex", justifyContent: "center" }}>
       <svg
-        width={size + 80}
-        height={size + 60}
-        viewBox={`-40 -30 ${size + 80} ${size + 60}`}
-        style={{ overflow: "visible" }}
+        width={size + padX * 2}
+        height={size + padY * 2}
+        viewBox={`${-padX} ${-padY} ${size + padX * 2} ${size + padY * 2}`}
       >
         {players.map((player, i) => {
-          const startDeg = i * (360 / n) - 90 + gapDeg / 2;
+          // Boundary point between previous segment and this one (centre of gap)
+          const boundaryDeg = i * (360 / n) - 90;
+          const startDeg = boundaryDeg + gapDeg / 2;
+          const endDeg = startDeg + segDeg;
+
           const color = player.won ? "#00C48C" : "#E8725A";
-          const label = labelPositions[i % 4];
-          const badge = badgePositions[i % 4];
+
+          // Dot sits at the gap centre (visually the junction between two arcs)
+          const dot = ptOnCircle(cx, cy, r, boundaryDeg);
+
+          // Name outside the ring, further out than the dot
+          const nameDist = r + strokeWidth / 2 + 22;
+          const namePt = ptOnCircle(cx, cy, nameDist, boundaryDeg);
+          const anchor =
+            namePt.x < cx - 6 ? "end" : namePt.x > cx + 6 ? "start" : "middle";
 
           return (
             <g key={i}>
-              {/* Arc segment */}
-              <circle
-                cx={cx}
-                cy={cy}
-                r={radius}
+              {/* Coloured arc segment */}
+              <path
+                d={arcPath(cx, cy, r, startDeg, endDeg)}
                 fill="none"
                 stroke={color}
                 strokeWidth={strokeWidth}
-                strokeDasharray={`${segmentLen} ${circumference - segmentLen}`}
-                strokeDashoffset={-(((startDeg + 90) / 360) * circumference)}
-                transform={`rotate(${startDeg - 90}, ${cx}, ${cy})`}
                 strokeLinecap="butt"
               />
 
-              {/* Win/Loss badge circle */}
-              <circle
-                cx={badge.x + 8}
-                cy={badge.y - 8}
-                r={10}
-                fill={player.won ? "#00C48C" : "#E8725A"}
-              />
+              {/* Junction dot */}
+              <circle cx={dot.x} cy={dot.y} r={11} fill={color} />
               <text
-                x={badge.x + 8}
-                y={badge.y - 8}
+                x={dot.x}
+                y={dot.y}
                 textAnchor="middle"
                 dominantBaseline="central"
-                fontSize="10"
+                fontSize="9"
                 fontWeight="900"
                 fill="#FFFFFF"
               >
                 {player.won ? "✓" : "✗"}
               </text>
 
-              {/* Player name label */}
-              {label && (
-                <text
-                  x={label.x}
-                  y={label.y}
-                  textAnchor={label.anchor}
-                  fontSize="11"
-                  fontWeight="700"
-                  fontStyle="italic"
-                  fontFamily="var(--font-display)"
-                  fill="#FFFFFF"
-                  style={{ textTransform: "uppercase" }}
-                >
-                  {player.name.toUpperCase()}
-                </text>
-              )}
+              {/* Player name */}
+              <text
+                x={namePt.x}
+                y={namePt.y}
+                textAnchor={anchor}
+                dominantBaseline="middle"
+                fontSize="12"
+                fontWeight="700"
+                fontStyle="italic"
+                fontFamily="var(--font-display)"
+                fill="#FFFFFF"
+                style={{ textTransform: "uppercase" } as React.CSSProperties}
+              >
+                {player.name.toUpperCase()}
+              </text>
             </g>
           );
         })}
 
-        {/* Centre text */}
+        {/* Centre score */}
         <text
           x={cx}
-          y={cy - 6}
+          y={cy}
           textAnchor="middle"
           dominantBaseline="middle"
-          fontSize="40"
+          fontSize="44"
           fontWeight="700"
+          fontStyle="italic"
           fontFamily="var(--font-display)"
           fill={wonCount === n ? "#FFFFFF" : "#E8725A"}
         >

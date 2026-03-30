@@ -187,10 +187,12 @@ export function MarketView({
   market,
   odds,
   showResults,
+  displayName,
 }: {
   market: Market;
   odds: OfferOutcome[];
   showResults: boolean;
+  displayName?: string;
 }) {
   const [collapsed, setCollapsed] = useState(false);
 
@@ -199,7 +201,7 @@ export function MarketView({
       {/* Header */}
       <div className="flex items-start justify-between px-4 py-3.5">
         <div className="min-w-0">
-          <span className="text-sm font-semibold text-white leading-snug block">{market.name}</span>
+          <span className="text-sm font-semibold text-white leading-snug block">{displayName ?? market.name}</span>
           {market.superSubEligible && <SuperSubBadge />}
         </div>
         <div className="flex items-center gap-2.5 ml-3 mt-0.5 shrink-0">
