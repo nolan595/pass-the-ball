@@ -49,8 +49,14 @@ export default async function PlayerHistoryPage({
       // Non-fatal — treat as pending
     }
 
-    const allSettled = game.picks.every((p) => oddsResultsMap.has(p.oddUuid));
-    const allWon = allSettled && game.picks.every((p) => oddsResultsMap.get(p.oddUuid) === "won");
+    const allSettled = game.picks.every((p) => {
+      const s = oddsResultsMap.get(p.oddUuid);
+      return s === "win" || s === "lost" || s === "refund";
+    });
+    const allWon = allSettled && game.picks.every((p) => {
+      const s = oddsResultsMap.get(p.oddUuid);
+      return s === "win" || s === "refund";
+    });
     const anyLost = allSettled && game.picks.some((p) => oddsResultsMap.get(p.oddUuid) === "lost");
 
     const result: "win" | "loss" | "pending" = !allSettled

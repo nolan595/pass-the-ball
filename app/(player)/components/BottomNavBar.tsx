@@ -10,7 +10,7 @@ export function BottomNavBar({
   playerSlug: string;
   gameId?: number;
 }) {
-  const homeHref = gameId ? `/play/${playerSlug}/${gameId}` : "#";
+  const homeHref = gameId ? `/play/${playerSlug}/${gameId}` : `/play/${playerSlug}`;
   const picksHref = `/play/${playerSlug}/history`;
 
   const activeStyle = { color: "#FFFFFF" };
