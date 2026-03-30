@@ -3,15 +3,40 @@
 /* ── Design tokens ───────────────────────────────────── */
 
 :root {
-  --bg-primary:    #0E0E10;
+  /* Gradient background — all player screens */
+  --gradient-bg: linear-gradient(to bottom, #070708 0%, #1A0000 25%, #410001 50%, #810103 75%, #E80104 100%);
+
+  /* Legacy tokens (kept for admin UI compatibility) */
+  --bg-primary:    #070708;
   --bg-hero:       #3D0808;
-  --bg-match-card: #4A0C0C;
-  --bg-panel:      #1E1E2A;
-  --accent-green:  #00C48C;
-  --accent-amber:  #D4820A;
-  --cta-red:       #C0392B;
+  --bg-match-card: #3D0808;
+  --bg-panel:      rgba(255, 255, 255, 0.06);
+
+  /* Brand colours */
+  --accent-green:        #00C48C;
+  --accent-amber:        #D4820A;
+  --color-coral:         #E8725A;
+  --color-gold:          #F8BE2C;
+
+  /* Interactive */
+  --cta-red:             #C0392B;
+  --color-cta-disabled:  #4A1A1A;
+
+  /* Surfaces */
+  --color-match-card-bg: #3D0808;
+  --color-card-surface:  rgba(255, 255, 255, 0.06);
+  --color-nav-bg:        #0A0A0C;
+
+  /* Text */
   --text-primary:  #FFFFFF;
   --text-muted:    #8A8A9A;
+
+  /* Progress bar */
+  --color-progress-fill:  #00C48C;
+  --color-progress-empty: #2A2A3A;
+
+  /* Shadows */
+  --shadow-card: 0 12px 16px rgba(0,0,0,0.16), 0 32px 24px rgba(0,0,0,0.08);
 
   /* Fonts are provided by next/font — variables injected on <html> */
   --font-display: var(--font-syne, 'Syne', sans-serif);

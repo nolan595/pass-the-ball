@@ -12,7 +12,6 @@ export type OtherPickInfo = {
   playerIndex: number;
 };
 
-// Stable colour per player slot (index 0–3)
 const PLAYER_COLORS = ["#6366f1", "#10b981", "#f59e0b", "#f43f5e"];
 
 // ── Selectable odd button ──────────────────────────────────────────────────────
@@ -33,19 +32,41 @@ function OddButton({
 }) {
   if (!odd) {
     return (
-      <div className="flex items-center justify-center py-3 px-2 rounded-lg bg-[#16171e] border border-dashed border-[#2c2d3d]/60">
-        <span className="text-xs text-white/15">—</span>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "10px 8px",
+          borderRadius: "8px",
+          background: "rgba(255,255,255,0.04)",
+          border: "1px dashed rgba(255,255,255,0.1)",
+        }}
+      >
+        <span style={{ fontSize: "12px", color: "rgba(255,255,255,0.15)" }}>—</span>
       </div>
     );
   }
 
   const disabled = locked || isUnavailable || !!takenBy;
-  const color = takenBy ? (PLAYER_COLORS[takenBy.playerIndex % PLAYER_COLORS.length] ?? PLAYER_COLORS[0]) : null;
+  const color = takenBy
+    ? (PLAYER_COLORS[takenBy.playerIndex % PLAYER_COLORS.length] ?? PLAYER_COLORS[0])
+    : null;
   const initial = takenBy ? takenBy.playerDisplayName.charAt(0).toUpperCase() : null;
 
-  const selectedStyle = isSelected
-    ? { background: "var(--cta-red)", border: "1px solid rgba(192,57,43,0.8)", boxShadow: "0 0 0 2px rgba(192,57,43,0.25), 0 4px 16px rgba(192,57,43,0.3)" }
+  const selectedBg = isSelected
+    ? { background: "rgba(255,255,255,0.12)", border: "1px solid rgba(255,255,255,0.25)" }
     : {};
+
+  const baseBg = takenBy
+    ? { background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", opacity: 0.5 }
+    : isUnavailable
+    ? { background: "rgba(255,255,255,0.02)", border: "1px dashed rgba(255,255,255,0.06)", opacity: 0.3 }
+    : locked
+    ? { background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)", opacity: 0.4 }
+    : isSelected
+    ? selectedBg
+    : { background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.10)" };
 
   return (
     <button
@@ -58,32 +79,54 @@ function OddButton({
           ? "Can't combine with existing picks"
           : undefined
       }
-      className={`relative w-full flex items-center justify-center py-3 px-2 rounded-lg transition-all select-none
-        ${takenBy
-          ? "bg-[#16171e] border border-[#2c2d3d] opacity-50 cursor-not-allowed"
-          : isUnavailable
-          ? "bg-[#16171e] border border-dashed border-[#2c2d3d]/40 opacity-30 cursor-not-allowed"
-          : locked
-          ? "bg-[#252636] border border-[#2c2d3d] opacity-40 cursor-not-allowed"
-          : isSelected
-          ? ""
-          : "bg-[#252636] border border-[#2c2d3d] hover:bg-[#2c2e44] hover:border-[#3e3f5e] active:scale-95 cursor-pointer"
-        }`}
-      style={selectedStyle}
+      style={{
+        position: "relative",
+        width: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "10px 8px",
+        borderRadius: "8px",
+        cursor: disabled ? "not-allowed" : "pointer",
+        transition: "background 0.1s, border 0.1s",
+        userSelect: "none",
+        ...baseBg,
+      }}
     >
       {takenBy && color && (
         <span
-          className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-black text-white ring-2 z-10"
-          style={{ backgroundColor: color }}
+          style={{
+            position: "absolute",
+            top: "-6px",
+            right: "-6px",
+            width: "18px",
+            height: "18px",
+            borderRadius: "50%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: "9px",
+            fontWeight: 900,
+            color: "#FFFFFF",
+            background: color,
+            zIndex: 10,
+          }}
         >
           {initial}
         </span>
       )}
       <span
-        className="text-sm font-bold tabular-nums"
         style={{
           fontFamily: "var(--font-mono)",
-          color: isSelected ? "var(--text-primary)" : takenBy ? "rgba(255,255,255,0.3)" : isUnavailable ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.85)",
+          fontSize: "16px",
+          fontWeight: 700,
+          color: isSelected
+            ? "#FFFFFF"
+            : takenBy
+            ? "rgba(255,255,255,0.3)"
+            : isUnavailable
+            ? "rgba(255,255,255,0.2)"
+            : "rgba(255,255,255,0.85)",
           textDecoration: isUnavailable ? "line-through" : "none",
         }}
       >
@@ -93,7 +136,7 @@ function OddButton({
   );
 }
 
-// ── Market card wrapper ────────────────────────────────────────────────────────
+// ── Market card ────────────────────────────────────────────────────────────────
 function MarketCard({
   market,
   odds,
@@ -118,42 +161,123 @@ function MarketCard({
 
   return (
     <div
-      className="rounded-xl overflow-hidden transition-colors"
       style={{
-        background: "var(--bg-panel)",
-        border: hasSelection ? "1px solid rgba(192,57,43,0.35)" : "1px solid rgba(255,255,255,0.07)",
+        borderRadius: "12px",
+        overflow: "hidden",
+        background: "var(--color-match-card-bg)",
+        border: hasSelection
+          ? "1px solid rgba(255,255,255,0.25)"
+          : "1px solid rgba(255,255,255,0.07)",
+        transition: "border 0.15s",
       }}
     >
-      <div className="flex items-center justify-between px-4 py-3.5">
-        <div className="flex items-center gap-2 min-w-0">
-          {hasSelection && <CheckCircle className="w-3.5 h-3.5 shrink-0" style={{ color: "var(--accent-green)" }} />}
-          <span className="text-sm font-semibold leading-snug truncate" style={{ color: "var(--text-primary)", fontFamily: "var(--font-display)" }}>{market.name}</span>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "14px 16px",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: "8px", minWidth: 0 }}>
+          {hasSelection && (
+            <CheckCircle size={14} style={{ color: "var(--accent-green)", flexShrink: 0 }} />
+          )}
+          <span
+            style={{
+              fontSize: "15px",
+              fontWeight: 700,
+              color: "#FFFFFF",
+              fontFamily: "var(--font-display)",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {market.name}
+          </span>
           {isSuperSub && (
-            <span className="shrink-0 inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-black tracking-wide bg-amber-500/15 text-amber-400 border border-amber-500/25 uppercase">
+            <span
+              style={{
+                flexShrink: 0,
+                padding: "2px 6px",
+                borderRadius: "4px",
+                fontSize: "9px",
+                fontWeight: 900,
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
+                background: "rgba(217,119,6,0.15)",
+                color: "#fbbf24",
+                border: "1px solid rgba(217,119,6,0.25)",
+              }}
+            >
               SuperSub
             </span>
           )}
         </div>
         <button
           onClick={() => setCollapsed((v) => !v)}
-          className="text-white/25 hover:text-white/60 transition-colors ml-3 shrink-0"
+          style={{
+            color: "rgba(255,255,255,0.35)",
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            marginLeft: "12px",
+            flexShrink: 0,
+            padding: 0,
+          }}
         >
-          {collapsed ? <ChevronDown className="w-4 h-4" /> : <ChevronUp className="w-4 h-4" />}
+          {collapsed ? <ChevronDown size={16} /> : <ChevronUp size={16} />}
         </button>
       </div>
 
       {!collapsed && (
-        <div className="border-t border-[#2c2d3d] px-4 pb-4 pt-3.5">
+        <div
+          style={{
+            borderTop: "1px solid rgba(255,255,255,0.07)",
+            padding: "14px 16px 16px",
+          }}
+        >
           {odds.length === 0 ? (
-            <p className="text-xs text-white/25 py-1">No odds available</p>
+            <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.25)", padding: "4px 0" }}>
+              No odds available
+            </p>
           ) : market.displayType === "ONE_X_TWO" ? (
-            <OneXTwo odds={odds} selectedUuid={selectedUuid} onSelect={(o) => onSelect(o, market)} locked={locked} unavailableUuids={unavailableUuids} takenMap={takenMap} />
+            <OneXTwo
+              odds={odds}
+              selectedUuid={selectedUuid}
+              onSelect={(o) => onSelect(o, market)}
+              locked={locked}
+              unavailableUuids={unavailableUuids}
+              takenMap={takenMap}
+            />
           ) : market.displayType === "OVER_UNDER" ? (
-            <OverUnder odds={odds} selectedUuid={selectedUuid} onSelect={(o) => onSelect(o, market)} locked={locked} unavailableUuids={unavailableUuids} takenMap={takenMap} />
+            <OverUnder
+              odds={odds}
+              selectedUuid={selectedUuid}
+              onSelect={(o) => onSelect(o, market)}
+              locked={locked}
+              unavailableUuids={unavailableUuids}
+              takenMap={takenMap}
+            />
           ) : market.displayType === "ONE_FROM_TWO" ? (
-            <OneFromTwo odds={odds} selectedUuid={selectedUuid} onSelect={(o) => onSelect(o, market)} locked={locked} unavailableUuids={unavailableUuids} takenMap={takenMap} />
+            <OneFromTwo
+              odds={odds}
+              selectedUuid={selectedUuid}
+              onSelect={(o) => onSelect(o, market)}
+              locked={locked}
+              unavailableUuids={unavailableUuids}
+              takenMap={takenMap}
+            />
           ) : (
-            <PlayerProps odds={odds} selectedUuid={selectedUuid} onSelect={(o) => onSelect(o, market)} locked={locked} unavailableUuids={unavailableUuids} takenMap={takenMap} />
+            <PlayerProps
+              odds={odds}
+              selectedUuid={selectedUuid}
+              onSelect={(o) => onSelect(o, market)}
+              locked={locked}
+              unavailableUuids={unavailableUuids}
+              takenMap={takenMap}
+            />
           )}
         </div>
       )}
@@ -170,7 +294,15 @@ type DisplayProps = {
   takenMap: Map<string, OtherPickInfo>;
 };
 
-// ── Display type renderers ─────────────────────────────────────────────────────
+const colHeaderStyle = {
+  fontSize: "11px",
+  fontWeight: 700,
+  textTransform: "uppercase" as const,
+  letterSpacing: "0.08em",
+  color: "var(--text-muted)",
+  textAlign: "center" as const,
+};
+
 function OneXTwo({ odds, selectedUuid, onSelect, locked, unavailableUuids, takenMap }: DisplayProps) {
   const home = odds.find((o) => o.code === "1") ?? null;
   const draw = odds.find((o) => o.code === "X" || o.name === "X") ?? null;
@@ -178,12 +310,12 @@ function OneXTwo({ odds, selectedUuid, onSelect, locked, unavailableUuids, taken
 
   return (
     <div>
-      <div className="grid grid-cols-3 gap-1 mb-2 px-0.5">
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "4px", marginBottom: "8px", padding: "0 2px" }}>
         {["Home", "Draw", "Away"].map((label) => (
-          <span key={label} className="text-[10px] font-bold uppercase tracking-widest text-white/25 text-center">{label}</span>
+          <span key={label} style={colHeaderStyle}>{label}</span>
         ))}
       </div>
-      <div className="grid grid-cols-3 gap-2">
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "8px" }}>
         <OddButton odd={home} isSelected={home?.uuid === selectedUuid} onSelect={onSelect} locked={locked} isUnavailable={home ? unavailableUuids.has(home.uuid) : false} takenBy={home ? takenMap.get(home.uuid) : undefined} />
         <OddButton odd={draw} isSelected={draw?.uuid === selectedUuid} onSelect={onSelect} locked={locked} isUnavailable={draw ? unavailableUuids.has(draw.uuid) : false} takenBy={draw ? takenMap.get(draw.uuid) : undefined} />
         <OddButton odd={away} isSelected={away?.uuid === selectedUuid} onSelect={onSelect} locked={locked} isUnavailable={away ? unavailableUuids.has(away.uuid) : false} takenBy={away ? takenMap.get(away.uuid) : undefined} />
@@ -204,19 +336,19 @@ function OverUnder({ odds, selectedUuid, onSelect, locked, unavailableUuids, tak
   }
 
   const rows = Array.from(byTotal.entries()).sort(([a], [b]) => parseFloat(a) - parseFloat(b));
-  if (rows.length === 0) return <p className="text-xs text-white/25 py-1">No odds available</p>;
+  if (rows.length === 0) return <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.25)" }}>No odds available</p>;
 
   return (
     <div>
-      <div className="grid grid-cols-3 gap-2 mb-2.5 px-0.5">
-        <span className="text-[10px] font-bold uppercase tracking-widest text-white/25">Line</span>
-        <span className="text-[10px] font-bold uppercase tracking-widest text-white/25 text-center">Under</span>
-        <span className="text-[10px] font-bold uppercase tracking-widest text-white/25 text-center">Over</span>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "8px", marginBottom: "10px", padding: "0 2px" }}>
+        <span style={colHeaderStyle}>Goals</span>
+        <span style={colHeaderStyle}>Under</span>
+        <span style={colHeaderStyle}>Over</span>
       </div>
-      <div className="space-y-2">
+      <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
         {rows.map(([total, { over, under }]) => (
-          <div key={total} className="grid grid-cols-3 gap-2 items-center">
-            <span className="text-sm font-bold text-white/60 pl-0.5">{total}</span>
+          <div key={total} style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "8px", alignItems: "center" }}>
+            <span style={{ fontSize: "14px", fontWeight: 700, color: "rgba(255,255,255,0.6)", paddingLeft: "2px" }}>{total}</span>
             <OddButton odd={under} isSelected={under?.uuid === selectedUuid} onSelect={onSelect} locked={locked} isUnavailable={under ? unavailableUuids.has(under.uuid) : false} takenBy={under ? takenMap.get(under.uuid) : undefined} />
             <OddButton odd={over} isSelected={over?.uuid === selectedUuid} onSelect={onSelect} locked={locked} isUnavailable={over ? unavailableUuids.has(over.uuid) : false} takenBy={over ? takenMap.get(over.uuid) : undefined} />
           </div>
@@ -231,7 +363,7 @@ function OneFromTwo({ odds, selectedUuid, onSelect, locked, unavailableUuids, ta
   const no = odds.find((o) => o.name.toLowerCase() === "no") ?? odds[1] ?? null;
 
   return (
-    <div className="grid grid-cols-2 gap-2 max-w-sm">
+    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", maxWidth: "240px" }}>
       <OddButton odd={yes} isSelected={yes?.uuid === selectedUuid} onSelect={onSelect} locked={locked} isUnavailable={yes ? unavailableUuids.has(yes.uuid) : false} takenBy={yes ? takenMap.get(yes.uuid) : undefined} />
       <OddButton odd={no} isSelected={no?.uuid === selectedUuid} onSelect={onSelect} locked={locked} isUnavailable={no ? unavailableUuids.has(no.uuid) : false} takenBy={no ? takenMap.get(no.uuid) : undefined} />
     </div>
@@ -256,25 +388,26 @@ function PlayerProps({ odds, selectedUuid, onSelect, locked, unavailableUuids, t
     (a, b) => parseFloat(a) - parseFloat(b)
   );
 
-  if (allPlayers.length === 0) return <p className="text-xs text-white/25 py-1">No odds available</p>;
+  if (allPlayers.length === 0)
+    return <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.25)" }}>No odds available</p>;
 
   const visiblePlayers = expanded ? allPlayers : allPlayers.slice(0, PLAYER_PREVIEW);
   const hiddenCount = allPlayers.length - PLAYER_PREVIEW;
   const colTemplate = `minmax(120px, 1fr) ${allTotals.map(() => "68px").join(" ")}`;
 
   return (
-    <div className="overflow-x-auto">
-      <div className="min-w-max pb-0.5">
-        <div className="grid gap-2 mb-3 px-0.5" style={{ gridTemplateColumns: colTemplate }}>
-          <span className="text-[10px] font-bold uppercase tracking-widest text-white/25">Player</span>
+    <div style={{ overflowX: "auto" }}>
+      <div style={{ minWidth: "max-content", paddingBottom: "2px" }}>
+        <div style={{ display: "grid", gap: "8px", marginBottom: "12px", padding: "0 2px", gridTemplateColumns: colTemplate }}>
+          <span style={{ ...colHeaderStyle, textAlign: "left" }}>Player</span>
           {allTotals.map((t) => (
-            <span key={t} className="text-[10px] font-bold uppercase tracking-widest text-white/25 text-center">{t}+</span>
+            <span key={t} style={colHeaderStyle}>{t}+</span>
           ))}
         </div>
-        <div className="space-y-2">
+        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
           {visiblePlayers.map((player) => (
-            <div key={player} className="grid gap-2 items-center" style={{ gridTemplateColumns: colTemplate }}>
-              <span className="text-sm text-white/75 pr-2 truncate">{player}</span>
+            <div key={player} style={{ display: "grid", gap: "8px", alignItems: "center", gridTemplateColumns: colTemplate }}>
+              <span style={{ fontSize: "14px", color: "rgba(255,255,255,0.75)", paddingRight: "8px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{player}</span>
               {allTotals.map((total) => {
                 const odd = playerMap.get(player)?.get(total) ?? null;
                 return (
@@ -287,7 +420,23 @@ function PlayerProps({ odds, selectedUuid, onSelect, locked, unavailableUuids, t
         {hiddenCount > 0 && (
           <button
             onClick={() => setExpanded((v) => !v)}
-            className="mt-1 w-full py-3 text-[11px] font-bold uppercase tracking-widest text-white/35 hover:text-white/65 border-t border-[#2c2d3d] transition-colors"
+            style={{
+              marginTop: "4px",
+              width: "100%",
+              padding: "12px 0",
+              fontSize: "11px",
+              fontWeight: 700,
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
+              color: "rgba(255,255,255,0.35)",
+              borderTop: "1px solid rgba(255,255,255,0.07)",
+              background: "none",
+              border: "none",
+              borderTopWidth: "1px",
+              borderTopStyle: "solid",
+              borderTopColor: "rgba(255,255,255,0.07)",
+              cursor: "pointer",
+            }}
           >
             {expanded ? "Show Less" : `Show More (${hiddenCount} more)`}
           </button>
@@ -357,26 +506,62 @@ export function PlayerGameView({
 
   if (submitted) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[40vh] text-center px-4">
-        <div className="w-14 h-14 rounded-full flex items-center justify-center mb-4" style={{ background: "rgba(0,196,140,0.15)" }}>
-          <Lock className="w-7 h-7" style={{ color: "var(--accent-green)" }} />
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: "40vh", textAlign: "center", padding: "0 16px" }}>
+        <div
+          style={{
+            width: "56px",
+            height: "56px",
+            borderRadius: "50%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: "16px",
+            background: "rgba(0,196,140,0.15)",
+          }}
+        >
+          <Lock size={28} style={{ color: "var(--accent-green)" }} />
         </div>
-        <h2 className="text-xl font-black mb-1" style={{ color: "var(--text-primary)", fontFamily: "var(--font-display)", fontStyle: "italic" }}>Pick Locked In</h2>
-        <p className="text-sm max-w-xs" style={{ color: "var(--text-muted)" }}>
+        <h2
+          style={{
+            fontSize: "20px",
+            fontWeight: 700,
+            marginBottom: "4px",
+            color: "#FFFFFF",
+            fontFamily: "var(--font-display)",
+            fontStyle: "italic",
+          }}
+        >
+          Pick Locked In
+        </h2>
+        <p style={{ fontSize: "14px", maxWidth: "240px", color: "var(--text-muted)", margin: "0 0 24px" }}>
           Your selection has been saved. Waiting for the other players to pick.
         </p>
-        <div className="mt-6 px-5 py-3 rounded-xl border" style={{ background: "var(--bg-panel)", borderColor: "rgba(0,196,140,0.20)" }}>
-          <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: "var(--text-muted)" }}>{selectedMarket?.name}</p>
-          <p className="font-semibold" style={{ color: "var(--text-primary)" }}>{selectedOdd?.name}</p>
-          <p className="font-black text-lg tabular-nums" style={{ color: "var(--accent-green)", fontFamily: "var(--font-mono)" }}>{selectedOdd?.price.toFixed(2)}</p>
+        <div
+          style={{
+            padding: "16px 20px",
+            borderRadius: "12px",
+            border: "1px solid rgba(0,196,140,0.20)",
+            background: "var(--color-card-surface)",
+          }}
+        >
+          <p style={{ fontSize: "10px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)", marginBottom: "4px" }}>
+            {selectedMarket?.name}
+          </p>
+          <p style={{ fontWeight: 600, color: "#FFFFFF", marginBottom: "4px" }}>{selectedOdd?.name}</p>
+          <p style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: "18px", color: "var(--accent-green)", margin: 0 }}>
+            {selectedOdd?.price.toFixed(2)}
+          </p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="pb-32">
-      <div className="space-y-3">
+    <div style={{ paddingBottom: "120px" }}>
+      {/* Separator */}
+      <div style={{ height: "1px", background: "rgba(255,255,255,0.08)", margin: "0 0 12px" }} />
+
+      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
         {markets.map(({ market, odds }) => (
           <MarketCard
             key={market.id}
@@ -392,39 +577,68 @@ export function PlayerGameView({
         ))}
       </div>
 
-      {/* Floating confirm bar */}
-      <div className={`fixed bottom-0 left-0 right-0 transition-all duration-300 ${
-        selectedOdd ? "translate-y-0 opacity-100" : "translate-y-full opacity-0 pointer-events-none"
-      }`}>
-        <div className="backdrop-blur-sm border-t border-white/8 px-4 py-4 safe-bottom" style={{ background: "rgba(30,30,42,0.96)" }}>
-          <div className="max-w-lg mx-auto">
-            {error && (
-              <p className="text-xs text-center mb-2" style={{ color: "#f87171" }}>{error}</p>
-            )}
-            <div className="flex items-center gap-3">
-              <div className="flex-1 min-w-0">
-                <p className="text-[10px] font-bold uppercase tracking-widest truncate" style={{ color: "var(--text-muted)" }}>{selectedMarket?.name}</p>
-                <p className="font-semibold text-sm truncate" style={{ color: "var(--text-primary)" }}>{selectedOdd?.name}</p>
-              </div>
-              <div className="text-right shrink-0">
-                <p className="font-black text-lg tabular-nums" style={{ color: "var(--accent-green)", fontFamily: "var(--font-mono)" }}>{selectedOdd?.price.toFixed(2)}</p>
-              </div>
-              <button
-                onClick={handleSubmit}
-                disabled={pending}
-                className="shrink-0 px-5 py-2.5 rounded-xl font-black text-sm transition-all active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed flex items-center gap-2"
-                style={{
-                  background: "var(--cta-red)",
-                  color: "var(--text-primary)",
-                  fontFamily: "var(--font-display)",
-                }}
-              >
-                <Lock className="w-3.5 h-3.5" />
-                {pending ? "Locking…" : "Lock In"}
-              </button>
+      {/* Floating CTA bar — matches layout container width via CSS variable */}
+      <div
+        className="player-cta-bar"
+        style={{
+          position: "fixed",
+          bottom: "64px",
+          left: "50%",
+          width: "var(--player-max-w, 375px)",
+          maxWidth: "100vw",
+          padding: "12px 16px 16px",
+          background: "rgba(7,7,8,0.95)",
+          backdropFilter: "blur(12px)",
+          borderTop: "1px solid rgba(255,255,255,0.08)",
+          zIndex: 45,
+          transition: "opacity 0.2s, transform 0.2s",
+          opacity: selectedOdd ? 1 : 0,
+          pointerEvents: selectedOdd ? "auto" : "none",
+          transform: selectedOdd ? "translateX(-50%) translateY(0)" : "translateX(-50%) translateY(100%)",
+        }}
+      >
+        {error && (
+          <p style={{ fontSize: "12px", textAlign: "center", color: "#f87171", marginBottom: "8px" }}>{error}</p>
+        )}
+        {selectedOdd && (
+          <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "10px" }}>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <p style={{ fontSize: "10px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                {selectedMarket?.name}
+              </p>
+              <p style={{ fontWeight: 600, fontSize: "14px", color: "#FFFFFF", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                {selectedOdd?.name}
+              </p>
             </div>
+            <span style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: "18px", color: "var(--accent-green)", flexShrink: 0 }}>
+              {selectedOdd?.price.toFixed(2)}
+            </span>
           </div>
-        </div>
+        )}
+        <button
+          onClick={handleSubmit}
+          disabled={!selectedOdd || pending}
+          style={{
+            width: "100%",
+            height: "48px",
+            borderRadius: "999px",
+            border: "none",
+            fontSize: "16px",
+            fontWeight: 600,
+            cursor: !selectedOdd || pending ? "not-allowed" : "pointer",
+            background: !selectedOdd ? "var(--color-cta-disabled)" : "var(--cta-red)",
+            color: !selectedOdd ? "rgba(255,255,255,0.3)" : "#FFFFFF",
+            fontFamily: "var(--font-display)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "8px",
+            transition: "background 0.15s",
+          }}
+        >
+          <Lock size={16} />
+          {pending ? "Confirming…" : "Confirm this leg"}
+        </button>
       </div>
     </div>
   );
