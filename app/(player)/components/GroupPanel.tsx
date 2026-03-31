@@ -20,7 +20,7 @@ export function GroupPanel({
   picks,
   currentPlayerSlug,
   timeRemaining,
-  totalOdds,
+  combinedPrice,
   turnPlayerName,
 }: {
   groupName: string;
@@ -28,7 +28,7 @@ export function GroupPanel({
   picks: GroupPick[];
   currentPlayerSlug: string;
   timeRemaining?: string;
-  totalOdds?: number;
+  combinedPrice?: number;
   turnPlayerName?: string;
 }) {
   const [expanded, setExpanded] = useState(false);
@@ -88,9 +88,9 @@ export function GroupPanel({
         <span style={{ fontSize: "12px", color: "var(--text-muted)" }}>
           👥 {confirmedCount}/{totalPlayers} Picks
         </span>
-        {totalOdds !== undefined && totalOdds > 0 && (
+        {combinedPrice !== undefined && combinedPrice > 0 && (
           <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-            <span style={{ fontSize: "12px", color: "var(--text-muted)" }}>Total Odds</span>
+            <span style={{ fontSize: "12px", color: "var(--text-muted)" }}>Combined Price</span>
             <span
               style={{
                 fontSize: "12px",
@@ -99,7 +99,7 @@ export function GroupPanel({
                 fontWeight: 700,
               }}
             >
-              {totalOdds.toFixed(2)}
+              {combinedPrice.toFixed(2)}
             </span>
           </div>
         )}

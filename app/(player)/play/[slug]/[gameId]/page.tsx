@@ -182,8 +182,7 @@ export default async function PlayerGamePage({
     picks: groupPicks,
     currentPlayerSlug: slug,
     timeRemaining,
-    // Only show the naive total-odds estimate in the panel header when the real SGA price isn't available yet
-    totalOdds: combinedPrice ? undefined : totalOdds,
+    combinedPrice: combinedPrice ?? undefined,
     turnPlayerName,
   };
 
