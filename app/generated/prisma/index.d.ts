@@ -34,6 +34,11 @@ export type Game = $Result.DefaultSelection<Prisma.$GamePayload>
  */
 export type Group = $Result.DefaultSelection<Prisma.$GroupPayload>
 /**
+ * Model GameGroupPrice
+ * 
+ */
+export type GameGroupPrice = $Result.DefaultSelection<Prisma.$GameGroupPricePayload>
+/**
  * Model Player
  * 
  */
@@ -251,6 +256,16 @@ export class PrismaClient<
     * ```
     */
   get group(): Prisma.GroupDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.gameGroupPrice`: Exposes CRUD operations for the **GameGroupPrice** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more GameGroupPrices
+    * const gameGroupPrices = await prisma.gameGroupPrice.findMany()
+    * ```
+    */
+  get gameGroupPrice(): Prisma.GameGroupPriceDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.player`: Exposes CRUD operations for the **Player** model.
@@ -709,6 +724,7 @@ export namespace Prisma {
     ExternalEvent: 'ExternalEvent',
     Game: 'Game',
     Group: 'Group',
+    GameGroupPrice: 'GameGroupPrice',
     Player: 'Player',
     Pick: 'Pick'
   };
@@ -726,7 +742,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "market" | "externalEvent" | "game" | "group" | "player" | "pick"
+      modelProps: "market" | "externalEvent" | "game" | "group" | "gameGroupPrice" | "player" | "pick"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1026,6 +1042,80 @@ export namespace Prisma {
           }
         }
       }
+      GameGroupPrice: {
+        payload: Prisma.$GameGroupPricePayload<ExtArgs>
+        fields: Prisma.GameGroupPriceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.GameGroupPriceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GameGroupPricePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.GameGroupPriceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GameGroupPricePayload>
+          }
+          findFirst: {
+            args: Prisma.GameGroupPriceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GameGroupPricePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.GameGroupPriceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GameGroupPricePayload>
+          }
+          findMany: {
+            args: Prisma.GameGroupPriceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GameGroupPricePayload>[]
+          }
+          create: {
+            args: Prisma.GameGroupPriceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GameGroupPricePayload>
+          }
+          createMany: {
+            args: Prisma.GameGroupPriceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.GameGroupPriceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GameGroupPricePayload>[]
+          }
+          delete: {
+            args: Prisma.GameGroupPriceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GameGroupPricePayload>
+          }
+          update: {
+            args: Prisma.GameGroupPriceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GameGroupPricePayload>
+          }
+          deleteMany: {
+            args: Prisma.GameGroupPriceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.GameGroupPriceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.GameGroupPriceUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GameGroupPricePayload>[]
+          }
+          upsert: {
+            args: Prisma.GameGroupPriceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GameGroupPricePayload>
+          }
+          aggregate: {
+            args: Prisma.GameGroupPriceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateGameGroupPrice>
+          }
+          groupBy: {
+            args: Prisma.GameGroupPriceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<GameGroupPriceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.GameGroupPriceCountArgs<ExtArgs>
+            result: $Utils.Optional<GameGroupPriceCountAggregateOutputType> | number
+          }
+        }
+      }
       Player: {
         payload: Prisma.$PlayerPayload<ExtArgs>
         fields: Prisma.PlayerFieldRefs
@@ -1286,6 +1376,7 @@ export namespace Prisma {
     externalEvent?: ExternalEventOmit
     game?: GameOmit
     group?: GroupOmit
+    gameGroupPrice?: GameGroupPriceOmit
     player?: PlayerOmit
     pick?: PickOmit
   }
@@ -1400,10 +1491,12 @@ export namespace Prisma {
 
   export type GameCountOutputType = {
     picks: number
+    groupPrices: number
   }
 
   export type GameCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     picks?: boolean | GameCountOutputTypeCountPicksArgs
+    groupPrices?: boolean | GameCountOutputTypeCountGroupPricesArgs
   }
 
   // Custom InputTypes
@@ -1424,6 +1517,13 @@ export namespace Prisma {
     where?: PickWhereInput
   }
 
+  /**
+   * GameCountOutputType without action
+   */
+  export type GameCountOutputTypeCountGroupPricesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GameGroupPriceWhereInput
+  }
+
 
   /**
    * Count Type GroupCountOutputType
@@ -1431,10 +1531,12 @@ export namespace Prisma {
 
   export type GroupCountOutputType = {
     players: number
+    gamePrices: number
   }
 
   export type GroupCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     players?: boolean | GroupCountOutputTypeCountPlayersArgs
+    gamePrices?: boolean | GroupCountOutputTypeCountGamePricesArgs
   }
 
   // Custom InputTypes
@@ -1453,6 +1555,13 @@ export namespace Prisma {
    */
   export type GroupCountOutputTypeCountPlayersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PlayerWhereInput
+  }
+
+  /**
+   * GroupCountOutputType without action
+   */
+  export type GroupCountOutputTypeCountGamePricesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GameGroupPriceWhereInput
   }
 
 
@@ -3956,6 +4065,7 @@ export namespace Prisma {
     sgaUuid?: boolean
     event?: boolean | ExternalEventDefaultArgs<ExtArgs>
     picks?: boolean | Game$picksArgs<ExtArgs>
+    groupPrices?: boolean | Game$groupPricesArgs<ExtArgs>
     _count?: boolean | GameCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["game"]>
 
@@ -4019,6 +4129,7 @@ export namespace Prisma {
   export type GameInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     event?: boolean | ExternalEventDefaultArgs<ExtArgs>
     picks?: boolean | Game$picksArgs<ExtArgs>
+    groupPrices?: boolean | Game$groupPricesArgs<ExtArgs>
     _count?: boolean | GameCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type GameIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4033,6 +4144,7 @@ export namespace Prisma {
     objects: {
       event: Prisma.$ExternalEventPayload<ExtArgs>
       picks: Prisma.$PickPayload<ExtArgs>[]
+      groupPrices: Prisma.$GameGroupPricePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -4446,6 +4558,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     event<T extends ExternalEventDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ExternalEventDefaultArgs<ExtArgs>>): Prisma__ExternalEventClient<$Result.GetResult<Prisma.$ExternalEventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     picks<T extends Game$picksArgs<ExtArgs> = {}>(args?: Subset<T, Game$picksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PickPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    groupPrices<T extends Game$groupPricesArgs<ExtArgs> = {}>(args?: Subset<T, Game$groupPricesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GameGroupPricePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4915,6 +5028,30 @@ export namespace Prisma {
   }
 
   /**
+   * Game.groupPrices
+   */
+  export type Game$groupPricesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GameGroupPrice
+     */
+    select?: GameGroupPriceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GameGroupPrice
+     */
+    omit?: GameGroupPriceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GameGroupPriceInclude<ExtArgs> | null
+    where?: GameGroupPriceWhereInput
+    orderBy?: GameGroupPriceOrderByWithRelationInput | GameGroupPriceOrderByWithRelationInput[]
+    cursor?: GameGroupPriceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: GameGroupPriceScalarFieldEnum | GameGroupPriceScalarFieldEnum[]
+  }
+
+  /**
    * Game without action
    */
   export type GameDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5124,6 +5261,7 @@ export namespace Prisma {
     slug?: boolean
     createdAt?: boolean
     players?: boolean | Group$playersArgs<ExtArgs>
+    gamePrices?: boolean | Group$gamePricesArgs<ExtArgs>
     _count?: boolean | GroupCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["group"]>
 
@@ -5151,6 +5289,7 @@ export namespace Prisma {
   export type GroupOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "createdAt", ExtArgs["result"]["group"]>
   export type GroupInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     players?: boolean | Group$playersArgs<ExtArgs>
+    gamePrices?: boolean | Group$gamePricesArgs<ExtArgs>
     _count?: boolean | GroupCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type GroupIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -5160,6 +5299,7 @@ export namespace Prisma {
     name: "Group"
     objects: {
       players: Prisma.$PlayerPayload<ExtArgs>[]
+      gamePrices: Prisma.$GameGroupPricePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -5561,6 +5701,7 @@ export namespace Prisma {
   export interface Prisma__GroupClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     players<T extends Group$playersArgs<ExtArgs> = {}>(args?: Subset<T, Group$playersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlayerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    gamePrices<T extends Group$gamePricesArgs<ExtArgs> = {}>(args?: Subset<T, Group$gamePricesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GameGroupPricePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6011,6 +6152,30 @@ export namespace Prisma {
   }
 
   /**
+   * Group.gamePrices
+   */
+  export type Group$gamePricesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GameGroupPrice
+     */
+    select?: GameGroupPriceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GameGroupPrice
+     */
+    omit?: GameGroupPriceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GameGroupPriceInclude<ExtArgs> | null
+    where?: GameGroupPriceWhereInput
+    orderBy?: GameGroupPriceOrderByWithRelationInput | GameGroupPriceOrderByWithRelationInput[]
+    cursor?: GameGroupPriceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: GameGroupPriceScalarFieldEnum | GameGroupPriceScalarFieldEnum[]
+  }
+
+  /**
    * Group without action
    */
   export type GroupDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6026,6 +6191,1162 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: GroupInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model GameGroupPrice
+   */
+
+  export type AggregateGameGroupPrice = {
+    _count: GameGroupPriceCountAggregateOutputType | null
+    _avg: GameGroupPriceAvgAggregateOutputType | null
+    _sum: GameGroupPriceSumAggregateOutputType | null
+    _min: GameGroupPriceMinAggregateOutputType | null
+    _max: GameGroupPriceMaxAggregateOutputType | null
+  }
+
+  export type GameGroupPriceAvgAggregateOutputType = {
+    id: number | null
+    gameId: number | null
+    groupId: number | null
+    price: number | null
+  }
+
+  export type GameGroupPriceSumAggregateOutputType = {
+    id: number | null
+    gameId: number | null
+    groupId: number | null
+    price: number | null
+  }
+
+  export type GameGroupPriceMinAggregateOutputType = {
+    id: number | null
+    gameId: number | null
+    groupId: number | null
+    price: number | null
+    sgaUuid: string | null
+    sgaStatus: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type GameGroupPriceMaxAggregateOutputType = {
+    id: number | null
+    gameId: number | null
+    groupId: number | null
+    price: number | null
+    sgaUuid: string | null
+    sgaStatus: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type GameGroupPriceCountAggregateOutputType = {
+    id: number
+    gameId: number
+    groupId: number
+    price: number
+    sgaUuid: number
+    sgaStatus: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type GameGroupPriceAvgAggregateInputType = {
+    id?: true
+    gameId?: true
+    groupId?: true
+    price?: true
+  }
+
+  export type GameGroupPriceSumAggregateInputType = {
+    id?: true
+    gameId?: true
+    groupId?: true
+    price?: true
+  }
+
+  export type GameGroupPriceMinAggregateInputType = {
+    id?: true
+    gameId?: true
+    groupId?: true
+    price?: true
+    sgaUuid?: true
+    sgaStatus?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type GameGroupPriceMaxAggregateInputType = {
+    id?: true
+    gameId?: true
+    groupId?: true
+    price?: true
+    sgaUuid?: true
+    sgaStatus?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type GameGroupPriceCountAggregateInputType = {
+    id?: true
+    gameId?: true
+    groupId?: true
+    price?: true
+    sgaUuid?: true
+    sgaStatus?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type GameGroupPriceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GameGroupPrice to aggregate.
+     */
+    where?: GameGroupPriceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GameGroupPrices to fetch.
+     */
+    orderBy?: GameGroupPriceOrderByWithRelationInput | GameGroupPriceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: GameGroupPriceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GameGroupPrices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GameGroupPrices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned GameGroupPrices
+    **/
+    _count?: true | GameGroupPriceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: GameGroupPriceAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: GameGroupPriceSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: GameGroupPriceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: GameGroupPriceMaxAggregateInputType
+  }
+
+  export type GetGameGroupPriceAggregateType<T extends GameGroupPriceAggregateArgs> = {
+        [P in keyof T & keyof AggregateGameGroupPrice]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGameGroupPrice[P]>
+      : GetScalarType<T[P], AggregateGameGroupPrice[P]>
+  }
+
+
+
+
+  export type GameGroupPriceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GameGroupPriceWhereInput
+    orderBy?: GameGroupPriceOrderByWithAggregationInput | GameGroupPriceOrderByWithAggregationInput[]
+    by: GameGroupPriceScalarFieldEnum[] | GameGroupPriceScalarFieldEnum
+    having?: GameGroupPriceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: GameGroupPriceCountAggregateInputType | true
+    _avg?: GameGroupPriceAvgAggregateInputType
+    _sum?: GameGroupPriceSumAggregateInputType
+    _min?: GameGroupPriceMinAggregateInputType
+    _max?: GameGroupPriceMaxAggregateInputType
+  }
+
+  export type GameGroupPriceGroupByOutputType = {
+    id: number
+    gameId: number
+    groupId: number
+    price: number | null
+    sgaUuid: string | null
+    sgaStatus: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: GameGroupPriceCountAggregateOutputType | null
+    _avg: GameGroupPriceAvgAggregateOutputType | null
+    _sum: GameGroupPriceSumAggregateOutputType | null
+    _min: GameGroupPriceMinAggregateOutputType | null
+    _max: GameGroupPriceMaxAggregateOutputType | null
+  }
+
+  type GetGameGroupPriceGroupByPayload<T extends GameGroupPriceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<GameGroupPriceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof GameGroupPriceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], GameGroupPriceGroupByOutputType[P]>
+            : GetScalarType<T[P], GameGroupPriceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type GameGroupPriceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    gameId?: boolean
+    groupId?: boolean
+    price?: boolean
+    sgaUuid?: boolean
+    sgaStatus?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    game?: boolean | GameDefaultArgs<ExtArgs>
+    group?: boolean | GroupDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["gameGroupPrice"]>
+
+  export type GameGroupPriceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    gameId?: boolean
+    groupId?: boolean
+    price?: boolean
+    sgaUuid?: boolean
+    sgaStatus?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    game?: boolean | GameDefaultArgs<ExtArgs>
+    group?: boolean | GroupDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["gameGroupPrice"]>
+
+  export type GameGroupPriceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    gameId?: boolean
+    groupId?: boolean
+    price?: boolean
+    sgaUuid?: boolean
+    sgaStatus?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    game?: boolean | GameDefaultArgs<ExtArgs>
+    group?: boolean | GroupDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["gameGroupPrice"]>
+
+  export type GameGroupPriceSelectScalar = {
+    id?: boolean
+    gameId?: boolean
+    groupId?: boolean
+    price?: boolean
+    sgaUuid?: boolean
+    sgaStatus?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type GameGroupPriceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "gameId" | "groupId" | "price" | "sgaUuid" | "sgaStatus" | "createdAt" | "updatedAt", ExtArgs["result"]["gameGroupPrice"]>
+  export type GameGroupPriceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    game?: boolean | GameDefaultArgs<ExtArgs>
+    group?: boolean | GroupDefaultArgs<ExtArgs>
+  }
+  export type GameGroupPriceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    game?: boolean | GameDefaultArgs<ExtArgs>
+    group?: boolean | GroupDefaultArgs<ExtArgs>
+  }
+  export type GameGroupPriceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    game?: boolean | GameDefaultArgs<ExtArgs>
+    group?: boolean | GroupDefaultArgs<ExtArgs>
+  }
+
+  export type $GameGroupPricePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "GameGroupPrice"
+    objects: {
+      game: Prisma.$GamePayload<ExtArgs>
+      group: Prisma.$GroupPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      gameId: number
+      groupId: number
+      price: number | null
+      sgaUuid: string | null
+      sgaStatus: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["gameGroupPrice"]>
+    composites: {}
+  }
+
+  type GameGroupPriceGetPayload<S extends boolean | null | undefined | GameGroupPriceDefaultArgs> = $Result.GetResult<Prisma.$GameGroupPricePayload, S>
+
+  type GameGroupPriceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<GameGroupPriceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: GameGroupPriceCountAggregateInputType | true
+    }
+
+  export interface GameGroupPriceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['GameGroupPrice'], meta: { name: 'GameGroupPrice' } }
+    /**
+     * Find zero or one GameGroupPrice that matches the filter.
+     * @param {GameGroupPriceFindUniqueArgs} args - Arguments to find a GameGroupPrice
+     * @example
+     * // Get one GameGroupPrice
+     * const gameGroupPrice = await prisma.gameGroupPrice.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends GameGroupPriceFindUniqueArgs>(args: SelectSubset<T, GameGroupPriceFindUniqueArgs<ExtArgs>>): Prisma__GameGroupPriceClient<$Result.GetResult<Prisma.$GameGroupPricePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one GameGroupPrice that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {GameGroupPriceFindUniqueOrThrowArgs} args - Arguments to find a GameGroupPrice
+     * @example
+     * // Get one GameGroupPrice
+     * const gameGroupPrice = await prisma.gameGroupPrice.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends GameGroupPriceFindUniqueOrThrowArgs>(args: SelectSubset<T, GameGroupPriceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GameGroupPriceClient<$Result.GetResult<Prisma.$GameGroupPricePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GameGroupPrice that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GameGroupPriceFindFirstArgs} args - Arguments to find a GameGroupPrice
+     * @example
+     * // Get one GameGroupPrice
+     * const gameGroupPrice = await prisma.gameGroupPrice.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends GameGroupPriceFindFirstArgs>(args?: SelectSubset<T, GameGroupPriceFindFirstArgs<ExtArgs>>): Prisma__GameGroupPriceClient<$Result.GetResult<Prisma.$GameGroupPricePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GameGroupPrice that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GameGroupPriceFindFirstOrThrowArgs} args - Arguments to find a GameGroupPrice
+     * @example
+     * // Get one GameGroupPrice
+     * const gameGroupPrice = await prisma.gameGroupPrice.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends GameGroupPriceFindFirstOrThrowArgs>(args?: SelectSubset<T, GameGroupPriceFindFirstOrThrowArgs<ExtArgs>>): Prisma__GameGroupPriceClient<$Result.GetResult<Prisma.$GameGroupPricePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more GameGroupPrices that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GameGroupPriceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all GameGroupPrices
+     * const gameGroupPrices = await prisma.gameGroupPrice.findMany()
+     * 
+     * // Get first 10 GameGroupPrices
+     * const gameGroupPrices = await prisma.gameGroupPrice.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const gameGroupPriceWithIdOnly = await prisma.gameGroupPrice.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends GameGroupPriceFindManyArgs>(args?: SelectSubset<T, GameGroupPriceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GameGroupPricePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a GameGroupPrice.
+     * @param {GameGroupPriceCreateArgs} args - Arguments to create a GameGroupPrice.
+     * @example
+     * // Create one GameGroupPrice
+     * const GameGroupPrice = await prisma.gameGroupPrice.create({
+     *   data: {
+     *     // ... data to create a GameGroupPrice
+     *   }
+     * })
+     * 
+     */
+    create<T extends GameGroupPriceCreateArgs>(args: SelectSubset<T, GameGroupPriceCreateArgs<ExtArgs>>): Prisma__GameGroupPriceClient<$Result.GetResult<Prisma.$GameGroupPricePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many GameGroupPrices.
+     * @param {GameGroupPriceCreateManyArgs} args - Arguments to create many GameGroupPrices.
+     * @example
+     * // Create many GameGroupPrices
+     * const gameGroupPrice = await prisma.gameGroupPrice.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends GameGroupPriceCreateManyArgs>(args?: SelectSubset<T, GameGroupPriceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many GameGroupPrices and returns the data saved in the database.
+     * @param {GameGroupPriceCreateManyAndReturnArgs} args - Arguments to create many GameGroupPrices.
+     * @example
+     * // Create many GameGroupPrices
+     * const gameGroupPrice = await prisma.gameGroupPrice.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many GameGroupPrices and only return the `id`
+     * const gameGroupPriceWithIdOnly = await prisma.gameGroupPrice.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends GameGroupPriceCreateManyAndReturnArgs>(args?: SelectSubset<T, GameGroupPriceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GameGroupPricePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a GameGroupPrice.
+     * @param {GameGroupPriceDeleteArgs} args - Arguments to delete one GameGroupPrice.
+     * @example
+     * // Delete one GameGroupPrice
+     * const GameGroupPrice = await prisma.gameGroupPrice.delete({
+     *   where: {
+     *     // ... filter to delete one GameGroupPrice
+     *   }
+     * })
+     * 
+     */
+    delete<T extends GameGroupPriceDeleteArgs>(args: SelectSubset<T, GameGroupPriceDeleteArgs<ExtArgs>>): Prisma__GameGroupPriceClient<$Result.GetResult<Prisma.$GameGroupPricePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one GameGroupPrice.
+     * @param {GameGroupPriceUpdateArgs} args - Arguments to update one GameGroupPrice.
+     * @example
+     * // Update one GameGroupPrice
+     * const gameGroupPrice = await prisma.gameGroupPrice.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends GameGroupPriceUpdateArgs>(args: SelectSubset<T, GameGroupPriceUpdateArgs<ExtArgs>>): Prisma__GameGroupPriceClient<$Result.GetResult<Prisma.$GameGroupPricePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more GameGroupPrices.
+     * @param {GameGroupPriceDeleteManyArgs} args - Arguments to filter GameGroupPrices to delete.
+     * @example
+     * // Delete a few GameGroupPrices
+     * const { count } = await prisma.gameGroupPrice.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends GameGroupPriceDeleteManyArgs>(args?: SelectSubset<T, GameGroupPriceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GameGroupPrices.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GameGroupPriceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many GameGroupPrices
+     * const gameGroupPrice = await prisma.gameGroupPrice.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends GameGroupPriceUpdateManyArgs>(args: SelectSubset<T, GameGroupPriceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GameGroupPrices and returns the data updated in the database.
+     * @param {GameGroupPriceUpdateManyAndReturnArgs} args - Arguments to update many GameGroupPrices.
+     * @example
+     * // Update many GameGroupPrices
+     * const gameGroupPrice = await prisma.gameGroupPrice.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more GameGroupPrices and only return the `id`
+     * const gameGroupPriceWithIdOnly = await prisma.gameGroupPrice.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends GameGroupPriceUpdateManyAndReturnArgs>(args: SelectSubset<T, GameGroupPriceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GameGroupPricePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one GameGroupPrice.
+     * @param {GameGroupPriceUpsertArgs} args - Arguments to update or create a GameGroupPrice.
+     * @example
+     * // Update or create a GameGroupPrice
+     * const gameGroupPrice = await prisma.gameGroupPrice.upsert({
+     *   create: {
+     *     // ... data to create a GameGroupPrice
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the GameGroupPrice we want to update
+     *   }
+     * })
+     */
+    upsert<T extends GameGroupPriceUpsertArgs>(args: SelectSubset<T, GameGroupPriceUpsertArgs<ExtArgs>>): Prisma__GameGroupPriceClient<$Result.GetResult<Prisma.$GameGroupPricePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of GameGroupPrices.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GameGroupPriceCountArgs} args - Arguments to filter GameGroupPrices to count.
+     * @example
+     * // Count the number of GameGroupPrices
+     * const count = await prisma.gameGroupPrice.count({
+     *   where: {
+     *     // ... the filter for the GameGroupPrices we want to count
+     *   }
+     * })
+    **/
+    count<T extends GameGroupPriceCountArgs>(
+      args?: Subset<T, GameGroupPriceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], GameGroupPriceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a GameGroupPrice.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GameGroupPriceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends GameGroupPriceAggregateArgs>(args: Subset<T, GameGroupPriceAggregateArgs>): Prisma.PrismaPromise<GetGameGroupPriceAggregateType<T>>
+
+    /**
+     * Group by GameGroupPrice.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GameGroupPriceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends GameGroupPriceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: GameGroupPriceGroupByArgs['orderBy'] }
+        : { orderBy?: GameGroupPriceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, GameGroupPriceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGameGroupPriceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the GameGroupPrice model
+   */
+  readonly fields: GameGroupPriceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for GameGroupPrice.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__GameGroupPriceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    game<T extends GameDefaultArgs<ExtArgs> = {}>(args?: Subset<T, GameDefaultArgs<ExtArgs>>): Prisma__GameClient<$Result.GetResult<Prisma.$GamePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    group<T extends GroupDefaultArgs<ExtArgs> = {}>(args?: Subset<T, GroupDefaultArgs<ExtArgs>>): Prisma__GroupClient<$Result.GetResult<Prisma.$GroupPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the GameGroupPrice model
+   */
+  interface GameGroupPriceFieldRefs {
+    readonly id: FieldRef<"GameGroupPrice", 'Int'>
+    readonly gameId: FieldRef<"GameGroupPrice", 'Int'>
+    readonly groupId: FieldRef<"GameGroupPrice", 'Int'>
+    readonly price: FieldRef<"GameGroupPrice", 'Float'>
+    readonly sgaUuid: FieldRef<"GameGroupPrice", 'String'>
+    readonly sgaStatus: FieldRef<"GameGroupPrice", 'String'>
+    readonly createdAt: FieldRef<"GameGroupPrice", 'DateTime'>
+    readonly updatedAt: FieldRef<"GameGroupPrice", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * GameGroupPrice findUnique
+   */
+  export type GameGroupPriceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GameGroupPrice
+     */
+    select?: GameGroupPriceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GameGroupPrice
+     */
+    omit?: GameGroupPriceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GameGroupPriceInclude<ExtArgs> | null
+    /**
+     * Filter, which GameGroupPrice to fetch.
+     */
+    where: GameGroupPriceWhereUniqueInput
+  }
+
+  /**
+   * GameGroupPrice findUniqueOrThrow
+   */
+  export type GameGroupPriceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GameGroupPrice
+     */
+    select?: GameGroupPriceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GameGroupPrice
+     */
+    omit?: GameGroupPriceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GameGroupPriceInclude<ExtArgs> | null
+    /**
+     * Filter, which GameGroupPrice to fetch.
+     */
+    where: GameGroupPriceWhereUniqueInput
+  }
+
+  /**
+   * GameGroupPrice findFirst
+   */
+  export type GameGroupPriceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GameGroupPrice
+     */
+    select?: GameGroupPriceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GameGroupPrice
+     */
+    omit?: GameGroupPriceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GameGroupPriceInclude<ExtArgs> | null
+    /**
+     * Filter, which GameGroupPrice to fetch.
+     */
+    where?: GameGroupPriceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GameGroupPrices to fetch.
+     */
+    orderBy?: GameGroupPriceOrderByWithRelationInput | GameGroupPriceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GameGroupPrices.
+     */
+    cursor?: GameGroupPriceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GameGroupPrices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GameGroupPrices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GameGroupPrices.
+     */
+    distinct?: GameGroupPriceScalarFieldEnum | GameGroupPriceScalarFieldEnum[]
+  }
+
+  /**
+   * GameGroupPrice findFirstOrThrow
+   */
+  export type GameGroupPriceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GameGroupPrice
+     */
+    select?: GameGroupPriceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GameGroupPrice
+     */
+    omit?: GameGroupPriceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GameGroupPriceInclude<ExtArgs> | null
+    /**
+     * Filter, which GameGroupPrice to fetch.
+     */
+    where?: GameGroupPriceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GameGroupPrices to fetch.
+     */
+    orderBy?: GameGroupPriceOrderByWithRelationInput | GameGroupPriceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GameGroupPrices.
+     */
+    cursor?: GameGroupPriceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GameGroupPrices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GameGroupPrices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GameGroupPrices.
+     */
+    distinct?: GameGroupPriceScalarFieldEnum | GameGroupPriceScalarFieldEnum[]
+  }
+
+  /**
+   * GameGroupPrice findMany
+   */
+  export type GameGroupPriceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GameGroupPrice
+     */
+    select?: GameGroupPriceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GameGroupPrice
+     */
+    omit?: GameGroupPriceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GameGroupPriceInclude<ExtArgs> | null
+    /**
+     * Filter, which GameGroupPrices to fetch.
+     */
+    where?: GameGroupPriceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GameGroupPrices to fetch.
+     */
+    orderBy?: GameGroupPriceOrderByWithRelationInput | GameGroupPriceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing GameGroupPrices.
+     */
+    cursor?: GameGroupPriceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GameGroupPrices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GameGroupPrices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GameGroupPrices.
+     */
+    distinct?: GameGroupPriceScalarFieldEnum | GameGroupPriceScalarFieldEnum[]
+  }
+
+  /**
+   * GameGroupPrice create
+   */
+  export type GameGroupPriceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GameGroupPrice
+     */
+    select?: GameGroupPriceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GameGroupPrice
+     */
+    omit?: GameGroupPriceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GameGroupPriceInclude<ExtArgs> | null
+    /**
+     * The data needed to create a GameGroupPrice.
+     */
+    data: XOR<GameGroupPriceCreateInput, GameGroupPriceUncheckedCreateInput>
+  }
+
+  /**
+   * GameGroupPrice createMany
+   */
+  export type GameGroupPriceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many GameGroupPrices.
+     */
+    data: GameGroupPriceCreateManyInput | GameGroupPriceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * GameGroupPrice createManyAndReturn
+   */
+  export type GameGroupPriceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GameGroupPrice
+     */
+    select?: GameGroupPriceSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the GameGroupPrice
+     */
+    omit?: GameGroupPriceOmit<ExtArgs> | null
+    /**
+     * The data used to create many GameGroupPrices.
+     */
+    data: GameGroupPriceCreateManyInput | GameGroupPriceCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GameGroupPriceIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * GameGroupPrice update
+   */
+  export type GameGroupPriceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GameGroupPrice
+     */
+    select?: GameGroupPriceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GameGroupPrice
+     */
+    omit?: GameGroupPriceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GameGroupPriceInclude<ExtArgs> | null
+    /**
+     * The data needed to update a GameGroupPrice.
+     */
+    data: XOR<GameGroupPriceUpdateInput, GameGroupPriceUncheckedUpdateInput>
+    /**
+     * Choose, which GameGroupPrice to update.
+     */
+    where: GameGroupPriceWhereUniqueInput
+  }
+
+  /**
+   * GameGroupPrice updateMany
+   */
+  export type GameGroupPriceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update GameGroupPrices.
+     */
+    data: XOR<GameGroupPriceUpdateManyMutationInput, GameGroupPriceUncheckedUpdateManyInput>
+    /**
+     * Filter which GameGroupPrices to update
+     */
+    where?: GameGroupPriceWhereInput
+    /**
+     * Limit how many GameGroupPrices to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * GameGroupPrice updateManyAndReturn
+   */
+  export type GameGroupPriceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GameGroupPrice
+     */
+    select?: GameGroupPriceSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the GameGroupPrice
+     */
+    omit?: GameGroupPriceOmit<ExtArgs> | null
+    /**
+     * The data used to update GameGroupPrices.
+     */
+    data: XOR<GameGroupPriceUpdateManyMutationInput, GameGroupPriceUncheckedUpdateManyInput>
+    /**
+     * Filter which GameGroupPrices to update
+     */
+    where?: GameGroupPriceWhereInput
+    /**
+     * Limit how many GameGroupPrices to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GameGroupPriceIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * GameGroupPrice upsert
+   */
+  export type GameGroupPriceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GameGroupPrice
+     */
+    select?: GameGroupPriceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GameGroupPrice
+     */
+    omit?: GameGroupPriceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GameGroupPriceInclude<ExtArgs> | null
+    /**
+     * The filter to search for the GameGroupPrice to update in case it exists.
+     */
+    where: GameGroupPriceWhereUniqueInput
+    /**
+     * In case the GameGroupPrice found by the `where` argument doesn't exist, create a new GameGroupPrice with this data.
+     */
+    create: XOR<GameGroupPriceCreateInput, GameGroupPriceUncheckedCreateInput>
+    /**
+     * In case the GameGroupPrice was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<GameGroupPriceUpdateInput, GameGroupPriceUncheckedUpdateInput>
+  }
+
+  /**
+   * GameGroupPrice delete
+   */
+  export type GameGroupPriceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GameGroupPrice
+     */
+    select?: GameGroupPriceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GameGroupPrice
+     */
+    omit?: GameGroupPriceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GameGroupPriceInclude<ExtArgs> | null
+    /**
+     * Filter which GameGroupPrice to delete.
+     */
+    where: GameGroupPriceWhereUniqueInput
+  }
+
+  /**
+   * GameGroupPrice deleteMany
+   */
+  export type GameGroupPriceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GameGroupPrices to delete
+     */
+    where?: GameGroupPriceWhereInput
+    /**
+     * Limit how many GameGroupPrices to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * GameGroupPrice without action
+   */
+  export type GameGroupPriceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GameGroupPrice
+     */
+    select?: GameGroupPriceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GameGroupPrice
+     */
+    omit?: GameGroupPriceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GameGroupPriceInclude<ExtArgs> | null
   }
 
 
@@ -8421,6 +9742,20 @@ export namespace Prisma {
   export type GroupScalarFieldEnum = (typeof GroupScalarFieldEnum)[keyof typeof GroupScalarFieldEnum]
 
 
+  export const GameGroupPriceScalarFieldEnum: {
+    id: 'id',
+    gameId: 'gameId',
+    groupId: 'groupId',
+    price: 'price',
+    sgaUuid: 'sgaUuid',
+    sgaStatus: 'sgaStatus',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type GameGroupPriceScalarFieldEnum = (typeof GameGroupPriceScalarFieldEnum)[keyof typeof GameGroupPriceScalarFieldEnum]
+
+
   export const PlayerScalarFieldEnum: {
     id: 'id',
     slug: 'slug',
@@ -8726,6 +10061,7 @@ export namespace Prisma {
     sgaUuid?: StringNullableFilter<"Game"> | string | null
     event?: XOR<ExternalEventScalarRelationFilter, ExternalEventWhereInput>
     picks?: PickListRelationFilter
+    groupPrices?: GameGroupPriceListRelationFilter
   }
 
   export type GameOrderByWithRelationInput = {
@@ -8746,6 +10082,7 @@ export namespace Prisma {
     sgaUuid?: SortOrderInput | SortOrder
     event?: ExternalEventOrderByWithRelationInput
     picks?: PickOrderByRelationAggregateInput
+    groupPrices?: GameGroupPriceOrderByRelationAggregateInput
   }
 
   export type GameWhereUniqueInput = Prisma.AtLeast<{
@@ -8769,6 +10106,7 @@ export namespace Prisma {
     sgaUuid?: StringNullableFilter<"Game"> | string | null
     event?: XOR<ExternalEventScalarRelationFilter, ExternalEventWhereInput>
     picks?: PickListRelationFilter
+    groupPrices?: GameGroupPriceListRelationFilter
   }, "id">
 
   export type GameOrderByWithAggregationInput = {
@@ -8824,6 +10162,7 @@ export namespace Prisma {
     slug?: StringFilter<"Group"> | string
     createdAt?: DateTimeFilter<"Group"> | Date | string
     players?: PlayerListRelationFilter
+    gamePrices?: GameGroupPriceListRelationFilter
   }
 
   export type GroupOrderByWithRelationInput = {
@@ -8832,6 +10171,7 @@ export namespace Prisma {
     slug?: SortOrder
     createdAt?: SortOrder
     players?: PlayerOrderByRelationAggregateInput
+    gamePrices?: GameGroupPriceOrderByRelationAggregateInput
   }
 
   export type GroupWhereUniqueInput = Prisma.AtLeast<{
@@ -8843,6 +10183,7 @@ export namespace Prisma {
     name?: StringFilter<"Group"> | string
     createdAt?: DateTimeFilter<"Group"> | Date | string
     players?: PlayerListRelationFilter
+    gamePrices?: GameGroupPriceListRelationFilter
   }, "id" | "slug">
 
   export type GroupOrderByWithAggregationInput = {
@@ -8865,6 +10206,82 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Group"> | string
     slug?: StringWithAggregatesFilter<"Group"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Group"> | Date | string
+  }
+
+  export type GameGroupPriceWhereInput = {
+    AND?: GameGroupPriceWhereInput | GameGroupPriceWhereInput[]
+    OR?: GameGroupPriceWhereInput[]
+    NOT?: GameGroupPriceWhereInput | GameGroupPriceWhereInput[]
+    id?: IntFilter<"GameGroupPrice"> | number
+    gameId?: IntFilter<"GameGroupPrice"> | number
+    groupId?: IntFilter<"GameGroupPrice"> | number
+    price?: FloatNullableFilter<"GameGroupPrice"> | number | null
+    sgaUuid?: StringNullableFilter<"GameGroupPrice"> | string | null
+    sgaStatus?: StringNullableFilter<"GameGroupPrice"> | string | null
+    createdAt?: DateTimeFilter<"GameGroupPrice"> | Date | string
+    updatedAt?: DateTimeFilter<"GameGroupPrice"> | Date | string
+    game?: XOR<GameScalarRelationFilter, GameWhereInput>
+    group?: XOR<GroupScalarRelationFilter, GroupWhereInput>
+  }
+
+  export type GameGroupPriceOrderByWithRelationInput = {
+    id?: SortOrder
+    gameId?: SortOrder
+    groupId?: SortOrder
+    price?: SortOrderInput | SortOrder
+    sgaUuid?: SortOrderInput | SortOrder
+    sgaStatus?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    game?: GameOrderByWithRelationInput
+    group?: GroupOrderByWithRelationInput
+  }
+
+  export type GameGroupPriceWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    gameId_groupId?: GameGroupPriceGameIdGroupIdCompoundUniqueInput
+    AND?: GameGroupPriceWhereInput | GameGroupPriceWhereInput[]
+    OR?: GameGroupPriceWhereInput[]
+    NOT?: GameGroupPriceWhereInput | GameGroupPriceWhereInput[]
+    gameId?: IntFilter<"GameGroupPrice"> | number
+    groupId?: IntFilter<"GameGroupPrice"> | number
+    price?: FloatNullableFilter<"GameGroupPrice"> | number | null
+    sgaUuid?: StringNullableFilter<"GameGroupPrice"> | string | null
+    sgaStatus?: StringNullableFilter<"GameGroupPrice"> | string | null
+    createdAt?: DateTimeFilter<"GameGroupPrice"> | Date | string
+    updatedAt?: DateTimeFilter<"GameGroupPrice"> | Date | string
+    game?: XOR<GameScalarRelationFilter, GameWhereInput>
+    group?: XOR<GroupScalarRelationFilter, GroupWhereInput>
+  }, "id" | "gameId_groupId">
+
+  export type GameGroupPriceOrderByWithAggregationInput = {
+    id?: SortOrder
+    gameId?: SortOrder
+    groupId?: SortOrder
+    price?: SortOrderInput | SortOrder
+    sgaUuid?: SortOrderInput | SortOrder
+    sgaStatus?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: GameGroupPriceCountOrderByAggregateInput
+    _avg?: GameGroupPriceAvgOrderByAggregateInput
+    _max?: GameGroupPriceMaxOrderByAggregateInput
+    _min?: GameGroupPriceMinOrderByAggregateInput
+    _sum?: GameGroupPriceSumOrderByAggregateInput
+  }
+
+  export type GameGroupPriceScalarWhereWithAggregatesInput = {
+    AND?: GameGroupPriceScalarWhereWithAggregatesInput | GameGroupPriceScalarWhereWithAggregatesInput[]
+    OR?: GameGroupPriceScalarWhereWithAggregatesInput[]
+    NOT?: GameGroupPriceScalarWhereWithAggregatesInput | GameGroupPriceScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"GameGroupPrice"> | number
+    gameId?: IntWithAggregatesFilter<"GameGroupPrice"> | number
+    groupId?: IntWithAggregatesFilter<"GameGroupPrice"> | number
+    price?: FloatNullableWithAggregatesFilter<"GameGroupPrice"> | number | null
+    sgaUuid?: StringNullableWithAggregatesFilter<"GameGroupPrice"> | string | null
+    sgaStatus?: StringNullableWithAggregatesFilter<"GameGroupPrice"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"GameGroupPrice"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"GameGroupPrice"> | Date | string
   }
 
   export type PlayerWhereInput = {
@@ -9148,6 +10565,7 @@ export namespace Prisma {
     sgaUuid?: string | null
     event: ExternalEventCreateNestedOneWithoutGamesInput
     picks?: PickCreateNestedManyWithoutGameInput
+    groupPrices?: GameGroupPriceCreateNestedManyWithoutGameInput
   }
 
   export type GameUncheckedCreateInput = {
@@ -9167,6 +10585,7 @@ export namespace Prisma {
     sgaStatus?: string | null
     sgaUuid?: string | null
     picks?: PickUncheckedCreateNestedManyWithoutGameInput
+    groupPrices?: GameGroupPriceUncheckedCreateNestedManyWithoutGameInput
   }
 
   export type GameUpdateInput = {
@@ -9185,6 +10604,7 @@ export namespace Prisma {
     sgaUuid?: NullableStringFieldUpdateOperationsInput | string | null
     event?: ExternalEventUpdateOneRequiredWithoutGamesNestedInput
     picks?: PickUpdateManyWithoutGameNestedInput
+    groupPrices?: GameGroupPriceUpdateManyWithoutGameNestedInput
   }
 
   export type GameUncheckedUpdateInput = {
@@ -9204,6 +10624,7 @@ export namespace Prisma {
     sgaStatus?: NullableStringFieldUpdateOperationsInput | string | null
     sgaUuid?: NullableStringFieldUpdateOperationsInput | string | null
     picks?: PickUncheckedUpdateManyWithoutGameNestedInput
+    groupPrices?: GameGroupPriceUncheckedUpdateManyWithoutGameNestedInput
   }
 
   export type GameCreateManyInput = {
@@ -9263,6 +10684,7 @@ export namespace Prisma {
     slug: string
     createdAt?: Date | string
     players?: PlayerCreateNestedManyWithoutGroupInput
+    gamePrices?: GameGroupPriceCreateNestedManyWithoutGroupInput
   }
 
   export type GroupUncheckedCreateInput = {
@@ -9271,6 +10693,7 @@ export namespace Prisma {
     slug: string
     createdAt?: Date | string
     players?: PlayerUncheckedCreateNestedManyWithoutGroupInput
+    gamePrices?: GameGroupPriceUncheckedCreateNestedManyWithoutGroupInput
   }
 
   export type GroupUpdateInput = {
@@ -9278,6 +10701,7 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     players?: PlayerUpdateManyWithoutGroupNestedInput
+    gamePrices?: GameGroupPriceUpdateManyWithoutGroupNestedInput
   }
 
   export type GroupUncheckedUpdateInput = {
@@ -9286,6 +10710,7 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     players?: PlayerUncheckedUpdateManyWithoutGroupNestedInput
+    gamePrices?: GameGroupPriceUncheckedUpdateManyWithoutGroupNestedInput
   }
 
   export type GroupCreateManyInput = {
@@ -9306,6 +10731,78 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GameGroupPriceCreateInput = {
+    price?: number | null
+    sgaUuid?: string | null
+    sgaStatus?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    game: GameCreateNestedOneWithoutGroupPricesInput
+    group: GroupCreateNestedOneWithoutGamePricesInput
+  }
+
+  export type GameGroupPriceUncheckedCreateInput = {
+    id?: number
+    gameId: number
+    groupId: number
+    price?: number | null
+    sgaUuid?: string | null
+    sgaStatus?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GameGroupPriceUpdateInput = {
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    sgaUuid?: NullableStringFieldUpdateOperationsInput | string | null
+    sgaStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    game?: GameUpdateOneRequiredWithoutGroupPricesNestedInput
+    group?: GroupUpdateOneRequiredWithoutGamePricesNestedInput
+  }
+
+  export type GameGroupPriceUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    gameId?: IntFieldUpdateOperationsInput | number
+    groupId?: IntFieldUpdateOperationsInput | number
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    sgaUuid?: NullableStringFieldUpdateOperationsInput | string | null
+    sgaStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GameGroupPriceCreateManyInput = {
+    id?: number
+    gameId: number
+    groupId: number
+    price?: number | null
+    sgaUuid?: string | null
+    sgaStatus?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GameGroupPriceUpdateManyMutationInput = {
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    sgaUuid?: NullableStringFieldUpdateOperationsInput | string | null
+    sgaStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GameGroupPriceUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    gameId?: IntFieldUpdateOperationsInput | number
+    groupId?: IntFieldUpdateOperationsInput | number
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    sgaUuid?: NullableStringFieldUpdateOperationsInput | string | null
+    sgaStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PlayerCreateInput = {
@@ -9732,7 +11229,17 @@ export namespace Prisma {
     none?: PickWhereInput
   }
 
+  export type GameGroupPriceListRelationFilter = {
+    every?: GameGroupPriceWhereInput
+    some?: GameGroupPriceWhereInput
+    none?: GameGroupPriceWhereInput
+  }
+
   export type PickOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type GameGroupPriceOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -9913,6 +11420,68 @@ export namespace Prisma {
     id?: SortOrder
   }
 
+  export type GameScalarRelationFilter = {
+    is?: GameWhereInput
+    isNot?: GameWhereInput
+  }
+
+  export type GroupScalarRelationFilter = {
+    is?: GroupWhereInput
+    isNot?: GroupWhereInput
+  }
+
+  export type GameGroupPriceGameIdGroupIdCompoundUniqueInput = {
+    gameId: number
+    groupId: number
+  }
+
+  export type GameGroupPriceCountOrderByAggregateInput = {
+    id?: SortOrder
+    gameId?: SortOrder
+    groupId?: SortOrder
+    price?: SortOrder
+    sgaUuid?: SortOrder
+    sgaStatus?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GameGroupPriceAvgOrderByAggregateInput = {
+    id?: SortOrder
+    gameId?: SortOrder
+    groupId?: SortOrder
+    price?: SortOrder
+  }
+
+  export type GameGroupPriceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    gameId?: SortOrder
+    groupId?: SortOrder
+    price?: SortOrder
+    sgaUuid?: SortOrder
+    sgaStatus?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GameGroupPriceMinOrderByAggregateInput = {
+    id?: SortOrder
+    gameId?: SortOrder
+    groupId?: SortOrder
+    price?: SortOrder
+    sgaUuid?: SortOrder
+    sgaStatus?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type GameGroupPriceSumOrderByAggregateInput = {
+    id?: SortOrder
+    gameId?: SortOrder
+    groupId?: SortOrder
+    price?: SortOrder
+  }
+
   export type IntNullableFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
@@ -9977,11 +11546,6 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedIntNullableFilter<$PrismaModel>
     _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type GameScalarRelationFilter = {
-    is?: GameWhereInput
-    isNot?: GameWhereInput
   }
 
   export type PlayerScalarRelationFilter = {
@@ -10129,11 +11693,25 @@ export namespace Prisma {
     connect?: PickWhereUniqueInput | PickWhereUniqueInput[]
   }
 
+  export type GameGroupPriceCreateNestedManyWithoutGameInput = {
+    create?: XOR<GameGroupPriceCreateWithoutGameInput, GameGroupPriceUncheckedCreateWithoutGameInput> | GameGroupPriceCreateWithoutGameInput[] | GameGroupPriceUncheckedCreateWithoutGameInput[]
+    connectOrCreate?: GameGroupPriceCreateOrConnectWithoutGameInput | GameGroupPriceCreateOrConnectWithoutGameInput[]
+    createMany?: GameGroupPriceCreateManyGameInputEnvelope
+    connect?: GameGroupPriceWhereUniqueInput | GameGroupPriceWhereUniqueInput[]
+  }
+
   export type PickUncheckedCreateNestedManyWithoutGameInput = {
     create?: XOR<PickCreateWithoutGameInput, PickUncheckedCreateWithoutGameInput> | PickCreateWithoutGameInput[] | PickUncheckedCreateWithoutGameInput[]
     connectOrCreate?: PickCreateOrConnectWithoutGameInput | PickCreateOrConnectWithoutGameInput[]
     createMany?: PickCreateManyGameInputEnvelope
     connect?: PickWhereUniqueInput | PickWhereUniqueInput[]
+  }
+
+  export type GameGroupPriceUncheckedCreateNestedManyWithoutGameInput = {
+    create?: XOR<GameGroupPriceCreateWithoutGameInput, GameGroupPriceUncheckedCreateWithoutGameInput> | GameGroupPriceCreateWithoutGameInput[] | GameGroupPriceUncheckedCreateWithoutGameInput[]
+    connectOrCreate?: GameGroupPriceCreateOrConnectWithoutGameInput | GameGroupPriceCreateOrConnectWithoutGameInput[]
+    createMany?: GameGroupPriceCreateManyGameInputEnvelope
+    connect?: GameGroupPriceWhereUniqueInput | GameGroupPriceWhereUniqueInput[]
   }
 
   export type EnumGameStatusFieldUpdateOperationsInput = {
@@ -10186,6 +11764,20 @@ export namespace Prisma {
     deleteMany?: PickScalarWhereInput | PickScalarWhereInput[]
   }
 
+  export type GameGroupPriceUpdateManyWithoutGameNestedInput = {
+    create?: XOR<GameGroupPriceCreateWithoutGameInput, GameGroupPriceUncheckedCreateWithoutGameInput> | GameGroupPriceCreateWithoutGameInput[] | GameGroupPriceUncheckedCreateWithoutGameInput[]
+    connectOrCreate?: GameGroupPriceCreateOrConnectWithoutGameInput | GameGroupPriceCreateOrConnectWithoutGameInput[]
+    upsert?: GameGroupPriceUpsertWithWhereUniqueWithoutGameInput | GameGroupPriceUpsertWithWhereUniqueWithoutGameInput[]
+    createMany?: GameGroupPriceCreateManyGameInputEnvelope
+    set?: GameGroupPriceWhereUniqueInput | GameGroupPriceWhereUniqueInput[]
+    disconnect?: GameGroupPriceWhereUniqueInput | GameGroupPriceWhereUniqueInput[]
+    delete?: GameGroupPriceWhereUniqueInput | GameGroupPriceWhereUniqueInput[]
+    connect?: GameGroupPriceWhereUniqueInput | GameGroupPriceWhereUniqueInput[]
+    update?: GameGroupPriceUpdateWithWhereUniqueWithoutGameInput | GameGroupPriceUpdateWithWhereUniqueWithoutGameInput[]
+    updateMany?: GameGroupPriceUpdateManyWithWhereWithoutGameInput | GameGroupPriceUpdateManyWithWhereWithoutGameInput[]
+    deleteMany?: GameGroupPriceScalarWhereInput | GameGroupPriceScalarWhereInput[]
+  }
+
   export type PickUncheckedUpdateManyWithoutGameNestedInput = {
     create?: XOR<PickCreateWithoutGameInput, PickUncheckedCreateWithoutGameInput> | PickCreateWithoutGameInput[] | PickUncheckedCreateWithoutGameInput[]
     connectOrCreate?: PickCreateOrConnectWithoutGameInput | PickCreateOrConnectWithoutGameInput[]
@@ -10200,6 +11792,20 @@ export namespace Prisma {
     deleteMany?: PickScalarWhereInput | PickScalarWhereInput[]
   }
 
+  export type GameGroupPriceUncheckedUpdateManyWithoutGameNestedInput = {
+    create?: XOR<GameGroupPriceCreateWithoutGameInput, GameGroupPriceUncheckedCreateWithoutGameInput> | GameGroupPriceCreateWithoutGameInput[] | GameGroupPriceUncheckedCreateWithoutGameInput[]
+    connectOrCreate?: GameGroupPriceCreateOrConnectWithoutGameInput | GameGroupPriceCreateOrConnectWithoutGameInput[]
+    upsert?: GameGroupPriceUpsertWithWhereUniqueWithoutGameInput | GameGroupPriceUpsertWithWhereUniqueWithoutGameInput[]
+    createMany?: GameGroupPriceCreateManyGameInputEnvelope
+    set?: GameGroupPriceWhereUniqueInput | GameGroupPriceWhereUniqueInput[]
+    disconnect?: GameGroupPriceWhereUniqueInput | GameGroupPriceWhereUniqueInput[]
+    delete?: GameGroupPriceWhereUniqueInput | GameGroupPriceWhereUniqueInput[]
+    connect?: GameGroupPriceWhereUniqueInput | GameGroupPriceWhereUniqueInput[]
+    update?: GameGroupPriceUpdateWithWhereUniqueWithoutGameInput | GameGroupPriceUpdateWithWhereUniqueWithoutGameInput[]
+    updateMany?: GameGroupPriceUpdateManyWithWhereWithoutGameInput | GameGroupPriceUpdateManyWithWhereWithoutGameInput[]
+    deleteMany?: GameGroupPriceScalarWhereInput | GameGroupPriceScalarWhereInput[]
+  }
+
   export type PlayerCreateNestedManyWithoutGroupInput = {
     create?: XOR<PlayerCreateWithoutGroupInput, PlayerUncheckedCreateWithoutGroupInput> | PlayerCreateWithoutGroupInput[] | PlayerUncheckedCreateWithoutGroupInput[]
     connectOrCreate?: PlayerCreateOrConnectWithoutGroupInput | PlayerCreateOrConnectWithoutGroupInput[]
@@ -10207,11 +11813,25 @@ export namespace Prisma {
     connect?: PlayerWhereUniqueInput | PlayerWhereUniqueInput[]
   }
 
+  export type GameGroupPriceCreateNestedManyWithoutGroupInput = {
+    create?: XOR<GameGroupPriceCreateWithoutGroupInput, GameGroupPriceUncheckedCreateWithoutGroupInput> | GameGroupPriceCreateWithoutGroupInput[] | GameGroupPriceUncheckedCreateWithoutGroupInput[]
+    connectOrCreate?: GameGroupPriceCreateOrConnectWithoutGroupInput | GameGroupPriceCreateOrConnectWithoutGroupInput[]
+    createMany?: GameGroupPriceCreateManyGroupInputEnvelope
+    connect?: GameGroupPriceWhereUniqueInput | GameGroupPriceWhereUniqueInput[]
+  }
+
   export type PlayerUncheckedCreateNestedManyWithoutGroupInput = {
     create?: XOR<PlayerCreateWithoutGroupInput, PlayerUncheckedCreateWithoutGroupInput> | PlayerCreateWithoutGroupInput[] | PlayerUncheckedCreateWithoutGroupInput[]
     connectOrCreate?: PlayerCreateOrConnectWithoutGroupInput | PlayerCreateOrConnectWithoutGroupInput[]
     createMany?: PlayerCreateManyGroupInputEnvelope
     connect?: PlayerWhereUniqueInput | PlayerWhereUniqueInput[]
+  }
+
+  export type GameGroupPriceUncheckedCreateNestedManyWithoutGroupInput = {
+    create?: XOR<GameGroupPriceCreateWithoutGroupInput, GameGroupPriceUncheckedCreateWithoutGroupInput> | GameGroupPriceCreateWithoutGroupInput[] | GameGroupPriceUncheckedCreateWithoutGroupInput[]
+    connectOrCreate?: GameGroupPriceCreateOrConnectWithoutGroupInput | GameGroupPriceCreateOrConnectWithoutGroupInput[]
+    createMany?: GameGroupPriceCreateManyGroupInputEnvelope
+    connect?: GameGroupPriceWhereUniqueInput | GameGroupPriceWhereUniqueInput[]
   }
 
   export type PlayerUpdateManyWithoutGroupNestedInput = {
@@ -10228,6 +11848,20 @@ export namespace Prisma {
     deleteMany?: PlayerScalarWhereInput | PlayerScalarWhereInput[]
   }
 
+  export type GameGroupPriceUpdateManyWithoutGroupNestedInput = {
+    create?: XOR<GameGroupPriceCreateWithoutGroupInput, GameGroupPriceUncheckedCreateWithoutGroupInput> | GameGroupPriceCreateWithoutGroupInput[] | GameGroupPriceUncheckedCreateWithoutGroupInput[]
+    connectOrCreate?: GameGroupPriceCreateOrConnectWithoutGroupInput | GameGroupPriceCreateOrConnectWithoutGroupInput[]
+    upsert?: GameGroupPriceUpsertWithWhereUniqueWithoutGroupInput | GameGroupPriceUpsertWithWhereUniqueWithoutGroupInput[]
+    createMany?: GameGroupPriceCreateManyGroupInputEnvelope
+    set?: GameGroupPriceWhereUniqueInput | GameGroupPriceWhereUniqueInput[]
+    disconnect?: GameGroupPriceWhereUniqueInput | GameGroupPriceWhereUniqueInput[]
+    delete?: GameGroupPriceWhereUniqueInput | GameGroupPriceWhereUniqueInput[]
+    connect?: GameGroupPriceWhereUniqueInput | GameGroupPriceWhereUniqueInput[]
+    update?: GameGroupPriceUpdateWithWhereUniqueWithoutGroupInput | GameGroupPriceUpdateWithWhereUniqueWithoutGroupInput[]
+    updateMany?: GameGroupPriceUpdateManyWithWhereWithoutGroupInput | GameGroupPriceUpdateManyWithWhereWithoutGroupInput[]
+    deleteMany?: GameGroupPriceScalarWhereInput | GameGroupPriceScalarWhereInput[]
+  }
+
   export type PlayerUncheckedUpdateManyWithoutGroupNestedInput = {
     create?: XOR<PlayerCreateWithoutGroupInput, PlayerUncheckedCreateWithoutGroupInput> | PlayerCreateWithoutGroupInput[] | PlayerUncheckedCreateWithoutGroupInput[]
     connectOrCreate?: PlayerCreateOrConnectWithoutGroupInput | PlayerCreateOrConnectWithoutGroupInput[]
@@ -10240,6 +11874,48 @@ export namespace Prisma {
     update?: PlayerUpdateWithWhereUniqueWithoutGroupInput | PlayerUpdateWithWhereUniqueWithoutGroupInput[]
     updateMany?: PlayerUpdateManyWithWhereWithoutGroupInput | PlayerUpdateManyWithWhereWithoutGroupInput[]
     deleteMany?: PlayerScalarWhereInput | PlayerScalarWhereInput[]
+  }
+
+  export type GameGroupPriceUncheckedUpdateManyWithoutGroupNestedInput = {
+    create?: XOR<GameGroupPriceCreateWithoutGroupInput, GameGroupPriceUncheckedCreateWithoutGroupInput> | GameGroupPriceCreateWithoutGroupInput[] | GameGroupPriceUncheckedCreateWithoutGroupInput[]
+    connectOrCreate?: GameGroupPriceCreateOrConnectWithoutGroupInput | GameGroupPriceCreateOrConnectWithoutGroupInput[]
+    upsert?: GameGroupPriceUpsertWithWhereUniqueWithoutGroupInput | GameGroupPriceUpsertWithWhereUniqueWithoutGroupInput[]
+    createMany?: GameGroupPriceCreateManyGroupInputEnvelope
+    set?: GameGroupPriceWhereUniqueInput | GameGroupPriceWhereUniqueInput[]
+    disconnect?: GameGroupPriceWhereUniqueInput | GameGroupPriceWhereUniqueInput[]
+    delete?: GameGroupPriceWhereUniqueInput | GameGroupPriceWhereUniqueInput[]
+    connect?: GameGroupPriceWhereUniqueInput | GameGroupPriceWhereUniqueInput[]
+    update?: GameGroupPriceUpdateWithWhereUniqueWithoutGroupInput | GameGroupPriceUpdateWithWhereUniqueWithoutGroupInput[]
+    updateMany?: GameGroupPriceUpdateManyWithWhereWithoutGroupInput | GameGroupPriceUpdateManyWithWhereWithoutGroupInput[]
+    deleteMany?: GameGroupPriceScalarWhereInput | GameGroupPriceScalarWhereInput[]
+  }
+
+  export type GameCreateNestedOneWithoutGroupPricesInput = {
+    create?: XOR<GameCreateWithoutGroupPricesInput, GameUncheckedCreateWithoutGroupPricesInput>
+    connectOrCreate?: GameCreateOrConnectWithoutGroupPricesInput
+    connect?: GameWhereUniqueInput
+  }
+
+  export type GroupCreateNestedOneWithoutGamePricesInput = {
+    create?: XOR<GroupCreateWithoutGamePricesInput, GroupUncheckedCreateWithoutGamePricesInput>
+    connectOrCreate?: GroupCreateOrConnectWithoutGamePricesInput
+    connect?: GroupWhereUniqueInput
+  }
+
+  export type GameUpdateOneRequiredWithoutGroupPricesNestedInput = {
+    create?: XOR<GameCreateWithoutGroupPricesInput, GameUncheckedCreateWithoutGroupPricesInput>
+    connectOrCreate?: GameCreateOrConnectWithoutGroupPricesInput
+    upsert?: GameUpsertWithoutGroupPricesInput
+    connect?: GameWhereUniqueInput
+    update?: XOR<XOR<GameUpdateToOneWithWhereWithoutGroupPricesInput, GameUpdateWithoutGroupPricesInput>, GameUncheckedUpdateWithoutGroupPricesInput>
+  }
+
+  export type GroupUpdateOneRequiredWithoutGamePricesNestedInput = {
+    create?: XOR<GroupCreateWithoutGamePricesInput, GroupUncheckedCreateWithoutGamePricesInput>
+    connectOrCreate?: GroupCreateOrConnectWithoutGamePricesInput
+    upsert?: GroupUpsertWithoutGamePricesInput
+    connect?: GroupWhereUniqueInput
+    update?: XOR<XOR<GroupUpdateToOneWithWhereWithoutGamePricesInput, GroupUpdateWithoutGamePricesInput>, GroupUncheckedUpdateWithoutGamePricesInput>
   }
 
   export type GroupCreateNestedOneWithoutPlayersInput = {
@@ -10635,6 +12311,7 @@ export namespace Prisma {
     sgaStatus?: string | null
     sgaUuid?: string | null
     picks?: PickCreateNestedManyWithoutGameInput
+    groupPrices?: GameGroupPriceCreateNestedManyWithoutGameInput
   }
 
   export type GameUncheckedCreateWithoutEventInput = {
@@ -10653,6 +12330,7 @@ export namespace Prisma {
     sgaStatus?: string | null
     sgaUuid?: string | null
     picks?: PickUncheckedCreateNestedManyWithoutGameInput
+    groupPrices?: GameGroupPriceUncheckedCreateNestedManyWithoutGameInput
   }
 
   export type GameCreateOrConnectWithoutEventInput = {
@@ -10753,6 +12431,35 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type GameGroupPriceCreateWithoutGameInput = {
+    price?: number | null
+    sgaUuid?: string | null
+    sgaStatus?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    group: GroupCreateNestedOneWithoutGamePricesInput
+  }
+
+  export type GameGroupPriceUncheckedCreateWithoutGameInput = {
+    id?: number
+    groupId: number
+    price?: number | null
+    sgaUuid?: string | null
+    sgaStatus?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GameGroupPriceCreateOrConnectWithoutGameInput = {
+    where: GameGroupPriceWhereUniqueInput
+    create: XOR<GameGroupPriceCreateWithoutGameInput, GameGroupPriceUncheckedCreateWithoutGameInput>
+  }
+
+  export type GameGroupPriceCreateManyGameInputEnvelope = {
+    data: GameGroupPriceCreateManyGameInput | GameGroupPriceCreateManyGameInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ExternalEventUpsertWithoutGamesInput = {
     update: XOR<ExternalEventUpdateWithoutGamesInput, ExternalEventUncheckedUpdateWithoutGamesInput>
     create: XOR<ExternalEventCreateWithoutGamesInput, ExternalEventUncheckedCreateWithoutGamesInput>
@@ -10810,6 +12517,36 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Pick"> | Date | string
   }
 
+  export type GameGroupPriceUpsertWithWhereUniqueWithoutGameInput = {
+    where: GameGroupPriceWhereUniqueInput
+    update: XOR<GameGroupPriceUpdateWithoutGameInput, GameGroupPriceUncheckedUpdateWithoutGameInput>
+    create: XOR<GameGroupPriceCreateWithoutGameInput, GameGroupPriceUncheckedCreateWithoutGameInput>
+  }
+
+  export type GameGroupPriceUpdateWithWhereUniqueWithoutGameInput = {
+    where: GameGroupPriceWhereUniqueInput
+    data: XOR<GameGroupPriceUpdateWithoutGameInput, GameGroupPriceUncheckedUpdateWithoutGameInput>
+  }
+
+  export type GameGroupPriceUpdateManyWithWhereWithoutGameInput = {
+    where: GameGroupPriceScalarWhereInput
+    data: XOR<GameGroupPriceUpdateManyMutationInput, GameGroupPriceUncheckedUpdateManyWithoutGameInput>
+  }
+
+  export type GameGroupPriceScalarWhereInput = {
+    AND?: GameGroupPriceScalarWhereInput | GameGroupPriceScalarWhereInput[]
+    OR?: GameGroupPriceScalarWhereInput[]
+    NOT?: GameGroupPriceScalarWhereInput | GameGroupPriceScalarWhereInput[]
+    id?: IntFilter<"GameGroupPrice"> | number
+    gameId?: IntFilter<"GameGroupPrice"> | number
+    groupId?: IntFilter<"GameGroupPrice"> | number
+    price?: FloatNullableFilter<"GameGroupPrice"> | number | null
+    sgaUuid?: StringNullableFilter<"GameGroupPrice"> | string | null
+    sgaStatus?: StringNullableFilter<"GameGroupPrice"> | string | null
+    createdAt?: DateTimeFilter<"GameGroupPrice"> | Date | string
+    updatedAt?: DateTimeFilter<"GameGroupPrice"> | Date | string
+  }
+
   export type PlayerCreateWithoutGroupInput = {
     slug: string
     displayName: string
@@ -10832,6 +12569,35 @@ export namespace Prisma {
 
   export type PlayerCreateManyGroupInputEnvelope = {
     data: PlayerCreateManyGroupInput | PlayerCreateManyGroupInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type GameGroupPriceCreateWithoutGroupInput = {
+    price?: number | null
+    sgaUuid?: string | null
+    sgaStatus?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    game: GameCreateNestedOneWithoutGroupPricesInput
+  }
+
+  export type GameGroupPriceUncheckedCreateWithoutGroupInput = {
+    id?: number
+    gameId: number
+    price?: number | null
+    sgaUuid?: string | null
+    sgaStatus?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type GameGroupPriceCreateOrConnectWithoutGroupInput = {
+    where: GameGroupPriceWhereUniqueInput
+    create: XOR<GameGroupPriceCreateWithoutGroupInput, GameGroupPriceUncheckedCreateWithoutGroupInput>
+  }
+
+  export type GameGroupPriceCreateManyGroupInputEnvelope = {
+    data: GameGroupPriceCreateManyGroupInput | GameGroupPriceCreateManyGroupInput[]
     skipDuplicates?: boolean
   }
 
@@ -10862,10 +12628,163 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Player"> | Date | string
   }
 
+  export type GameGroupPriceUpsertWithWhereUniqueWithoutGroupInput = {
+    where: GameGroupPriceWhereUniqueInput
+    update: XOR<GameGroupPriceUpdateWithoutGroupInput, GameGroupPriceUncheckedUpdateWithoutGroupInput>
+    create: XOR<GameGroupPriceCreateWithoutGroupInput, GameGroupPriceUncheckedCreateWithoutGroupInput>
+  }
+
+  export type GameGroupPriceUpdateWithWhereUniqueWithoutGroupInput = {
+    where: GameGroupPriceWhereUniqueInput
+    data: XOR<GameGroupPriceUpdateWithoutGroupInput, GameGroupPriceUncheckedUpdateWithoutGroupInput>
+  }
+
+  export type GameGroupPriceUpdateManyWithWhereWithoutGroupInput = {
+    where: GameGroupPriceScalarWhereInput
+    data: XOR<GameGroupPriceUpdateManyMutationInput, GameGroupPriceUncheckedUpdateManyWithoutGroupInput>
+  }
+
+  export type GameCreateWithoutGroupPricesInput = {
+    name: string
+    status?: $Enums.GameStatus
+    openTime: Date | string
+    closeTime: Date | string
+    prizeType: $Enums.PrizeType
+    bonusId?: string | null
+    multiplier?: number
+    s3Status?: string | null
+    paymentStatus?: string | null
+    createdAt?: Date | string
+    sgaPrice?: number | null
+    sgaStatus?: string | null
+    sgaUuid?: string | null
+    event: ExternalEventCreateNestedOneWithoutGamesInput
+    picks?: PickCreateNestedManyWithoutGameInput
+  }
+
+  export type GameUncheckedCreateWithoutGroupPricesInput = {
+    id?: number
+    name: string
+    eventId: number
+    status?: $Enums.GameStatus
+    openTime: Date | string
+    closeTime: Date | string
+    prizeType: $Enums.PrizeType
+    bonusId?: string | null
+    multiplier?: number
+    s3Status?: string | null
+    paymentStatus?: string | null
+    createdAt?: Date | string
+    sgaPrice?: number | null
+    sgaStatus?: string | null
+    sgaUuid?: string | null
+    picks?: PickUncheckedCreateNestedManyWithoutGameInput
+  }
+
+  export type GameCreateOrConnectWithoutGroupPricesInput = {
+    where: GameWhereUniqueInput
+    create: XOR<GameCreateWithoutGroupPricesInput, GameUncheckedCreateWithoutGroupPricesInput>
+  }
+
+  export type GroupCreateWithoutGamePricesInput = {
+    name: string
+    slug: string
+    createdAt?: Date | string
+    players?: PlayerCreateNestedManyWithoutGroupInput
+  }
+
+  export type GroupUncheckedCreateWithoutGamePricesInput = {
+    id?: number
+    name: string
+    slug: string
+    createdAt?: Date | string
+    players?: PlayerUncheckedCreateNestedManyWithoutGroupInput
+  }
+
+  export type GroupCreateOrConnectWithoutGamePricesInput = {
+    where: GroupWhereUniqueInput
+    create: XOR<GroupCreateWithoutGamePricesInput, GroupUncheckedCreateWithoutGamePricesInput>
+  }
+
+  export type GameUpsertWithoutGroupPricesInput = {
+    update: XOR<GameUpdateWithoutGroupPricesInput, GameUncheckedUpdateWithoutGroupPricesInput>
+    create: XOR<GameCreateWithoutGroupPricesInput, GameUncheckedCreateWithoutGroupPricesInput>
+    where?: GameWhereInput
+  }
+
+  export type GameUpdateToOneWithWhereWithoutGroupPricesInput = {
+    where?: GameWhereInput
+    data: XOR<GameUpdateWithoutGroupPricesInput, GameUncheckedUpdateWithoutGroupPricesInput>
+  }
+
+  export type GameUpdateWithoutGroupPricesInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    status?: EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
+    openTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    closeTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    prizeType?: EnumPrizeTypeFieldUpdateOperationsInput | $Enums.PrizeType
+    bonusId?: NullableStringFieldUpdateOperationsInput | string | null
+    multiplier?: FloatFieldUpdateOperationsInput | number
+    s3Status?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sgaPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    sgaStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    sgaUuid?: NullableStringFieldUpdateOperationsInput | string | null
+    event?: ExternalEventUpdateOneRequiredWithoutGamesNestedInput
+    picks?: PickUpdateManyWithoutGameNestedInput
+  }
+
+  export type GameUncheckedUpdateWithoutGroupPricesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    eventId?: IntFieldUpdateOperationsInput | number
+    status?: EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
+    openTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    closeTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    prizeType?: EnumPrizeTypeFieldUpdateOperationsInput | $Enums.PrizeType
+    bonusId?: NullableStringFieldUpdateOperationsInput | string | null
+    multiplier?: FloatFieldUpdateOperationsInput | number
+    s3Status?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sgaPrice?: NullableFloatFieldUpdateOperationsInput | number | null
+    sgaStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    sgaUuid?: NullableStringFieldUpdateOperationsInput | string | null
+    picks?: PickUncheckedUpdateManyWithoutGameNestedInput
+  }
+
+  export type GroupUpsertWithoutGamePricesInput = {
+    update: XOR<GroupUpdateWithoutGamePricesInput, GroupUncheckedUpdateWithoutGamePricesInput>
+    create: XOR<GroupCreateWithoutGamePricesInput, GroupUncheckedCreateWithoutGamePricesInput>
+    where?: GroupWhereInput
+  }
+
+  export type GroupUpdateToOneWithWhereWithoutGamePricesInput = {
+    where?: GroupWhereInput
+    data: XOR<GroupUpdateWithoutGamePricesInput, GroupUncheckedUpdateWithoutGamePricesInput>
+  }
+
+  export type GroupUpdateWithoutGamePricesInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    players?: PlayerUpdateManyWithoutGroupNestedInput
+  }
+
+  export type GroupUncheckedUpdateWithoutGamePricesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    players?: PlayerUncheckedUpdateManyWithoutGroupNestedInput
+  }
+
   export type GroupCreateWithoutPlayersInput = {
     name: string
     slug: string
     createdAt?: Date | string
+    gamePrices?: GameGroupPriceCreateNestedManyWithoutGroupInput
   }
 
   export type GroupUncheckedCreateWithoutPlayersInput = {
@@ -10873,6 +12792,7 @@ export namespace Prisma {
     name: string
     slug: string
     createdAt?: Date | string
+    gamePrices?: GameGroupPriceUncheckedCreateNestedManyWithoutGroupInput
   }
 
   export type GroupCreateOrConnectWithoutPlayersInput = {
@@ -10926,6 +12846,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    gamePrices?: GameGroupPriceUpdateManyWithoutGroupNestedInput
   }
 
   export type GroupUncheckedUpdateWithoutPlayersInput = {
@@ -10933,6 +12854,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    gamePrices?: GameGroupPriceUncheckedUpdateManyWithoutGroupNestedInput
   }
 
   export type PickUpsertWithWhereUniqueWithoutPlayerInput = {
@@ -10966,6 +12888,7 @@ export namespace Prisma {
     sgaStatus?: string | null
     sgaUuid?: string | null
     event: ExternalEventCreateNestedOneWithoutGamesInput
+    groupPrices?: GameGroupPriceCreateNestedManyWithoutGameInput
   }
 
   export type GameUncheckedCreateWithoutPicksInput = {
@@ -10984,6 +12907,7 @@ export namespace Prisma {
     sgaPrice?: number | null
     sgaStatus?: string | null
     sgaUuid?: string | null
+    groupPrices?: GameGroupPriceUncheckedCreateNestedManyWithoutGameInput
   }
 
   export type GameCreateOrConnectWithoutPicksInput = {
@@ -11037,6 +12961,7 @@ export namespace Prisma {
     sgaStatus?: NullableStringFieldUpdateOperationsInput | string | null
     sgaUuid?: NullableStringFieldUpdateOperationsInput | string | null
     event?: ExternalEventUpdateOneRequiredWithoutGamesNestedInput
+    groupPrices?: GameGroupPriceUpdateManyWithoutGameNestedInput
   }
 
   export type GameUncheckedUpdateWithoutPicksInput = {
@@ -11055,6 +12980,7 @@ export namespace Prisma {
     sgaPrice?: NullableFloatFieldUpdateOperationsInput | number | null
     sgaStatus?: NullableStringFieldUpdateOperationsInput | string | null
     sgaUuid?: NullableStringFieldUpdateOperationsInput | string | null
+    groupPrices?: GameGroupPriceUncheckedUpdateManyWithoutGameNestedInput
   }
 
   export type PlayerUpsertWithoutPicksInput = {
@@ -11115,6 +13041,7 @@ export namespace Prisma {
     sgaStatus?: NullableStringFieldUpdateOperationsInput | string | null
     sgaUuid?: NullableStringFieldUpdateOperationsInput | string | null
     picks?: PickUpdateManyWithoutGameNestedInput
+    groupPrices?: GameGroupPriceUpdateManyWithoutGameNestedInput
   }
 
   export type GameUncheckedUpdateWithoutEventInput = {
@@ -11133,6 +13060,7 @@ export namespace Prisma {
     sgaStatus?: NullableStringFieldUpdateOperationsInput | string | null
     sgaUuid?: NullableStringFieldUpdateOperationsInput | string | null
     picks?: PickUncheckedUpdateManyWithoutGameNestedInput
+    groupPrices?: GameGroupPriceUncheckedUpdateManyWithoutGameNestedInput
   }
 
   export type GameUncheckedUpdateManyWithoutEventInput = {
@@ -11161,6 +13089,16 @@ export namespace Prisma {
     marketName: string
     oddPrice: number
     createdAt?: Date | string
+  }
+
+  export type GameGroupPriceCreateManyGameInput = {
+    id?: number
+    groupId: number
+    price?: number | null
+    sgaUuid?: string | null
+    sgaStatus?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type PickUpdateWithoutGameInput = {
@@ -11195,11 +13133,50 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type GameGroupPriceUpdateWithoutGameInput = {
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    sgaUuid?: NullableStringFieldUpdateOperationsInput | string | null
+    sgaStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    group?: GroupUpdateOneRequiredWithoutGamePricesNestedInput
+  }
+
+  export type GameGroupPriceUncheckedUpdateWithoutGameInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    groupId?: IntFieldUpdateOperationsInput | number
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    sgaUuid?: NullableStringFieldUpdateOperationsInput | string | null
+    sgaStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GameGroupPriceUncheckedUpdateManyWithoutGameInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    groupId?: IntFieldUpdateOperationsInput | number
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    sgaUuid?: NullableStringFieldUpdateOperationsInput | string | null
+    sgaStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type PlayerCreateManyGroupInput = {
     id?: number
     slug: string
     displayName: string
     createdAt?: Date | string
+  }
+
+  export type GameGroupPriceCreateManyGroupInput = {
+    id?: number
+    gameId: number
+    price?: number | null
+    sgaUuid?: string | null
+    sgaStatus?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type PlayerUpdateWithoutGroupInput = {
@@ -11222,6 +13199,35 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     displayName?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GameGroupPriceUpdateWithoutGroupInput = {
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    sgaUuid?: NullableStringFieldUpdateOperationsInput | string | null
+    sgaStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    game?: GameUpdateOneRequiredWithoutGroupPricesNestedInput
+  }
+
+  export type GameGroupPriceUncheckedUpdateWithoutGroupInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    gameId?: IntFieldUpdateOperationsInput | number
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    sgaUuid?: NullableStringFieldUpdateOperationsInput | string | null
+    sgaStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GameGroupPriceUncheckedUpdateManyWithoutGroupInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    gameId?: IntFieldUpdateOperationsInput | number
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    sgaUuid?: NullableStringFieldUpdateOperationsInput | string | null
+    sgaStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PickCreateManyPlayerInput = {

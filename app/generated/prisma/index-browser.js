@@ -163,6 +163,17 @@ exports.Prisma.GroupScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.GameGroupPriceScalarFieldEnum = {
+  id: 'id',
+  gameId: 'gameId',
+  groupId: 'groupId',
+  price: 'price',
+  sgaUuid: 'sgaUuid',
+  sgaStatus: 'sgaStatus',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.PlayerScalarFieldEnum = {
   id: 'id',
   slug: 'slug',
@@ -223,6 +234,7 @@ exports.Prisma.ModelName = {
   ExternalEvent: 'ExternalEvent',
   Game: 'Game',
   Group: 'Group',
+  GameGroupPrice: 'GameGroupPrice',
   Player: 'Player',
   Pick: 'Pick'
 };

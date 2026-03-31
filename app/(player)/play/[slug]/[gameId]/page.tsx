@@ -49,6 +49,14 @@ export default async function PlayerGamePage({
 
   const myPick = game.picks.find((p) => p.playerId === player.id);
 
+  // Use per-group SGA price if the player belongs to a group; fall back to game-level price
+  const groupSgaRecord = player.groupId
+    ? await prisma.gameGroupPrice.findUnique({
+        where: { gameId_groupId: { gameId: game.id, groupId: player.groupId } },
+      })
+    : null;
+  const combinedPrice = groupSgaRecord?.price ?? (player.groupId ? null : game.sgaPrice);
+
   const pickedIds = new Set(game.picks.map((p) => p.playerId));
   const currentTurnPlayer = allPlayers.find((p) => !pickedIds.has(p.id)) ?? null;
   const isMyTurn = currentTurnPlayer?.id === player.id;
@@ -286,18 +294,18 @@ export default async function PlayerGamePage({
 
           <GroupPanel {...groupPanelProps} />
 
-          {game.sgaPrice && (
+          {combinedPrice && (
             <div style={{ textAlign: "center", padding: "16px 0" }}>
               <p style={{ fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)", marginBottom: "4px" }}>
                 Combined Price
               </p>
               <p style={{ fontFamily: "var(--font-mono)", fontWeight: 700, fontSize: "48px", color: "var(--accent-green)", margin: 0 }}>
-                {game.sgaPrice.toFixed(2)}
+                {combinedPrice.toFixed(2)}
               </p>
             </div>
           )}
 
-          {!game.sgaPrice && groupPicksAll.length < totalPlayers && (
+          {!combinedPrice && groupPicksAll.length < totalPlayers && (
             <p style={{ textAlign: "center", fontSize: "13px", color: "var(--text-muted)" }}>
               Waiting for {totalPlayers - groupPicksAll.length} more player
               {totalPlayers - groupPicksAll.length !== 1 ? "s" : ""}…

@@ -2,6 +2,42 @@
 
 ---
 
+## 2026-03-31 — Fix: per-group SGA combined price (was leaking across groups)
+
+### Bug
+`game.sgaPrice` is a single game-level field. With multiple groups, it was calculated from ALL picks across ALL groups, and displayed to all players regardless of group. Result: group B players saw group A's combined price.
+
+### Root cause (3 separate issues fixed)
+1. `triggerSgaPrice` used all picks for the SGA API call instead of group-scoped picks
+2. `submitPick` used `prisma.player.count()` (global) to detect "everyone has picked" — never triggered per-group
+3. Player page displayed `game.sgaPrice` with no group filter
+4. Cron route had the same global count bug as `submitPick`
+
+### Files changed
+- `prisma/schema.prisma` — added `GameGroupPrice` model (junction table: `game_group_prices`)
+- `prisma/migrations/20260331140000_add_game_group_price/migration.sql` — migration for new table
+- `app/(player)/play/[slug]/[gameId]/actions.ts` — `triggerSgaPrice` now takes optional `groupId`; `submitPick` counts group members, triggers group-specific SGA, also fixes turn-order enforcement to be group-scoped
+- `app/(player)/play/[slug]/[gameId]/page.tsx` — queries `GameGroupPrice` for the player's group; falls back to `game.sgaPrice` for ungrouped players only
+- `app/api/cron/price-refresh/route.ts` — rebuilt to iterate groups, check per-group completion, and upsert per-group prices
+
+### Edge cases
+| Scenario | Behaviour |
+|----------|-----------|
+| Player in group A — group A all picked | `GameGroupPrice` created for group A; shows A's SGA price |
+| Player in group B — group B not all picked | No `GameGroupPrice` for B yet; shows "Waiting for N more players" |
+| Player not in any group | Falls back to `game.sgaPrice` (legacy path) |
+| Group A and B both complete | Each has their own `GameGroupPrice` row; each sees their own price |
+| Cron fires before a group completes | That group skipped; only complete groups refreshed |
+| `GameGroupPrice` row doesn't exist yet | `null` returned; `combinedPrice` is null; waiting message shown |
+
+### Migration safety
+Non-destructive: adds a new table only. No existing columns altered. Existing `game.sgaPrice` remains for ungrouped players and admin view.
+
+### Regression risk
+Low. Admin `calculateGameSgaPrice` still writes to `game.sgaPrice` (all picks combined) — admin panel unaffected. Ungrouped player path unchanged via fallback.
+
+---
+
 ## 2026-03-31 — Groups page: client-side pagination (3 per page)
 
 ### Feature
