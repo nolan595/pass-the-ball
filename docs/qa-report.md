@@ -2,6 +2,34 @@
 
 ---
 
+## 2026-03-31 — Groups page: client-side pagination (3 per page)
+
+### Feature
+The admin groups list is paginated at 3 groups per page. Previous/Next buttons and a "Page X of Y" counter appear only when there are more than 3 groups. Pagination controls are hidden for ≤3 groups.
+
+### Files changed
+- `app/(admin)/groups/GroupsClient.tsx` — added `GROUPS_PER_PAGE = 3` constant, `Pagination` component, `page` + `safePage` state, slice logic
+
+### Edge cases reviewed
+| Scenario | Behaviour |
+|----------|-----------|
+| 0 groups | Empty state renders as before; no pagination controls |
+| 1–3 groups | All groups shown; pagination hidden (`totalPages = 1`, condition `> 1` skips render) |
+| 4+ groups | Groups sliced per page; Prev/Next rendered |
+| First page | Previous button disabled |
+| Last page | Next button disabled |
+| Create group (total crosses page boundary) | `totalPages` grows; user stays on current page; new group appears on correct page |
+| Delete last group on page 2 | `safePage = Math.min(page, totalPages - 1)` clamps to last valid page — no empty view |
+| Page state after server revalidation | React keeps `page` state across re-renders (server action → revalidatePath → fresh props). `safePage` clamping handles any out-of-bounds case |
+
+### TypeScript
+All types are inferred — no explicit casting or `any`. Component is fully typed.
+
+### Regression risk
+None. No data fetching logic changed. Ungrouped players section, dialogs, and server actions are unaffected. All changes are in the render path of `GroupsClient`.
+
+---
+
 ## 2026-03-31 — Market results view: collapsible cards
 
 ### Feature

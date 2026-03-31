@@ -418,6 +418,43 @@ function GroupCard({
   );
 }
 
+const GROUPS_PER_PAGE = 3;
+
+// ── Pagination controls ────────────────────────────────────────────────────────
+function Pagination({
+  page,
+  totalPages,
+  onPrev,
+  onNext,
+}: {
+  page: number;
+  totalPages: number;
+  onPrev: () => void;
+  onNext: () => void;
+}) {
+  return (
+    <div className="flex items-center justify-between pt-2">
+      <button
+        onClick={onPrev}
+        disabled={page === 0}
+        className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+      >
+        ← Previous
+      </button>
+      <span className="text-xs text-slate-400 tabular-nums">
+        Page {page + 1} of {totalPages}
+      </span>
+      <button
+        onClick={onNext}
+        disabled={page >= totalPages - 1}
+        className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+      >
+        Next →
+      </button>
+    </div>
+  );
+}
+
 // ── Main client component ──────────────────────────────────────────────────────
 export function GroupsClient({
   groups,
@@ -427,6 +464,11 @@ export function GroupsClient({
   ungroupedPlayers: Player[];
 }) {
   const [createOpen, setCreateOpen] = useState(false);
+  const [page, setPage] = useState(0);
+
+  const totalPages = Math.max(1, Math.ceil(groups.length / GROUPS_PER_PAGE));
+  const safePage = Math.min(page, totalPages - 1);
+  const pagedGroups = groups.slice(safePage * GROUPS_PER_PAGE, (safePage + 1) * GROUPS_PER_PAGE);
 
   return (
     <>
@@ -457,9 +499,19 @@ export function GroupsClient({
             </CardBody>
           </Card>
         ) : (
-          groups.map((group) => (
-            <GroupCard key={group.id} group={group} ungroupedPlayers={ungroupedPlayers} />
-          ))
+          <>
+            {pagedGroups.map((group) => (
+              <GroupCard key={group.id} group={group} ungroupedPlayers={ungroupedPlayers} />
+            ))}
+            {totalPages > 1 && (
+              <Pagination
+                page={safePage}
+                totalPages={totalPages}
+                onPrev={() => setPage((p) => Math.max(0, p - 1))}
+                onNext={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+              />
+            )}
+          </>
         )}
 
         {ungroupedPlayers.length > 0 && (
