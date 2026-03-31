@@ -86,12 +86,20 @@ DRAFT → PENDING → OPEN → CLOSED → COMPLETED
 
 ## Betbuilder / SGA API
 
-- Frontend endpoint (currently used): `GET /v2/getSgaOddPrice` — via `lib/sga-api.ts`
-- Backend endpoint (production repricing): `GET /v2/priceSgaOdd` — returns `pricingReferenceId` + `repriceEligibility`
-- Reprice endpoint: `GET /v2/repriceSgaOdd?...&pricing_reference_id={id}` — returns new price after a leg void
-- **Production auth:** OAuth required on `priceSgaOdd` and `repriceSgaOdd`; disabled on stage
-- **`X-Issuer` header:** required on both BE endpoints (use `HUNCH_F2P`)
-- Full flow documented in `docs/sga-void-reprice-flow.md`
+Five external API calls across a full game — full reference in `docs/ptb-api-flow.md`:
+
+| Step | Endpoint | Service | When |
+|------|----------|---------|------|
+| 1 | `getBetbuilderMarketsForMatch` | SGA | Player opens lobby (60s eager cache) |
+| 2 | `getOfferEvent` | Offer | Before saving each pick — validate match ACTIVE |
+| 3 | `previewBetbuilderOdd` | SGA | On lobby load for next player (lazy cache, invalidated on pick) |
+| 4 | `getSgaOddPrice` | SGA | Final pick only — calculate combined price |
+| 5 | `getOfferEvent?oddsResults=true` | Offer | Settlement — poll/SSE until FINISHED |
+
+**Void & reprice (production):** Step 4 must switch to the BE endpoint `priceSgaOdd` to get `pricingReferenceId`. Details in `docs/sga-void-reprice-flow.md`.
+- `GET /v2/priceSgaOdd` — BE-to-BE, returns `pricingReferenceId` + `repriceEligibility`
+- `GET /v2/repriceSgaOdd?...&pricing_reference_id={id}` — returns new price after a leg void
+- OAuth required in production (disabled on stage); `X-Issuer: HUNCH_F2P` required
 
 ## Environment Variables
 

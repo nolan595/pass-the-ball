@@ -1,6 +1,8 @@
 # SGA Void & Reprice Flow
 
 > **Scope:** Production only. Not applicable to the simulation. Documented following discussion with Vedran Pintaric (Superbet BMB team) in `#bet-builder-tech`, 2026-03-31.
+>
+> For the complete end-to-end API flow (all 5 steps), see [`docs/ptb-api-flow.md`](./ptb-api-flow.md). This doc covers only the void & reprice piece.
 
 ---
 
