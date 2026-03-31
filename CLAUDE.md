@@ -84,6 +84,15 @@ DRAFT → PENDING → OPEN → CLOSED → COMPLETED
 - Labels: `uppercase tracking-widest font-bold text-[11px]`
 - Tailwind v4 arbitrary opacity syntax (e.g. `bg-white/80`)
 
+## Betbuilder / SGA API
+
+- Frontend endpoint (currently used): `GET /v2/getSgaOddPrice` — via `lib/sga-api.ts`
+- Backend endpoint (production repricing): `GET /v2/priceSgaOdd` — returns `pricingReferenceId` + `repriceEligibility`
+- Reprice endpoint: `GET /v2/repriceSgaOdd?...&pricing_reference_id={id}` — returns new price after a leg void
+- **Production auth:** OAuth required on `priceSgaOdd` and `repriceSgaOdd`; disabled on stage
+- **`X-Issuer` header:** required on both BE endpoints (use `HUNCH_F2P`)
+- Full flow documented in `docs/sga-void-reprice-flow.md`
+
 ## Environment Variables
 
 | Var | Used by |
