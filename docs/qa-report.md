@@ -2,6 +2,64 @@
 
 ---
 
+## 2026-03-31 — Market results view: collapsible cards
+
+### Feature
+Each winning-market card in `MarketResultsView` is now collapsible via a chevron toggle button in the header, matching the existing `MarketView` pattern.
+
+### Files changed
+- `app/(admin)/games/[id]/MarketResultsView.tsx` — added `"use client"`, extracted `WonMarketCard` with `useState(false)` collapsed state, chevron toggle button
+
+### Edge cases
+| Scenario | Behaviour |
+|----------|-----------|
+| Card collapsed | Header + badge visible; winners body hidden |
+| Card expanded (default) | Full card as before |
+| Multiple markets | Each has independent collapse state |
+| Empty state | Unchanged — no cards rendered |
+
+### TypeScript
+`npx tsc --noEmit` — clean.
+
+### Regression risk
+None. Data filtering logic unchanged. `MarketView` unaffected. Non-resulted game path unaffected.
+
+---
+
+## 2026-03-31 — Market results view: configured-markets filter
+
+### Feature
+Admin game detail page now shows a "Results · Won Markets" section for CLOSED/COMPLETED games instead of the empty player-view market grid. Only markets in the admin's configured markets bank are shown; winning odds within those markets are displayed with outcome name, UUID, and price.
+
+### Files changed
+- `app/(admin)/games/[id]/MarketResultsView.tsx` — new component
+- `app/(admin)/games/[id]/page.tsx` — renders `MarketResultsView` for resulted games, `MarketView` grid otherwise
+
+### Edge case review
+| Scenario | Behaviour |
+|----------|-----------|
+| `event.oddsResults` is null | `?? []` gives empty array → "No winning markets yet" empty state |
+| No configured markets match | Empty map → empty state |
+| `markets` DB query returns empty | `new Set([])` → all odds filtered out → empty state |
+| API returns `status: "won"` vs `"win"` | Both handled: `s !== "win" && s !== "won"` |
+| DRAFT/PENDING/OPEN games | `isResulted` is false → `MarketView` grid renders as before |
+| Market has multiple winning odds | All accumulated into `winners[]` array, all rendered |
+
+### TypeScript
+`npx tsc --noEmit` — clean, no errors.
+
+### Test scenarios
+- [ ] COMPLETED game with known winning odds → only configured-market winners appear
+- [ ] COMPLETED game where API returns markets not in our bank → those markets are absent from the view
+- [ ] COMPLETED game with no winners in configured markets → "No winning markets yet" empty state
+- [ ] OPEN game → player-view market grid renders normally, no regression
+- [ ] DRAFT game → no markets section change
+
+### Regression risk
+None. The `MarketView` grid path is unchanged for non-resulted games. `MarketResultsView` is a new isolated component.
+
+---
+
 ## 2026-03-30 — Results screen win/loss display fix
 
 ### Feature

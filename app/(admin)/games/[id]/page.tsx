@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { GameControls } from "./GameControls";
 import { MarketView } from "./MarketView";
+import { MarketResultsView } from "./MarketResultsView";
 import { PicksSummary } from "./PicksSummary";
 import { formatDateTime, resolveMarketName } from "@/lib/utils";
 import { ArrowLeft, Calendar, Zap } from "lucide-react";
@@ -50,7 +51,7 @@ export default async function GameDetailPage({
       where: { enabled: true },
       orderBy: { createdAt: "asc" },
     }),
-    prisma.player.findMany({ orderBy: { createdAt: "asc" } }),
+    prisma.player.findMany({ include: { group: true }, orderBy: { createdAt: "asc" } }),
   ]);
 
   if (!game) notFound();
@@ -148,18 +149,23 @@ export default async function GameDetailPage({
         oddsResultsMap={isResulted ? Object.fromEntries((event?.oddsResults ?? []).map((o) => [o.uuid, o.status])) : {}}
       />
 
-      {/* Markets — player-view preview */}
+      {/* Markets section */}
       <div>
         <div className="flex items-center justify-between mb-3">
           <span className="text-[11px] font-bold uppercase tracking-widest text-slate-400">
-            Player View · {markets.length} market{markets.length !== 1 ? "s" : ""}
+            {isResulted ? "Results · Won Markets" : `Player View · ${markets.length} market${markets.length !== 1 ? "s" : ""}`}
           </span>
           {!event && game.status === "DRAFT" && (
             <span className="text-xs text-slate-400">Live odds load when game opens</span>
           )}
         </div>
 
-        {markets.length === 0 ? (
+        {isResulted ? (
+          <MarketResultsView
+            oddsResults={event?.oddsResults ?? []}
+            configuredMarketIds={new Set(markets.map((m) => m.marketId))}
+          />
+        ) : markets.length === 0 ? (
           <div className="rounded-2xl bg-white border border-slate-200 shadow-sm py-10 text-center">
             <p className="text-sm text-slate-500">
               No markets enabled.{" "}
@@ -178,7 +184,7 @@ export default async function GameDetailPage({
                   key={market.id}
                   market={market}
                   odds={marketOdds}
-                  showResults={isResulted}
+                  showResults={false}
                   isSuperSub={superSubMarketIds.has(market.marketId)}
                   displayName={resolveMarketName(
                     marketOdds[0]?.marketName ?? market.name,

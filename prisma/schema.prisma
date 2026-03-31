@@ -52,11 +52,23 @@ model Game {
   @@map("games")
 }
 
+model Group {
+  id        Int      @id @default(autoincrement())
+  name      String
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  players   Player[]
+
+  @@map("groups")
+}
+
 model Player {
   id          Int      @id @default(autoincrement())
   slug        String   @unique
   displayName String
+  groupId     Int?
   createdAt   DateTime @default(now())
+  group       Group?   @relation(fields: [groupId], references: [id])
   picks       Pick[]
 
   @@map("players")

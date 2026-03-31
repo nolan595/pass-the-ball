@@ -21,8 +21,8 @@ export default async function PlayerGamePage({
   const gameId = parseInt(rawGameId);
   if (isNaN(gameId)) notFound();
 
-  const [player, game, markets, allPlayers] = await Promise.all([
-    prisma.player.findUnique({ where: { slug } }),
+  const [player, game, markets] = await Promise.all([
+    prisma.player.findUnique({ where: { slug }, include: { group: true } }),
     prisma.game.findUnique({
       where: { id: gameId },
       include: {
@@ -34,8 +34,15 @@ export default async function PlayerGamePage({
       where: { enabled: true },
       orderBy: { createdAt: "asc" },
     }),
-    prisma.player.findMany({ orderBy: { createdAt: "asc" } }),
   ]);
+
+  // Scope to the player's group if they belong to one, otherwise all players
+  const allPlayers = player?.groupId
+    ? await prisma.player.findMany({
+        where: { groupId: player.groupId },
+        orderBy: { createdAt: "asc" },
+      })
+    : await prisma.player.findMany({ orderBy: { createdAt: "asc" } });
 
   if (!player) notFound();
   if (!game) notFound();
@@ -67,7 +74,10 @@ export default async function PlayerGamePage({
     })
     .filter((m) => m.odds.length > 0);
 
-  const otherPicks = game.picks.filter((p) => p.playerId !== player.id);
+  // Scope picks to this player's group — other groups' selections are invisible
+  const groupPlayerIds = new Set(allPlayers.map((p) => p.id));
+  const groupPicksAll = game.picks.filter((p) => groupPlayerIds.has(p.playerId));
+  const otherPicks = groupPicksAll.filter((p) => p.playerId !== player.id);
 
   let unavailableOddsUuids: string[] = [];
   let superSubMarketIds: number[] = [];
@@ -159,7 +169,7 @@ export default async function PlayerGamePage({
   };
 
   const groupPanelProps = {
-    groupName: game.name ?? "The Group",
+    groupName: player?.group?.name ?? game.name ?? "The Group",
     totalPlayers,
     picks: groupPicks,
     currentPlayerSlug: slug,
@@ -170,7 +180,7 @@ export default async function PlayerGamePage({
 
   // ── Result screen ───────────────────────────────────────────────────────────
   if (isResulted) {
-    const allWon = game.picks.every((p) => oddsResultsMap.get(p.oddUuid) === "win");
+    const allWon = groupPicksAll.length > 0 && groupPicksAll.every((p) => oddsResultsMap.get(p.oddUuid) === "win");
     const ringPlayers: RingPlayer[] = allPlayers.map((p) => {
       const pick = game.picks.find((pk) => pk.playerId === p.id);
       const status = pick ? oddsResultsMap.get(pick.oddUuid) : undefined;
@@ -181,7 +191,7 @@ export default async function PlayerGamePage({
       };
     });
 
-    const resultPicks: ResultPick[] = game.picks.map((pick) => {
+    const resultPicks: ResultPick[] = groupPicksAll.map((pick) => {
       const resultStatus = oddsResultsMap.get(pick.oddUuid);
       return {
         playerName: pick.player.displayName,
@@ -287,10 +297,10 @@ export default async function PlayerGamePage({
             </div>
           )}
 
-          {!game.sgaPrice && game.picks.length < totalPlayers && (
+          {!game.sgaPrice && groupPicksAll.length < totalPlayers && (
             <p style={{ textAlign: "center", fontSize: "13px", color: "var(--text-muted)" }}>
-              Waiting for {totalPlayers - game.picks.length} more player
-              {totalPlayers - game.picks.length !== 1 ? "s" : ""}…
+              Waiting for {totalPlayers - groupPicksAll.length} more player
+              {totalPlayers - groupPicksAll.length !== 1 ? "s" : ""}…
             </p>
           )}
         </div>

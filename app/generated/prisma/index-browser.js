@@ -126,8 +126,8 @@ exports.Prisma.MarketScalarFieldEnum = {
   marketId: 'marketId',
   displayType: 'displayType',
   enabled: 'enabled',
-  superSubEligible: 'superSubEligible',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  superSubEligible: 'superSubEligible'
 };
 
 exports.Prisma.ExternalEventScalarFieldEnum = {
@@ -150,9 +150,16 @@ exports.Prisma.GameScalarFieldEnum = {
   multiplier: 'multiplier',
   s3Status: 's3Status',
   paymentStatus: 'paymentStatus',
-  sgaUuid: 'sgaUuid',
+  createdAt: 'createdAt',
   sgaPrice: 'sgaPrice',
   sgaStatus: 'sgaStatus',
+  sgaUuid: 'sgaUuid'
+};
+
+exports.Prisma.GroupScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
   createdAt: 'createdAt'
 };
 
@@ -160,6 +167,7 @@ exports.Prisma.PlayerScalarFieldEnum = {
   id: 'id',
   slug: 'slug',
   displayName: 'displayName',
+  groupId: 'groupId',
   createdAt: 'createdAt'
 };
 
@@ -214,6 +222,7 @@ exports.Prisma.ModelName = {
   Market: 'Market',
   ExternalEvent: 'ExternalEvent',
   Game: 'Game',
+  Group: 'Group',
   Player: 'Player',
   Pick: 'Pick'
 };

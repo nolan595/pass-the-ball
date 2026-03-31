@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutGrid, BarChart3, Calendar, Trophy } from "lucide-react";
+import { LayoutGrid, BarChart3, Calendar, Trophy, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const nav = [
   { href: "/games", label: "Games", icon: Trophy },
   { href: "/markets", label: "Markets", icon: BarChart3 },
   { href: "/events", label: "Events", icon: Calendar },
+  { href: "/groups", label: "Groups", icon: Users },
 ];
 
 export function Sidebar() {

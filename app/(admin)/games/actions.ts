@@ -4,6 +4,20 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { fetchSgaOddPrice } from "@/lib/sga-api";
+
+// Returns SGA price for a specific subset of players — does NOT persist to DB
+export async function calculateGroupSgaPrice(gameId: number, playerIds: number[]) {
+  const game = await prisma.game.findUniqueOrThrow({
+    where: { id: gameId },
+    include: { event: true, picks: true },
+  });
+  const groupOddUuids = game.picks
+    .filter((p) => playerIds.includes(p.playerId))
+    .map((p) => p.oddUuid);
+  if (groupOddUuids.length === 0) throw new Error("No picks for this group yet");
+  const result = await fetchSgaOddPrice(game.event.externalEventId, groupOddUuids);
+  return { price: result.price, status: result.status };
+}
 export async function createGame(formData: FormData) {
   const name = (formData.get("name") as string)?.trim();
   const eventId = parseInt(formData.get("eventId") as string);
